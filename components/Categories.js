@@ -2,6 +2,8 @@ import React from "react";
 import Carousel from 'react-native-snap-carousel';
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 
+const widthCarousel = Dimensions.get('window').width
+
 const Categories = () =>{
     const images = [{pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Celulares y Teléfonos'} , 
     {pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Computación'} ,
@@ -24,12 +26,13 @@ const Categories = () =>{
                     CATEGORIAS
                 </Text>
                 <Carousel
-                        data={images}
-                        renderItem={renderItem}
-                        sliderWidth={500}
-                        itemWidth={700}
-                        loop
-            />
+                    data={images}
+                    renderItem={renderItem}
+                    sliderWidth={widthCarousel*0.96}
+                    itemWidth={widthCarousel}
+                    loop={true}
+                    autoplay={true}
+                />
             </View>
         </View>
     )
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
         height: 500,
     },
     slideImg:{
-        width: 500,
+        width: "100%",
         height: 400,
     },
     slideText:{
