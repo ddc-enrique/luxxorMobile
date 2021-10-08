@@ -1,6 +1,8 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import Home from '../screens/Home'
 import SignUp from '../screens/SignUp'
+import SignIn from '../screens/SignIn'
+import Products from '../screens/Products'
 import React from 'react'
 
 const Stack = createNativeStackNavigator()
@@ -10,18 +12,18 @@ const Navigator = () =>{
                 <Stack.Screen name = "HomeStack" component={Home} options={{
                     headerShown: false
                 }}  />
-                {/* <Stack.Screen name="Productos" component={Products} options={{
+                 <Stack.Screen name="Productos" component={Products} options={{
                     headerShown: false
                 }}/>
-                <Stack.Screen name="Producto" component={Product} options={{
+                {/*<Stack.Screen name="Producto" component={Product} options={{
                     headerShown: false
                 }}/> */}
                 <Stack.Screen name="Registrarme" component={SignUp} options={{
                     headerShown: false
                 }}/>
-                {/*<Stack.Screen name="Ingresar" component={SignIn} options={{
+                <Stack.Screen name="Ingresar" component={SignIn} options={{
                     headerShown: false
-                }}/>                   */}
+                }}/>                   
         </Stack.Navigator>
     )
 }
