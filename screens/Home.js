@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet,ScrollView, ImageBackground } from "react-native"
 import React from 'react';
 import Header from "../components/Header";
-import Categories from "../components/Categories";
+import Novedades from "../components/Novedades"
 import Contact from "../components/Contact";
 import SectionInfo from '../components/SectionInfo'
 
@@ -21,7 +21,7 @@ const Home = (props)=>{
                                 Luxxor
                             </Text>
                     </View>
-                    <Categories/>
+                    <Novedades/>
                     <SectionInfo/>
                     <Contact/>
                     </View>

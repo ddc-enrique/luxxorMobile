@@ -4,12 +4,9 @@ import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 
 const widthCarousel = Dimensions.get('window').width
 
-const Categories = () =>{
-    const images = [{pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Celulares y Teléfonos'} , 
-    {pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Computación'} ,
-    {pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Consola y Videojuegos'},
-    {pic: 'https://i.postimg.cc/SKYqgXsy/8a9591545481ca29b3f44f9ed47b7d23-removebg-preview.png', name: 'Electrónica, Audio y Video'},
-    {pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Cámaras y Accesorios'}
+const Novedades = () =>{
+    const images = [{pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Macbook Pro 13 M1 Chip Ram 8gb 256gb Silver'} , 
+    {pic: 'https://i.postimg.cc/SKYqgXsy/8a9591545481ca29b3f44f9ed47b7d23-removebg-preview.png', name: 'Auriculares Inalambricos Sony Bluetooth'},
 ]
     const renderItem = ({item}) => {
         return (
@@ -23,7 +20,7 @@ const Categories = () =>{
         <View style={styles.viewContainerCategories} >
             <View>
                 <Text style={styles.textCategories}>
-                    CATEGORIAS
+                    NOVEDADES
                 </Text>
                 <Carousel
                     data={images}
@@ -38,7 +35,7 @@ const Categories = () =>{
     )
 }
 
-export default Categories
+export default Novedades
 
 const styles = StyleSheet.create({
     viewContainerCategories:{
@@ -56,15 +53,15 @@ const styles = StyleSheet.create({
     },
     slide:{
         width: '80%',
-        height: 500,
+        height: 50,
     },
     slideImg:{
         width: "100%",
-        height: 400,
+        height: 350,
     },
     slideText:{
-        fontSize: 25,
+        fontSize: 20,
         fontFamily: 'Spartan_400Regular',
-        color:'#e3e3e3'
+        color:'#e3e3e3',
     }
 })
