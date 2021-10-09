@@ -7,9 +7,14 @@ import AppLoading from 'expo-app-loading';
 import { 
   PoiretOne_400Regular 
 } from '@expo-google-fonts/poiret-one'
+import {applyMiddleware, createStore} from "redux"
+import {Provider} from "react-redux"
+import thunk from "redux-thunk"
+import rootReducers from "./redux/reducers/rootReducers"
 // import {LogBox} from 'react-native'
 // LogBox.ignoreAllLogs(true)
 
+const myStore = createStore(rootReducers, applyMiddleware(thunk))
 
 const App = () => {
   let [fontsLoaded] = useFonts({
@@ -22,9 +27,11 @@ const App = () => {
     return <AppLoading/>
   } else {
   return (
-    <NavigationContainer>
-        <Navigator/>
-    </NavigationContainer>
+    <Provider store={myStore}> 
+      <NavigationContainer>
+          <Navigator/>
+      </NavigationContainer>
+    </Provider>
   )
   }
 }

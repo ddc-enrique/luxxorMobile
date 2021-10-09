@@ -23,6 +23,7 @@ const usersAction = {
     signUp: (userSignUp) =>{
         return async (dispatch, getState) =>{
             try {
+                console.log(userSignUp)
                 let response = await axios.post("http://luxxor.herokuapp.com/api/user/sign-up", userSignUp)
                 if(response.data.success){
                     console.log(response.data.response)
