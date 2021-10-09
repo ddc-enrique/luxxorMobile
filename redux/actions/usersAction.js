@@ -6,7 +6,7 @@ const usersAction = {
         return async (dispatch, getState) =>{
             try {
                 console.log(userSignIn)
-                let response = await axios.post("http://localhost:4000/api/user/sign-in", userSignIn)
+                let response = await axios.post("http://luxxor.herokuapp.com/api/user/sign-in", userSignIn)
                 console.log(response)
                 if(response.data.success){
                     console.log(response.data.response)
@@ -23,7 +23,7 @@ const usersAction = {
     signUp: (userSignUp) =>{
         return async (dispatch, getState) =>{
             try {
-                let response = await axios.post("http://localhost:4000/api/user/sign-up", userSignUp)
+                let response = await axios.post("http://luxxor.herokuapp.com/api/user/sign-up", userSignUp)
                 if(response.data.success){
                     console.log(response.data.response)
                     dispatch({type: "SIGN", payload: response.data.response})
@@ -40,7 +40,7 @@ const usersAction = {
     signWithLocal: (token)=>{
         return async (dispatch)=>{
             try {
-                let response = await axios.get("http://localhost:4000/api/verifyToken", {
+                let response = await axios.get("http://luxxor.herokuapp.com/api/verifyToken", {
                     headers: {
                         Authorization: "Bearer " + token
                     }
@@ -62,7 +62,7 @@ const usersAction = {
 
     getUserData: (id, token) => {
         return async (dispatch) => {
-            let response = await axios.get(`http://localhost:4000/api/user/edit-profile/${id}`, {
+            let response = await axios.get(`http://luxxor.herokuapp.com/api/user/edit-profile/${id}`, {
                 headers: {
                     Authorization: "Bearer " + token
                 }
