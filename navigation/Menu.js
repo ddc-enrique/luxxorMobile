@@ -24,10 +24,10 @@ const Menu = (props) =>{
                 </View>
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
 
-                <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
+                <DrawerMenu  icon='https://i.postimg.cc/QxTjfHdN/produ.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
 
-            <DrawerMenu  icon='https://i.postimg.cc/6pyCHv2V/sign-up.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
-            <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
+            <DrawerMenu  icon='https://i.postimg.cc/zB89FGPB/registro.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
+            <DrawerMenu  icon='https://i.postimg.cc/CxDvzVLx/login.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
                 <View  style={styles.container}>
                 </View>
             </ImageBackground>
@@ -71,11 +71,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         flexDirection: 'row',
-        paddingHorizontal: 70
+        paddingHorizontal: 60,
+        marginVertical:20
     },
     icon:{
-        width: 35,
-        height: 35,
+        width: 45,
+        height: 45,
         marginRight:10
     },
     hi:{
