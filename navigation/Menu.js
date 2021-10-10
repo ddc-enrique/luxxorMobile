@@ -1,8 +1,10 @@
-import React from "react"
+import React,{useEffect} from "react"
 import { View,Text, Image, StyleSheet, ImageBackground } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { connect } from "react-redux"
 import usersAction from "../redux/actions/usersAction"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import {DrawerItem} from "@react-navigation/drawer"
 
 const DrawerMenu =(props) =>{
     return(
@@ -14,22 +16,49 @@ const DrawerMenu =(props) =>{
         </TouchableOpacity>
     )
 }
+
 const Menu = (props) =>{
+    const { token, firstName,profilePic, logOut } = props
+
+    useEffect(() => {
+        loginLocalStoreUser()
+    }, [])
+
+     const loginLocalStoreUser = async () => {
+         if (!props.token && AsyncStorage.getItem("token")) {
+           const tokenAsyncStorage = await AsyncStorage.getItem("token")
+           if (tokenAsyncStorage) {
+             props.signWithLocal(tokenAsyncStorage)
+             return null
+           }
+         }
+       }
+
     return(
         <View style={styles.container1}>
             <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.container1}>
                 <View style={styles.container}>
-                    <Image source={{uri: "https://i.postimg.cc/pTZVv7n0/Dise-o-sin-t-tulo-66.png"}} style={styles.img}/>
-                    <Text style={styles.text}>
-                    Bienvenido!
-                    </Text>
+                    {token?
+                    <Image source={{uri:profilePic}} style={styles.img}/>
+                    :<Image source={{uri: "https://i.postimg.cc/pTZVv7n0/Dise-o-sin-t-tulo-66.png"}} style={styles.img}/>
+                    }
+                    <Text style={styles.text}>Bienvenido {firstName?firstName:null}!</Text>
                 </View>
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
 
-                <DrawerMenu  icon='https://i.postimg.cc/QxTjfHdN/produ.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
-
-            <DrawerMenu  icon='https://i.postimg.cc/zB89FGPB/registro.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
-            <DrawerMenu  icon='https://i.postimg.cc/CxDvzVLx/login.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
+                <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
+                
+                {token?
+                <View style={{justifyContent: 'center',marginLeft:100}}>
+                <DrawerItem {...props} label={({ focused }) => <Text style={{ color:'#e3e3e3',fontFamily: 'Spartan_400Regular',fontSize:25 }}>{focused ? 'Salir' : 'Salir'}</Text>} onPress={() => {logOut()}}/>
+                {/* <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Salir' onPress={()=>{logOut()}}/> */}
+                </View>
+                :<>
+                <DrawerMenu  icon='https://i.postimg.cc/6pyCHv2V/sign-up.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
+                <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
+                </>
+                }
+            
                 <View  style={styles.container}>
                 </View>
             </ImageBackground>
@@ -39,14 +68,15 @@ const Menu = (props) =>{
 
 const mapStateToProps = (state) => {
     return {
-        //token
-        token:state.users.token
+        token:state.users.token,
+        firstName:state.users.firstName,
+        profilePic:state.users.profilePic
     }
   }
   
   const mapDispatchToProps = {
-    signWithLocal:usersAction.signWithLocal
-    //LOGOUT
+    signWithLocal:usersAction.signWithLocal,
+    logOut:usersAction.logOut
   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)
@@ -96,5 +126,12 @@ const styles = StyleSheet.create({
         fontSize: 40,
         color: 'black',
         opacity: 0.6,
+    },
+    logOutText:{
+        color: '#e3e3e3',
+        opacity: 0.5,
+        fontSize: 80,
+        marginVertical:10,
+        fontFamily: 'Spartan_400Regular'
     }
 })
