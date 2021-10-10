@@ -1,6 +1,8 @@
 import React from "react"
 import { View,Text, Image, StyleSheet, ImageBackground } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { connect } from "react-redux"
+import usersAction from "../redux/actions/usersAction"
 
 const DrawerMenu =(props) =>{
     return(
@@ -35,8 +37,19 @@ const Menu = (props) =>{
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        //token
+        token:state.users.token
+    }
+  }
+  
+  const mapDispatchToProps = {
+    signWithLocal:usersAction.signWithLocal
+    //LOGOUT
+  }
 
-export default Menu
+export default connect(mapStateToProps, mapDispatchToProps)(Menu)
 
 const styles = StyleSheet.create({
     container1:{

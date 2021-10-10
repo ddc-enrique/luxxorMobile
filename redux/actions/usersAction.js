@@ -5,11 +5,8 @@ const usersAction = {
         
         return async (dispatch, getState) =>{
             try {
-                console.log(userSignIn)
                 let response = await axios.post("http://luxxor.herokuapp.com/api/user/sign-in", userSignIn)
-                console.log(response)
                 if(response.data.success){
-                    console.log(response.data.response)
                     dispatch({type: "SIGN", payload: response.data.response})
                 }else {
                     return response.data.errors

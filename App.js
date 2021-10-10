@@ -11,6 +11,7 @@ import {applyMiddleware, createStore} from "redux"
 import {Provider} from "react-redux"
 import thunk from "redux-thunk"
 import rootReducers from "./redux/reducers/rootReducers"
+import FlashMessage from "react-native-flash-message"
 // import {LogBox} from 'react-native'
 // LogBox.ignoreAllLogs(true)
 
@@ -30,6 +31,7 @@ const App = () => {
     <Provider store={myStore}> 
       <NavigationContainer>
           <Navigator/>
+          <FlashMessage  floating={true}  statusBarHeight="78" icon="auto"/> 
       </NavigationContainer>
     </Provider>
   )
