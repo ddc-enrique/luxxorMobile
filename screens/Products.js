@@ -6,21 +6,50 @@ import {
   ScrollView,
   Switch,
   ImageBackground,
+  Button,
+  Link,
+  Image
 } from "react-native"
 import Header from "../components/Header"
 import { LinearGradient } from "expo-linear-gradient"
+import { connect } from "react-redux"
+import {useEffect} from 'react'
+import productsActions from "../redux/actions/productsActions"
 import SelectPicker from "react-native-form-select-picker"
 
 const Products = (props) => {
+  const [products, setProducts] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [updateOnSort, setUpdateOnSort] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [isEnabled, setIsEnabled] = useState(false)
   const [selected, setSelected] = useState()
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState)
+    useEffect(()=> {
+    const getAllProducts = async() =>{
+      if(!products.length) {
+        try {
+          let response = await props.getProducts()
+		  	// console.log(response)
+          if(!Array.isArray(response)) throw new Error(response.response)         
+          setProducts(response)
+          setFilteredProducts(response)
+        } catch (error) {
+          toast.error(error)
+        }                
+      }
+    }
+    getAllProducts()
+    setLoading(false)
+  },[])
+
   const options = ["Mayor precio", "Menor precio", "A-Z","Z-A"]
   const image = {
     uri: "https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png",
   }
 
   return (
+	   <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
     <ScrollView>
       <View>
         <Header {...props} />
@@ -94,58 +123,112 @@ const Products = (props) => {
           </SelectPicker>
         </View>
         <View style={styles.cardContainer}>
-          <View style={styles.card}>
-            <View style={styles.cardTitle}>
-                <View style={{borderBottomColor: 'black',borderBottomWidth: 1}}>
-                     <Text style={styles.cardTitleText}>Ver +</Text>
-                </View>
-            </View>
-            <View style={styles.centerCard}>
-              <ImageBackground
-                source={image}
-                resizeMode="cover"
-                style={styles.image}
-              ></ImageBackground>
-              <Text style={{textAlign: 'center',fontSize:15,marginVertical:10}}>AirPods deliver an unparalleled listening experience with all your devices.</Text>
-            </View>
-            <View style={styles.prices}>
-                <Text style={{color:'red',fontWeight: 'bold',}}>%10</Text>
-                <Text style={{color:'red',fontWeight: 'bold',}}>$282000</Text>
-            </View>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.cardTitle}>
-            <View style={{borderBottomColor: 'black',borderBottomWidth: 1}}>
-                     <Text style={styles.cardTitleText}>Ver +</Text>
-                </View>
-            </View>
-            <View style={styles.centerCard}>
-              <ImageBackground
-                source={image}
-                resizeMode="cover"
-                style={styles.image}
-              ></ImageBackground>
-              <Text style={{textAlign: 'center',fontSize:15,marginVertical:10}}>AirPods deliver an unparalleled listening experience with all your devices.</Text>
-            </View>
-            <View style={styles.prices}>
-                <Text style={{color:'red',fontWeight: 'bold',}}>%10</Text>
-                <Text style={{color:'red',fontWeight: 'bold',}}>$282000</Text>
-            </View>
-          </View>
+		{products.map(product => (
+                    <View style={styles.card} key={product._id} >
+					<Image style={styles.image} source={{ uri:`https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png` }}/>
+                        <View style={styles.content}>
+                            <Text style={styles.title}>{product.name}</Text>
+                        <View style={styles.description}>
+						  {product.discount>0 && <Text style={styles.cardText}>%{product.discount} Off</Text>}
+                            <Text style={styles.cardText}>${(product.price * (1-(product.discount/100))).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+							</View>
+							<Text
+								style={styles.button}
+								onPress={() => {
+								props.navigation.navigate("Producto", {
+								id: product._id,
+								});
+							}}
+								>
+								Ver +
+							</Text>
+                            {/* <Link to={`/producto/${product._id}`}> <Button style={styles.btn}>Ver +</Button></Link> */}
+                      </View>
+                    </View>
+            ))}
+			{/* {
+              !products.length && 
+              <View style={styles.emptyProducts}>
+                <Text>Ups! No tenemos productos que pasen ese filtro :(</Text>
+              </View>
+            } */}
+         
         </View>
       </View>
     </ScrollView>
+	   </ImageBackground>
   )
 }
+const mapDispatchToProps = {
+  getProducts: productsActions.products,
+}
 
-export default Products
+const mapStateToProps = (state) => {
+  return{
+    brands: state.products,
+    categories: state.products,
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Products)
 
 const styles = StyleSheet.create({
+	viewContainerHome:{
+        flex: 1
+    },
   container: {
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 20,
   },
+  card: {
+	borderWidth: 1,
+	borderColor: 'grey',
+  minHeight: 420,
+  padding: 1,
+  width: '90%',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  marginVertical: 50,
+},
+image: {
+  height: 320,
+  width: 350,
+  top:-55,
+  position: 'absolute',
+  zIndex: 1
+},
+content: {
+	width: '95%',
+	paddingTop: 20,
+},
+title: {
+	textAlign: 'center',
+	fontSize: 20,
+	color: 'white',
+	paddingTop: 10,
+	textTransform: 'uppercase',
+	fontWeight: 'bold'
+},
+description: {
+  flexDirection: 'row',
+  height: 50,
+  alignItems: 'center',
+  justifyContent: 'space-around'
+},
+cardText: {
+	fontSize: 20,
+	color: 'white'
+},
+button: {
+	// borderWidth:1,
+	fontSize: 20,
+	textAlign: 'center',
+	backgroundColor: '#000000a8',
+	color: 'white',
+	padding: 10,
+	marginBottom: 10,
+	textTransform: 'uppercase'
+},
   text: {
     color: "white",
     fontSize: 30,
@@ -180,16 +263,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     alignItems: "center",
   },
-  card: {
-    marginVertical: 10,
-    width: 300,
-    backgroundColor:"white",
-    padding:10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5, 
-  },
+ 
   cardTitle: {
       //color:'white'
   },
@@ -198,13 +272,13 @@ const styles = StyleSheet.create({
     fontSize:20,
     paddingVertical:5
   },
-  image: {
-    flex: 1,
-    justifyContent: "center",
-    height: 200,
-    width: 200,
-    marginTop:10
-  },
+//   image: {
+//     flex: 1,
+//     justifyContent: "center",
+//     height: 200,
+//     width: 200,
+//     marginTop:10
+//   },
   centerCard:{
       alignItems: "center",
   },
