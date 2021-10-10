@@ -11,6 +11,7 @@ import Header from "../components/Header"
 import { LinearGradient } from "expo-linear-gradient"
 import usersAction from "../redux/actions/usersAction"
 import { connect } from "react-redux"
+import { showMessage, hideMessage } from "react-native-flash-message"
 
 const SignUp = (props) => {
   const [newUser, setNewUser] = useState({
@@ -25,8 +26,8 @@ const SignUp = (props) => {
   const [errorEmail, setErrorEmail] = useState(null)
   const [errorPass, setErrorPass] = useState(null)
   const [errorPassChecked, setErrorPassCkecked] = useState(null)
-  const [confirmPass,setConfirmPass] = useState(null)
-  const [errorProfilePic,setErrorProfilePic] = useState(null)
+  const [confirmPass, setConfirmPass] = useState(null)
+  const [errorProfilePic, setErrorProfilePic] = useState(null)
 
   const changeValueInput = (e, field) => {
     setNewUser({
@@ -35,69 +36,67 @@ const SignUp = (props) => {
     })
   }
 
-   const sendForm = async () => {
-     try {
-       if (
-         Object.values(newUser).some((value) => value === "") ||newUser.checkPassword === "") {
-        //  toast("Completa todos los campos", {
-        //    icon: "🚫",
-        //    style: {
-        //      borderRadius: "1rem",
-        //      background: "#fff",
-        //      color: "#545454",
-        //    },
-        //  })
-        console.log('completa LaCONCHA DE MADRE')
-       }else {
-         const resp = await props.signUp(newUser)
-         console.log(resp)
-        //  if (resp) {
-        //    console.log(resp)
-        //    setErrorName(
-        //      resp.find((err) => err.path[0] === "firstName")
-        //        ? resp.find((err) => err.path[0] === "firstName").message
-        //        : null
-        //    )
-        //    setErrorLastName(
-        //      resp.find((err) => err.path[0] === "lastName")
-        //        ? resp.find((err) => err.path[0] === "lastName").message
-        //        : null
-        //    )
-        //    setErrorEmail(
-        //      resp.find((err) => err.path[0] === "eMail")
-        //        ? resp.find((err) => err.path[0] === "eMail").message
-        //        : null
-        //    )
-
-        //    setErrorPass(
-        //      resp.find((err) => err.path[0] === "password")
-        //        ? resp.find((err) => err.path[0] === "password").message
-        //        : null
-        //    )
-        //  } else {
-        //    toast("Welcome", {
-        //      icon: "👏",
-        //      style: {
-        //        borderRadius: "1rem",
-        //        background: "#f48f31",
-        //        color: "#fff",
-        //      },
-        //    })
-        //    props.history.push("/")
-        //  }
-       }
-     } catch (error) {
-       console.log(error)
-     }
-   }
-
-    const compareValues=()=>{
-      if(confirmPass !== newUser.password){
-       setErrorPassCkecked('No coinciden... vuelve a intentarlo')
-      }else{
-       setErrorPassCkecked(null)
+  const sendForm = async () => {
+    try {
+      if (
+        Object.values(newUser).some((value) => value === "") ||
+        confirmPass === ""
+      ) {
+        console.log(props)
+        showMessage({
+          message: 'Completa todos los campos',
+          type: "warning",
+          backgroundColor: "#f80000",
+         });
+      } else {
+        const resp = await props.signUp(newUser)
+        if (resp) {
+          setErrorName(
+            resp.find((err) => err.path[0] === "firstName")
+              ? resp.find((err) => err.path[0] === "firstName").message
+              : null
+          )
+          setErrorLastName(
+            resp.find((err) => err.path[0] === "lastName")
+              ? resp.find((err) => err.path[0] === "lastName").message
+              : null
+          )
+          setErrorEmail(
+            resp.find((err) => err.path[0] === "eMail")
+              ? resp.find((err) => err.path[0] === "eMail").message
+              : null
+          )
+          setErrorPass(
+            resp.find((err) => err.path[0] === "password")
+              ? resp.find((err) => err.path[0] === "password").message
+              : null
+          )
+          setErrorProfilePic(
+            resp.find((err) => err.path[0] === "profilePic")
+              ? resp.find((err) => err.path[0] === "profilePic").message
+              : null
+          )
+        } else {
+          showMessage({
+            message: 'Bienvenido ',
+            type: "success",
+            backgroundColor: "#00bb2d",
+           });
+          props.navigation.navigate("HomeStack")
+        }
       }
+    } catch (error) {
+      console.log(error)
     }
+  }
+
+  const compareValues = () => {
+    if (confirmPass !== newUser.password) {
+      setErrorPassCkecked("No coinciden... vuelve a intentarlo")
+    } else {
+      setErrorPassCkecked(null)
+    }
+  }
 
   return (
     <ScrollView>
@@ -121,7 +120,7 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "firstName")}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorName}&nbsp;</Text> 
+        <Text style={styles.error}>{errorName}&nbsp;</Text>
         <TextInput
           style={styles.input}
           placeholder="Apellido"
@@ -129,8 +128,8 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "lastName")}
           placeholderTextColor={"white"}
         />
-         <Text style={styles.error}>{errorLastName}&nbsp;</Text> 
-         <TextInput
+        <Text style={styles.error}>{errorLastName}&nbsp;</Text>
+        <TextInput
           style={styles.input}
           placeholder="Url de imagen"
           value={newUser.profilePic}
@@ -145,7 +144,7 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "eMail")}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorEmail}&nbsp;</Text> 
+        <Text style={styles.error}>{errorEmail}&nbsp;</Text>
         <TextInput
           style={styles.input}
           placeholder="Contraseña"
@@ -153,7 +152,7 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "password")}
           placeholderTextColor={"white"}
         />
-         <Text style={styles.error}>{errorPass}&nbsp;</Text> 
+        <Text style={styles.error}>{errorPass}&nbsp;</Text>
         <TextInput
           style={styles.input}
           placeholder="Confirmar contraseña"
@@ -161,7 +160,7 @@ const SignUp = (props) => {
           onBlur={compareValues}
           placeholderTextColor={"white"}
         />
-         <Text style={styles.error}>{errorPassChecked}&nbsp;</Text> 
+        <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
         <View>
           <TouchableOpacity
             onPress={sendForm}
@@ -205,7 +204,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "white",
     borderBottomWidth: 2,
     backgroundColor: "transparent",
-    fontSize:20
+    fontSize: 20,
   },
   button: {
     alignItems: "center",
@@ -229,12 +228,11 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "white",
   },
-  error:{
-      fontSize:15,
-      // backgroundColor:'white',
-      color:'yellow',
-      margin:0,
-      paddingHorizontal:5,
-      fontWeight: 'bold',
-  }
+  error: {
+    fontSize: 15,
+    color: "yellow",
+    margin: 0,
+    paddingHorizontal: 5,
+    fontWeight: "bold",
+  },
 })
