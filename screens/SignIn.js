@@ -37,9 +37,15 @@ const SignIn = (props) => {
           backgroundColor: "#f80000",
         })
       } else {
+        
         const resp = await props.signIn(newUser)
-        console.log(resp)
-        if (resp) {
+        if(resp === 'Email y/o contraseña incorrectos'){
+          showMessage({
+            message: "Email y/o contraseña incorrectos",
+            type: "warning",
+            backgroundColor: "#f80000",
+          })
+        } else if (resp) {
           setErrorEmail(
             resp.find((err) => err.path[0] === "eMail")
               ? resp.find((err) => err.path[0] === "eMail").message
