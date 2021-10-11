@@ -4,9 +4,9 @@ import Carousel from 'react-native-snap-carousel';
 
 const SectionInfo = () => {
     const images = [
-        {pic: 'https://i.postimg.cc/YSDGN5j5/Dise-o-sin-t-tulo-64.png', title: 'Elegí cómo pagar', text: 'Podés pagar con tarjeta, débito, efectivo o hasta 12 cuotas sin tarjeta con Mercado Crédito.'} , 
-        {pic: 'https://i.postimg.cc/RZD4g4QL/camion.png', title: 'Envío gratis desde $ 3.000', text: 'Solo por estar registrado en Mercado Libre tenés envíos gratis en miles de productos. Es un beneficio de Mercado Puntos.'} ,
-        {pic: 'https://i.postimg.cc/V6srXYYB/seguridad.png', title: 'Seguridad, de principio a fin', text: '¿No te gusta? ¡Devolvelo! En Mercado Libre, no hay nada que no puedas hacer, porque estás siempre protegido.'},
+        {pic: 'https://i.postimg.cc/YSDGN5j5/Dise-o-sin-t-tulo-64.png', title: 'Elegí cómo pagar', text: 'Tarjetas ,transferencia bancaria o PayPal'} , 
+        {pic: 'https://i.postimg.cc/RZD4g4QL/camion.png', title: 'ENVÍOS A TODO EL PAÍS', text: '¡Rápido, sin vueltas!'} ,
+        {pic: 'https://i.postimg.cc/V6srXYYB/seguridad.png', title: 'COMPRA 100% SEGURA', text: 'Garantías Oficiales'},
 ]
     const renderItem = ({item}) => {
         return (
@@ -63,7 +63,7 @@ const styles= StyleSheet.create({
         fontSize: 20,
         color: "#e3e3e3",
         fontFamily: 'Spartan_400Regular',
-        // backgroundColor: 'pink',
+        textAlign: "center",
         width: '80%'
     }
 })
