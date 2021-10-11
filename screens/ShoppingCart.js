@@ -5,14 +5,26 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import Header from "../components/Header"
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from "react-native-simple-radio-button"
 
 const ShoppingCart = (props) => {
-  
+  const [value, setValue] = useState(0)
+  const image = {
+    uri: "https://www.filo.news/img/2017/07/02/rocky_balboa2.jpg",
+  }
+  var radio_props = [
+    { label: "Retiro en local", value: 0 },
+    { label: "Envio a domicilio-Entrega a partir de 5 dias hábiles", value: 1 },
+  ]
 
- 
   return (
     <ScrollView>
       <LinearGradient
@@ -27,14 +39,87 @@ const ShoppingCart = (props) => {
         style={styles.container}
       >
         <Header {...props} />
-        <Text style={styles.title}>Carrito de compras</Text>
-        <View style={styles.inputsContain}>
-          <Text style={styles.textt}>PRODUCTOS</Text>
-          <Text style={styles.textt}>SUBTOTAL</Text>
+
+        <View style={{ alignItems: "center" }}>
+          <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>Carrito de compras</Text>
+          <View style={styles.inputsContain}>
+            <Text style={styles.textt}>PRODUCTOS</Text>
+            <Text style={styles.textt}>SUBTOTAL</Text>
+          </View>
         </View>
-        <View>
-          <Text>DIV DE PRODUCTOS </Text>
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.cardProduct}>
+            <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
+              <ImageBackground
+                source={image}
+                resizeMode="cover"
+                style={{ width: 80, height: 80 }}
+              ></ImageBackground>
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <View style={{ flexDirection: "column", marginVertical: 5 }}>
+                <Text
+                  style={{ color: "white", fontSize: 22, marginVertical: 1 }}
+                >
+                  Netbook
+                </Text>
+                <Text
+                  style={{ color: "white", fontSize: 18, marginVertical: 1 }}
+                >
+                  $105{" "}
+                </Text>
+              </View>
+              <View style={styles.sumAndSubtract}>
+                <Text style={{ color: "white", fontSize: 45 }}>-</Text>
+                <Text style={{ color: "white", fontSize: 30, paddingHorizontal: 8 }}>0</Text>
+                <Text style={{ color: "white", fontSize: 45 }}>+</Text>
+              </View>
+            </View>
+            <View style={{ justifyContent: "center" }}>
+              <Text style={{ color: "white", fontSize: 25 }}>$525</Text>
+            </View>
+            <View style={{ justifyContent: "center" }}>
+              <Text style={{ color: "rgb(105,105,105)", fontSize: 40 }}>X</Text>
+            </View>
+          </View>
+
+          <View style={styles.cardProduct}>
+            <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
+              <ImageBackground
+                source={image}
+                resizeMode="cover"
+                style={{ width: 80, height: 80 }}
+              ></ImageBackground>
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <View style={{ flexDirection: "column", marginVertical: 5 }}>
+                <Text
+                  style={{ color: "white", fontSize: 22, marginVertical: 1 }}
+                >
+                  Netbook
+                </Text>
+                <Text
+                  style={{ color: "white", fontSize: 18, marginVertical: 1 }}
+                >
+                  $105{" "}
+                </Text>
+              </View>
+              <View style={styles.sumAndSubtract}>
+                <Text style={{ color: "white", fontSize: 45 }}>-</Text>
+                <Text style={{ color: "white", fontSize: 30, paddingHorizontal: 8 }}>0</Text>
+                <Text style={{ color: "white", fontSize: 45 }}>+</Text>
+              </View>
+            </View>
+            <View style={{ justifyContent: "center" }}>
+              <Text style={{ color: "white", fontSize: 25 }}>$525</Text>
+            </View>
+            <View style={{ justifyContent: "center" }}>
+              <Text style={{ color: "rgb(105,105,105)", fontSize: 40 }}>X</Text>
+            </View>
+          </View>
+
         </View>
+
         <View style={{ alignItems: "center", marginVertical: 10 }}>
           <View style={styles.btnAdd}>
             <TouchableOpacity>
@@ -44,18 +129,55 @@ const ShoppingCart = (props) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
-          <View>
-            <Text>Subtotal (sin envio):</Text>
-            <Text>$975</Text>
-          </View>
-          <View>
-            <Text>15%OFF</Text>
-            <Text>$42.330</Text>
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.inputsContainSubTotal}>
+            <View style={styles.subtext}>
+              <Text
+                style={{ fontSize: 18, fontWeight: "bold", color: "white" }}
+              >
+                Subtotal (sin envio):
+              </Text>
+              <Text style={{ fontSize: 15, color: "white" }}>$975</Text>
+            </View>
+            <View style={styles.subtext}>
+              <Text
+                style={{ fontSize: 18, fontWeight: "bold", color: "white" }}
+              >
+                15%OFF
+              </Text>
+              <Text style={{ fontSize: 15, color: "white" }}>$42.330</Text>
+            </View>
           </View>
         </View>
-        <View>
-          <Text>Seleccione una forma de entrega:</Text>
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.selectView}>
+            <Text style={{ color: "white", fontSize: 18, marginVertical: 8 }}>
+              Seleccione una forma de entrega:
+            </Text>
+            <RadioForm
+              radio_props={radio_props}
+              initial={0}
+              onPress={(value) => setValue(value)}
+              labelStyle={{ fontSize: 15, color: "white" }}
+            />
+          </View>
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <View style={styles.inputsContainTotal}>
+            <Text style={{ color: "white", fontSize: 22, fontWeight: "bold" }}>
+              TOTAL:{" "}
+            </Text>
+            <Text style={styles.textt}>$894.75</Text>
+          </View>
+        </View>
+        <View style={{ alignItems: "center", marginVertical: 10 }}>
+          <View style={styles.btnAdd}>
+            <TouchableOpacity>
+              <Text style={{ color: "white", fontSize: 20 }}>
+                Finalizar Compra
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </LinearGradient>
     </ScrollView>
@@ -71,7 +193,38 @@ const styles = StyleSheet.create({
   },
   inputsContain: {
     marginVertical: 20,
-    // flex:1,
+    justifyContent: "space-around",
+    flexDirection: "row",
+    alignItems: "center",
+    borderTopColor: "white",
+    borderTopWidth: 1,
+    borderBottomColor: "white",
+    borderBottomWidth: 1,
+    width: "80%",
+    paddingVertical: 10,
+  },
+  inputsContainSubTotal: {
+    borderTopColor: "white",
+    borderTopWidth: 1,
+    borderBottomColor: "white",
+    borderBottomWidth: 1,
+    width: "80%",
+    marginVertical: 15,
+  },
+  subtext: {
+    flexDirection: "row",
+    marginVertical: 10,
+    color: "white",
+    justifyContent: "space-between",
+  },
+  inputsContainTotal: {
+    paddingVertical: 10,
+    marginVertical: 20,
+    borderTopColor: "white",
+    borderTopWidth: 1,
+    borderBottomColor: "white",
+    borderBottomWidth: 1,
+    width: "80%",
     justifyContent: "space-around",
     flexDirection: "row",
     alignItems: "center",
@@ -90,40 +243,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "white",
   },
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
-    elevation: 3,
-    marginTop: 20,
-    backgroundColor: "transparent",
-    width: "100%",
-    height: 50,
-    zIndex: 1,
-    marginBottom: 10,
-    padding: 10,
-    borderBottomColor: "white",
-    borderBottomWidth: 2,
-  },
-  input: {
-    height: 40,
-    width: 240,
-    margin: 12,
-    padding: 10,
-    borderRadius: 2,
-    color: "white",
-    borderBottomColor: "white",
-    borderBottomWidth: 2,
-    backgroundColor: "transparent",
-    fontSize: 20,
-  },
-  error: {
-    fontSize: 15,
-    color: "yellow",
-    margin: 0,
-    paddingHorizontal: 5,
-    fontWeight: "bold",
-  },
   btnAdd: {
     borderColor: "white",
     borderWidth: 1,
@@ -139,4 +258,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  selectView: {
+    marginVertical: 10,
+    paddingVertical: 8,
+    width: "80%",
+  },
+  cardProduct: {
+    marginVertical: 10,
+    paddingVertical: 10,
+    width: "95%",
+    backgroundColor: "rgba(220,220,220,0.5)",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  sumAndSubtract:{
+    flexDirection: "row",
+    marginVertical: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  }
+  //   prueba:{
+  //     color:'rgb(220,220,220)'
+  //   }
 })
