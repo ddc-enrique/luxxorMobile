@@ -19,9 +19,6 @@ const Novedades = () =>{
     return(
         <View style={styles.viewContainerCategories} >
             <View>
-                <Text style={styles.textCategories}>
-                    NOVEDADES
-                </Text>
                 <Carousel
                     data={images}
                     renderItem={renderItem}
@@ -43,13 +40,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: 500,
         marginBottom:50
-    },
-    textCategories:{
-        fontFamily: 'Spartan_400Regular',
-        fontSize: 30,
-        textAlign: "justify",
-        marginVertical:10,
-        color:'#e3e3e3'
     },
     slide:{
         width: '80%',

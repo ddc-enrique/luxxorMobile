@@ -21,6 +21,9 @@ const Home = (props)=>{
                                 Luxxor
                             </Text>
                     </View>
+                    <Text style={styles.textCategories}>
+                    NOVEDADES
+                </Text>
                     <Novedades/>
                     <SectionInfo/>
                     <Contact/>
@@ -42,6 +45,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: "space-between",
         alignItems: "center",
+    },
+    textCategories:{
+        fontFamily: 'Spartan_400Regular',
+        fontSize: 30,
+        textAlign: "justify",
+        marginVertical:10,
+        color:'#e3e3e3'
     },
     viewHero:{
         width: ' 100%',

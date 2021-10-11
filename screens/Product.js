@@ -16,6 +16,7 @@ import CarouselProduct from "../components/CarouselProduct"
 import { connect } from "react-redux"
 import {useEffect} from 'react'
 import productsActions from "../redux/actions/productsActions"
+import Novedades from "../components/Novedades"
 
 const Product = (props) => {
  const [detailsOn, setDetailsOn] = useState(false);
@@ -81,12 +82,11 @@ const Product = (props) => {
                                 1 Año de garantia oficial. 10 días para cambios y
                                 devoluciones
                             </Text>
-                            
                 </View>
             </>
             )}
-		   <Text onPress={() => setModal(!modal)} style={styles.cart}>ESPECIFICACIONES</Text>
-           <Text onPress={()=>{
+        <Text onPress={() => setModal(!modal)} style={styles.cart}>ESPECIFICACIONES</Text>
+            <Text onPress={()=>{
                     props.addProduct(props.route.params.id)
                   }}
                   style={styles.cart}>AGREGAR AL CARRITO</Text>
@@ -111,7 +111,14 @@ const Product = (props) => {
                 </View>
               )}
          
-           </View>
+          </View>
+          <View style={styles.divRecomendados}>
+            <Text style={styles.textRecomendados}>
+              También te puede interesar..
+            </Text>
+            <Novedades/>
+          </View>
+
        
             </View>
       
@@ -213,23 +220,29 @@ border: {
     marginVertical:10
 },
 info: {
-     fontSize:25,
-     color: 'white',
-     padding:10,
-     fontFamily: 'Spartan_400Regular'
-},
+      fontSize:25,
+      color: 'white',
+      padding:10,
+      fontFamily: 'Spartan_400Regular'
+  },
 button: {
-	fontSize: 20,
-	textAlign: 'center',
-	backgroundColor: '#000000a8',
-	color: 'white',
-	padding: 10,
-	margin:10,
+    fontSize: 20,
+    textAlign: 'center',
+    backgroundColor: '#000000a8',
+    color: 'white',
+    padding: 10,
+    margin:10,
 },
 
   text: {
     color: "white",
     fontSize: 50,
+    fontWeight: 'bold',
+    fontFamily: 'Spartan_700Bold'
+  },
+  textRecomendados:{
+    color: "white",
+    fontSize: 30,
     fontWeight: 'bold',
     fontFamily: 'Spartan_700Bold'
   },
@@ -301,6 +314,10 @@ button: {
     justifyContent: 'space-between',
     flex:1, 
     marginVertical:10
+  },
+  divRecomendados:{
+    justifyContent: "center",
+    alignItems:"center"
   }
 })
 
