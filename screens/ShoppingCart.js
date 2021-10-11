@@ -14,6 +14,8 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button"
+import { AntDesign } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 
 const ShoppingCart = (props) => {
   const [value, setValue] = useState(0)
@@ -70,51 +72,16 @@ const ShoppingCart = (props) => {
                 </Text>
               </View>
               <View style={styles.sumAndSubtract}>
-                <Text style={{ color: "white", fontSize: 45 }}>-</Text>
+                <AntDesign name="minuscircleo" size={24} color="rgb(105,105,105)" />
                 <Text style={{ color: "white", fontSize: 30, paddingHorizontal: 8 }}>0</Text>
-                <Text style={{ color: "white", fontSize: 45 }}>+</Text>
+                <AntDesign name="pluscircleo" size={24} color="rgb(105,105,105)" />
               </View>
             </View>
             <View style={{ justifyContent: "center" }}>
               <Text style={{ color: "white", fontSize: 25 }}>$525</Text>
             </View>
             <View style={{ justifyContent: "center" }}>
-              <Text style={{ color: "rgb(105,105,105)", fontSize: 40 }}>X</Text>
-            </View>
-          </View>
-
-          <View style={styles.cardProduct}>
-            <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
-              <ImageBackground
-                source={image}
-                resizeMode="cover"
-                style={{ width: 80, height: 80 }}
-              ></ImageBackground>
-            </View>
-            <View style={{ flexDirection: "column" }}>
-              <View style={{ flexDirection: "column", marginVertical: 5 }}>
-                <Text
-                  style={{ color: "white", fontSize: 22, marginVertical: 1 }}
-                >
-                  Netbook
-                </Text>
-                <Text
-                  style={{ color: "white", fontSize: 18, marginVertical: 1 }}
-                >
-                  $105{" "}
-                </Text>
-              </View>
-              <View style={styles.sumAndSubtract}>
-                <Text style={{ color: "white", fontSize: 45 }}>-</Text>
-                <Text style={{ color: "white", fontSize: 30, paddingHorizontal: 8 }}>0</Text>
-                <Text style={{ color: "white", fontSize: 45 }}>+</Text>
-              </View>
-            </View>
-            <View style={{ justifyContent: "center" }}>
-              <Text style={{ color: "white", fontSize: 25 }}>$525</Text>
-            </View>
-            <View style={{ justifyContent: "center" }}>
-              <Text style={{ color: "rgb(105,105,105)", fontSize: 40 }}>X</Text>
+                <Entypo name="cross" size={40} color="rgb(105,105,105)" />
             </View>
           </View>
 
