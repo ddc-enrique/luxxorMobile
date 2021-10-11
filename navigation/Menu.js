@@ -47,7 +47,7 @@ const Menu = (props) =>{
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
 
                 <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
-                
+                <DrawerMenu  titleName = 'ShoppingCart' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
                 {token?
                 <View style={{justifyContent: 'center',marginLeft:100}}>
                 <DrawerItem {...props} label={({ focused }) => <Text style={{ color:'#e3e3e3',fontFamily: 'Spartan_400Regular',fontSize:25 }}>{focused ? 'Salir' : 'Salir'}</Text>} onPress={() => {logOut()}}/>
