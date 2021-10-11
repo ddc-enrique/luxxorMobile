@@ -35,7 +35,7 @@ const Products = (props) => {
           setProducts(response)
           setFilteredProducts(response)
         } catch (error) {
-          toast.error(error)
+          console.log(error)
         }                
       }
     }
@@ -123,9 +123,10 @@ const Products = (props) => {
           </SelectPicker>
         </View>
         <View style={styles.cardContainer}>
-		{products.map(product => (
+		{
+			products.map(product => (
                     <View style={styles.card} key={product._id} >
-					<Image style={styles.image} source={{ uri:`https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png` }}/>
+					<Image style={styles.image} source={{ uri:`https://luxxor.herokuapp.com/producto/${product.photos[0]}` }}/>
                         <View style={styles.content}>
                             <Text style={styles.title}>{product.name}</Text>
                         <View style={styles.description}>
@@ -143,6 +144,7 @@ const Products = (props) => {
 								Ver +
 							</Text>
                             {/* <Link to={`/producto/${product._id}`}> <Button style={styles.btn}>Ver +</Button></Link> */}
+						
                       </View>
                     </View>
             ))}
@@ -272,13 +274,6 @@ button: {
     fontSize:20,
     paddingVertical:5
   },
-//   image: {
-//     flex: 1,
-//     justifyContent: "center",
-//     height: 200,
-//     width: 200,
-//     marginTop:10
-//   },
   centerCard:{
       alignItems: "center",
   },

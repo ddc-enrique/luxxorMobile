@@ -61,7 +61,6 @@ const productsActions = {
     },
 
     products: () => {
-        console.log("entre")
         return async (dispatch) =>{
             try {
                 let response = await axios.get("http://luxxor.herokuapp.com/api/products")
@@ -75,9 +74,10 @@ const productsActions = {
     },
 
     product: (id) => {
-        return async (dispatch) =>{
+        console.log('entre')
+        return async () =>{
             try {
-                let response = await axios.get(`http://luxxor.herokuapp.com/api/products/${id}`)
+                let response = await axios.get(`http://luxxor.herokuapp.com/api/product/${id}`)
                 if (response.data.success) {
                     return response
                 }else {
