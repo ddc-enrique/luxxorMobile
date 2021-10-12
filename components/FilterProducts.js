@@ -49,6 +49,8 @@ const FilterProducts = (props) => {
         getAllCategories()        
     },[])
     useEffect(() => {
+        console.log("brand", activeBrand)
+        console.log("category", activeCategory)
         let flagAllBrands = activeBrand === "allBrands"
         let flagAllCategories = activeCategory === "allCategories"
         let fp = props.products.filter( product => {
@@ -74,7 +76,7 @@ const FilterProducts = (props) => {
             <TouchableOpacity
                 onPress={() => setVisible(!visible)}
             >
-                <Text>Filtrar por: </Text>
+                <Text style={styles.textFilter}>Filtrar por: </Text>
             </TouchableOpacity>
             {visible &&
                     <LinearGradient
@@ -85,7 +87,7 @@ const FilterProducts = (props) => {
                     >
                         <View style={styles.column}>
                             <Text style={styles.text}>Marca</Text>
-                            <View style={styles.category}>
+                            <View >
                                 <RadioForm
                                     formHorizontal={false}
                                     animation={true}
@@ -96,18 +98,18 @@ const FilterProducts = (props) => {
                                                 obj={brand}
                                                 index={i}
                                                 labelHorizontal={true}
-                                                onPress={() => setActiveBrand(brand._id)}
+                                                onPress={(value) => setActiveBrand(value)}
                                                 labelStyle={{fontSize: 20, color: 'white'}}
                                                 labelWrapStyle={styles.radioBtnLabel}
                                             />
                                             <RadioButtonInput
                                                 obj={brand}
                                                 index={i}
-                                                // isSelected={this.state.value3Index === i}
-                                                onPress={() => setActiveBrand(brand._id)}
+                                                isSelected={activeBrand === brand._id}
+                                                onPress={(value) => setActiveBrand(value)}
                                                 borderWidth={1}
                                                 buttonInnerColor={'#e74c3c'}
-                                                // buttonOuterColor={this.state.value3Index === i ? '#2196f3' : '#000'}
+                                                buttonOuterColor={activeBrand === brand._id ? '#2196f3' : '#000'}
                                                 buttonSize={20}
                                                 buttonOuterSize={40}
                                                 buttonStyle={styles.radioBtn}
@@ -120,7 +122,7 @@ const FilterProducts = (props) => {
                         </View>
                         <View style={styles.column}>
                             <Text style={styles.text}>Categoria</Text>
-                            <View style={styles.category}>
+                            <View >
                                 <RadioForm
                                     formHorizontal={false}
                                     animation={true}
@@ -131,18 +133,18 @@ const FilterProducts = (props) => {
                                                 obj={category}
                                                 index={i}
                                                 labelHorizontal={true}
-                                                onPress={() => setActiveCategory(category._id)}
+                                                onPress={(value) => setActiveCategory(value)}
                                                 labelStyle={{fontSize: 20, color: 'white'}}
                                                 labelWrapStyle={styles.radioBtnLabel}
                                             />
                                             <RadioButtonInput
                                                 obj={category}
                                                 index={i}
-                                                // isSelected={this.state.value3Index === i}
-                                                onPress={() => setActiveCategory(category._id)}
+                                                isSelected={activeCategory === category._id}
+                                                onPress={(value) => setActiveCategory(value)}
                                                 borderWidth={1}
                                                 buttonInnerColor={'#e74c3c'}
-                                                // buttonOuterColor={this.state.value3Index === i ? '#2196f3' : '#000'}
+                                                buttonOuterColor={activeCategory === category._id ? 'blue' : 'red'}
                                                 buttonSize={20}
                                                 buttonOuterSize={40}
                                                 buttonStyle={styles.radioBtn}
@@ -181,26 +183,31 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 5,
     },
+    textFilter: {
+        color: "white",
+        fontSize: 30,
+        // textAlign: "center",
+        marginBottom: 5,
+        marginLeft: "6%"
+    },
     text: {
         color: "white",
         fontSize: 30,
+        textAlign: "center",
+        marginBottom: 10
     },
+    
     column: {
         width:"40%",
-    },
-    category: {
-        width: "100%",
-        marginVertical: 15,
-        justifyContent: "center",        
-        alignItems: "center",
-        flexDirection: "row",
+        // backgroundColor: "red"
     },
     eachRadioBtn: {
-        width: "80%",
+        width: "85%",
         alignSelf: "center",
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "green"
+        marginBottom: 10,
+        // backgroundColor: "green",
     },
     radioBtn: {
 
