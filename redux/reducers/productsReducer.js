@@ -5,7 +5,7 @@ const initialState = {
 }
 const productsReducer = (state=initialState, action) => {
     
-    switch (action.title) {
+    switch (action.type) {
         case "PRODUCTS":
             return {
                 ...state,
