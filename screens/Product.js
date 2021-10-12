@@ -19,6 +19,7 @@ import { useEffect } from "react"
 import productsActions from "../redux/actions/productsActions"
 import Novedades from "../components/Novedades"
 import shopCartActions from '../redux/actions/shopCartActions'
+import { showMessage, hideMessage } from "react-native-flash-message"
 
 const Product = (props) => {
   const [detailsOn, setDetailsOn] = useState(false)
@@ -51,9 +52,21 @@ const Product = (props) => {
     }
   }, [])
 
-  const addProductHandler = () => {
-    props.addProduct(props.route.params.id, product.price,product.discount)
+  useEffect(() => {
+    
+    return () => {
+      console.log(props.cartProduct)
+      console.log('salgo de product!')
+    }
+  }, [])
 
+  const addProductHandler = () => {
+    props.addProduct(props.route.params.id, product.price)
+    showMessage({
+      message: "Agregaste producto! ",
+      type: "success",
+      backgroundColor: "#00bb2d",
+    })
     props.navigation.navigate('ShoppingCart')
     // console.log(product) va discount?
     console.log("ejecuto la addProductHandler")
@@ -110,7 +123,6 @@ const Product = (props) => {
               <Text onPress={() => setModal(!modal)} style={styles.cart}>
                 ESPECIFICACIONES
               </Text>
-              {console.log("estoy en product!!!!")}
               <TouchableOpacity onPress={addProductHandler}>
                 <Text style={styles.cart}>AGREGAR AL CARRITO </Text>
               </TouchableOpacity>
