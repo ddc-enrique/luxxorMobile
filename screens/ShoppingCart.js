@@ -14,11 +14,10 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button"
-import { AntDesign } from '@expo/vector-icons'
-import { Entypo } from '@expo/vector-icons'
 import shopCartActions from '../redux/actions/shopCartActions'
 import productsActions from "../redux/actions/productsActions"
 import { connect } from "react-redux"
+import CardScProduct from '../components/CardScProduct'
 
 const ShoppingCart = (props) => {
   const [value, setValue] = useState(0)
@@ -27,6 +26,8 @@ const ShoppingCart = (props) => {
   }
   const [products,setProducts]=useState([])
   const[products2,setProducts2]=useState([])
+  const[total,setTotal]=useState(0)
+  let aux
 
   const radio_props = [
     { label: "Retiro en local", value: 0 },
@@ -43,9 +44,12 @@ const ShoppingCart = (props) => {
       })
       .catch(e=>console.log(e))
   }) 
-    console.log(props.cartProduct)
-    console.log(props.total)
-    console.log(props.subtotal)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      console.log('me desmonte de Shopping Cart ')
+    }
   }, [])
 
   return (
@@ -61,7 +65,7 @@ const ShoppingCart = (props) => {
         end={{ x: 1, y: 1 }}
         style={styles.container}
       >
-        <Header {...props} />
+         <Header {...props} /> 
 
         <View style={{ alignItems: "center" }}>
           <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>Carrito de compras</Text>
@@ -71,40 +75,14 @@ const ShoppingCart = (props) => {
           </View>
         </View>
         <View style={{ alignItems: "center" }}>
-        <View style={styles.cardProduct}>
-            <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
-              <ImageBackground
-                source={image}
-                resizeMode="cover"
-                style={{ width: 80, height: 80 }}
-              ></ImageBackground>
-            </View>
-            <View style={{ flexDirection: "column" }}>
-              <View style={{ flexDirection: "column", marginVertical: 5 }}>
-                <Text
-                  style={{ color: "white", fontSize: 22, marginVertical: 1 }}
-                >
-                  Netbook 
-                </Text>
-                <Text
-                  style={{ color: "white", fontSize: 18, marginVertical: 1 }}
-                >
-                  $105{" "}
-                </Text>
-              </View>
-              <View style={styles.sumAndSubtract}>
-                <AntDesign name="minuscircleo" size={24} color="rgb(105,105,105)" />
-                <Text style={{ color: "white", fontSize: 30, paddingHorizontal: 8 }}>0</Text>
-                <AntDesign name="pluscircleo" size={24} color="rgb(105,105,105)" />
-              </View>
-            </View>
-            <View style={{ justifyContent: "center" }}>
-              <Text style={{ color: "white", fontSize: 25 }}>$525</Text>
-            </View>
-            <View style={{ justifyContent: "center" }}>
-                <Entypo name="cross" size={40} color="rgb(105,105,105)" />
-            </View>
-          </View>
+        {console.log(props.cartProduct)}
+        {props.cartProduct.length === 0?
+         <Text style={{color:'white',fontSize:23,fontWeight:'bold'}}>El carrito esta vacio ! </Text>
+        :products.map((product,index) => <CardScProduct key={index} product={product}  setTotal={setTotal} total={total}/>)
+        }
+        
+       
+        {/* deleteProduct={props.deleteProduct} */}
           {/* <View style={styles.cardProduct}>
             <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
               <ImageBackground
@@ -143,7 +121,7 @@ const ShoppingCart = (props) => {
 
         <View style={{ alignItems: "center", marginVertical: 10 }}>
           <View style={styles.btnAdd}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Productos')}>
               <Text style={{ color: "white", fontSize: 20 }}>
                 Agregar mas productos
               </Text>
@@ -158,7 +136,7 @@ const ShoppingCart = (props) => {
               >
                 Subtotal (sin envio):
               </Text>
-              <Text style={{ fontSize: 15, color: "white" }}>$975</Text>
+              <Text style={{ fontSize: 15, color: "white" }}>${props.subtotal}</Text>
             </View>
             <View style={styles.subtext}>
               <Text
@@ -166,7 +144,7 @@ const ShoppingCart = (props) => {
               >
                 15%OFF
               </Text>
-              <Text style={{ fontSize: 15, color: "white" }}>$42.330</Text>
+              <Text style={{ fontSize: 15, color: "white" }}>${props.total}</Text>
             </View>
           </View>
         </View>
@@ -188,7 +166,7 @@ const ShoppingCart = (props) => {
             <Text style={{ color: "white", fontSize: 22, fontWeight: "bold" }}>
               TOTAL:{" "}
             </Text>
-            <Text style={styles.textt}>$894.75</Text>
+            <Text style={styles.textt}>{props.total}</Text>
           </View>
         </View>
         <View style={{ alignItems: "center", marginVertical: 10 }}>
@@ -213,10 +191,8 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps ={
- /*  addProduct:shopCartActions.addToCart, */
-  //deleteProduct:shopCartActions.deleteToCart,
-  /* resetCart:shopCartActions.resetCart, */
- product:productsActions.product  
+  deleteProduct:shopCartActions.deleteToCart,
+  product:productsActions.product  
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart)
