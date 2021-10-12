@@ -74,7 +74,6 @@ const productsActions = {
     },
 
     product: (id) => {
-        console.log('entre')
         return async () =>{
             try {
                 let response = await axios.get(`http://luxxor.herokuapp.com/api/product/${id}`)

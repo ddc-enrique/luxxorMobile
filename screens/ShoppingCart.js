@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import {
   StyleSheet,
   Text,
@@ -16,16 +16,37 @@ import RadioForm, {
 } from "react-native-simple-radio-button"
 import { AntDesign } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
+import shopCartActions from '../redux/actions/shopCartActions'
+import productsActions from "../redux/actions/productsActions"
+import { connect } from "react-redux"
 
 const ShoppingCart = (props) => {
   const [value, setValue] = useState(0)
   const image = {
     uri: "https://www.filo.news/img/2017/07/02/rocky_balboa2.jpg",
   }
-  var radio_props = [
+  const [products,setProducts]=useState([])
+  const[products2,setProducts2]=useState([])
+
+  const radio_props = [
     { label: "Retiro en local", value: 0 },
     { label: "Envio a domicilio-Entrega a partir de 5 dias hábiles", value: 1 },
   ]
+
+  useEffect(() => {
+    props.cartProduct.forEach(item=>{
+      props.product(item.productId)
+      .then((res)=>{
+          aux= {...res.data.response,quantity:item.quantity}
+           setProducts2(products2.push(aux))
+           setProducts(products2) 
+      })
+      .catch(e=>console.log(e))
+  }) 
+    console.log(props.cartProduct)
+    console.log(props.total)
+    console.log(props.subtotal)
+  }, [])
 
   return (
     <ScrollView>
@@ -50,7 +71,41 @@ const ShoppingCart = (props) => {
           </View>
         </View>
         <View style={{ alignItems: "center" }}>
-          <View style={styles.cardProduct}>
+        <View style={styles.cardProduct}>
+            <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
+              <ImageBackground
+                source={image}
+                resizeMode="cover"
+                style={{ width: 80, height: 80 }}
+              ></ImageBackground>
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <View style={{ flexDirection: "column", marginVertical: 5 }}>
+                <Text
+                  style={{ color: "white", fontSize: 22, marginVertical: 1 }}
+                >
+                  Netbook 
+                </Text>
+                <Text
+                  style={{ color: "white", fontSize: 18, marginVertical: 1 }}
+                >
+                  $105{" "}
+                </Text>
+              </View>
+              <View style={styles.sumAndSubtract}>
+                <AntDesign name="minuscircleo" size={24} color="rgb(105,105,105)" />
+                <Text style={{ color: "white", fontSize: 30, paddingHorizontal: 8 }}>0</Text>
+                <AntDesign name="pluscircleo" size={24} color="rgb(105,105,105)" />
+              </View>
+            </View>
+            <View style={{ justifyContent: "center" }}>
+              <Text style={{ color: "white", fontSize: 25 }}>$525</Text>
+            </View>
+            <View style={{ justifyContent: "center" }}>
+                <Entypo name="cross" size={40} color="rgb(105,105,105)" />
+            </View>
+          </View>
+          {/* <View style={styles.cardProduct}>
             <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
               <ImageBackground
                 source={image}
@@ -83,8 +138,7 @@ const ShoppingCart = (props) => {
             <View style={{ justifyContent: "center" }}>
                 <Entypo name="cross" size={40} color="rgb(105,105,105)" />
             </View>
-          </View>
-
+          </View> */}
         </View>
 
         <View style={{ alignItems: "center", marginVertical: 10 }}>
@@ -151,7 +205,21 @@ const ShoppingCart = (props) => {
   )
 }
 
-export default ShoppingCart
+const mapStateToProps = (state) => {
+  return {
+  cartProduct:state.shopCart.shopCart,
+  total:state.shopCart.total,
+  subtotal:state.shopCart.subtotal
+  }
+}
+const mapDispatchToProps ={
+ /*  addProduct:shopCartActions.addToCart, */
+  //deleteProduct:shopCartActions.deleteToCart,
+  /* resetCart:shopCartActions.resetCart, */
+ product:productsActions.product  
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart)
 
 const styles = StyleSheet.create({
   container: {
