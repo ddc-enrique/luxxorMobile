@@ -3,16 +3,11 @@ import { View,StyleSheet, Text, Image, Dimensions } from "react-native";
 import Carousel from 'react-native-snap-carousel';
 
 const CarouselProduct = (props) => {
-    // console.log(props)
-    const images = [
-        {pic: 'https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png'} , 
-        {pic: 'https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png'} ,
-        {pic: 'https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png'},
-]
     const renderItem = ({item}) => {
         return (
             <View style={styles.slide} >
-                <Image source={{uri: item.pic}} style={styles.slideImg} />
+                <Image source={{uri:`https://luxxor.herokuapp.com/producstPhoto/${item}`}} style={styles.slideImg} />
+                {console.log(item)}
             </View>
         );
     }
@@ -20,7 +15,7 @@ const CarouselProduct = (props) => {
         <View style={styles.viewContainerCategories} >
         <View style={styles.slide}> 
             <Carousel
-                    data={images}
+                    data={props.photos}
                     renderItem={renderItem}
                     sliderWidth={500}
                     itemWidth={580}
@@ -57,7 +52,6 @@ const styles= StyleSheet.create({
         fontSize: 20,
         color: "#e3e3e3",
         fontFamily: 'Spartan_400Regular',
-        // backgroundColor: 'pink',
         width: '80%'
     }
 })
