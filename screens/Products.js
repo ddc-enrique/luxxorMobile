@@ -135,7 +135,7 @@ const Products = (props) => {
             renderItem={({ item }) => {
                 return(
                     <View style={styles.card} >
-                        <Image style={styles.image} source={{ uri:`https://luxxor.herokuapp.com/producto/producstPhoto/${item.photos[0]}` }}/>
+                        <Image style={styles.image} source={{ uri:`https://luxxor.herokuapp.com/producstPhoto/${item.photos[0]}` }}/>
                         <View style={styles.content}>
                             <Text style={styles.title}>{item.name}</Text>
                             <View style={styles.description}>
