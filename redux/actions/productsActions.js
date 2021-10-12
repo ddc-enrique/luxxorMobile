@@ -4,7 +4,7 @@ const productsActions = {
     categories: () =>{
         return async (dispatch) =>{
             try {
-                let response = await axios.get("http://localhost:4000/api/admin/categories")
+                let response = await axios.get("http://luxxor.herokuapp.com/api/admin/categories")
                 if(!response.data.success) throw new Error(response.data.response)
                 dispatch({type: "CATEGORIES", payload: response})
                 return response.data.response
@@ -17,7 +17,7 @@ const productsActions = {
     category: (id) =>{
         return async (dispatch) =>{
             try {
-                let response = await axios.get(`http://localhost:4000/api/admin/category/${id}`)
+                let response = await axios.get(`http://luxxor.herokuapp.com/api/admin/category/${id}`)
                 if (response.data.success) {
                     return response
                 }else {
@@ -32,7 +32,7 @@ const productsActions = {
     brands: () => {
         return async (dispatch) =>{
             try {
-                let response = await axios.get("http://localhost:4000/api/admin/brands")
+                let response = await axios.get("http://luxxor.herokuapp.com/api/admin/brands")
                 if(response.data.success) {
                     dispatch({type: "BRANDS", payload: response})
                     return response.data.response
@@ -48,7 +48,7 @@ const productsActions = {
     brand: (id) => {
         return async (dispatch) =>{
             try {
-                let response = axios.get(`http://localhost:4000/api/admin/brand/${id}`)
+                let response = axios.get(`http://luxxor.herokuapp.com/api/admin/brand/${id}`)
                 if (response.data.success) {
                     return response
                 }else {

@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Switch,
   ImageBackground,
   Image,
   FlatList,
@@ -11,106 +10,68 @@ import {
   Dimensions
 } from "react-native"
 import Header from "../components/Header"
-import { LinearGradient } from "expo-linear-gradient"
 import { connect } from "react-redux"
 import {useEffect} from 'react'
 import productsActions from "../redux/actions/productsActions"
 import SelectPicker from "react-native-form-select-picker"
+import FilterProducts from "../components/FilterProducts"
+import {showMessage} from "react-native-flash-message"
 
 const cardsWidth = (Dimensions.get("screen").width)*0.9
 
 
 const Products = (props) => {
-    const [products, setProducts] = useState([])
-    const [filteredProducts, setFilteredProducts] = useState([])
-    const [updateOnSort, setUpdateOnSort] = useState(true)
-    const [loading, setLoading] = useState(true)
-    const [isEnabled, setIsEnabled] = useState(false)
-    const [selected, setSelected] = useState()
-    const toggleSwitch = () => setIsEnabled((previousState) => !previousState)
-    useEffect(()=> {
-        const getAllProducts = async() =>{
-        if(!products.length) {
-            try {
-            let response = await props.getProducts()
-                // console.log(response)
-            if(!Array.isArray(response)) throw new Error(response.response)         
-            setProducts(response)
-            setFilteredProducts(response)
-            } catch (error) {
-            console.log(error)
-            }                
-        }
-        }
-        getAllProducts()
-        setLoading(false)
-    },[])
-
-    const options = ["Mayor precio", "Menor precio", "A-Z","Z-A"]
-    const image = {
-        uri: "https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png",
+  const [products, setProducts] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [updateOnSort, setUpdateOnSort] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [selected, setSelected] = useState()
+  
+  useEffect(()=> {
+    const getAllProducts = async() =>{
+      if(!products.length) {
+          try {
+          let response = await props.getProducts()
+              // console.log(response)
+          if(!Array.isArray(response)) throw new Error(response.response)         
+          setProducts(response)
+          setFilteredProducts(response)
+          } catch (error) {
+            showMessage({
+              "message":error,
+              "type":"danger"
+            })
+          }                
+      }
     }
+    getAllProducts()
+    setLoading(false)
+  },[])
+
+  const options = ["Mayor precio", "Menor precio", "A-Z","Z-A"]
+  const image = {
+      uri: "https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png",
+  }
+
+  if(!loading) {
+    <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
+      <Image
+        style={styles.preLoader} 
+        source={{ uri:"https://i.postimg.cc/TwZG2QWc/loading.gif" }}
+      />
+    </ImageBackground>
+  }
 
   return (
     <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
         <FlatList        
-            stickyHeaderIndices={[0]}
             ListHeaderComponent={
-                <View style={{zIndex: 10}}>
+                <View >
                     <Header {...props} />
-                    <LinearGradient
-                        colors={[" rgba(47,144,176,0.5)", "rgba(48,106,154,0.5)"]}
-                        start={{ x: 0, y: 0.5 }}
-                        end={{ x: 1, y: 1 }}
-                        style={styles.container}
-                    >
-                        <Text style={styles.text}>Marca</Text>
-                        <View style={styles.category}>
-                            <View style={styles.uniqueRadio}>
-                            <Text>Todas</Text>
-                            <Switch
-                                trackColor={{ false: "#808080", true: "#808080" }}
-                                thumbColor={isEnabled ? "#808080" : "#808080"}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                            </View>
-                            <View style={styles.uniqueRadio}>
-                            <Text>PRIMERA</Text>
-                            <Switch
-                                trackColor={{ false: "#767577", true: "rgba(49,25,109,1)" }}
-                                thumbColor={isEnabled ? "#c4bfaf" : "#f4f3f4"}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                            </View>
-                        </View>
-                        <Text style={styles.text}>Categoria</Text>
-                        <View style={styles.category}>
-                            <View style={styles.uniqueRadio}>
-                            <Text>Option 1</Text>
-                            <Switch
-                                trackColor={{ false: "#767577", true: "rgba(49,25,109,1)" }}
-                                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                            </View>
-                            <View style={styles.uniqueRadio}>
-                            <Text>Option 1</Text>
-                            <Switch
-                                trackColor={{ false: "#767577", true: "rgba(49,25,109,1)" }}
-                                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                            </View>
-                        </View>
-                    </LinearGradient>
+                    <FilterProducts 
+                      setFilteredProducts={setFilteredProducts}
+                      products={products}
+                    />
                     <View style={styles.selectOptions}>
                         <Text>Ordena por:</Text>
                         <SelectPicker
@@ -129,13 +90,13 @@ const Products = (props) => {
                     </View>
                 </View>
             }
-            data={products}
+            data={filteredProducts}
             keyExtractor={(product) => product._id}
             contentContainerStyle={styles.cardContainer}
             renderItem={({ item }) => {
                 return(
                     <View style={styles.card} >
-                        <Image style={styles.image} source={{ uri:`https://luxxor.herokuapp.com/producstPhoto/${item.photos[0]}` }}/>
+                        <Image style={styles.image} source={{ uri:`https://luxxor.herokuapp.com/productsPhoto/${item.photos[0]}` }}/>
                         <View style={styles.content}>
                             <Text style={styles.title}>{item.name}</Text>
                             <View style={styles.description}>
@@ -182,10 +143,9 @@ const styles = StyleSheet.create({
 	viewContainerHome:{
     flex: 1
   },
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 20,
+  preLoader:{
+    width: cardsWidth,
+    height: 200,
   },
   card: {
     borderWidth: 1,
@@ -202,9 +162,9 @@ const styles = StyleSheet.create({
   image: {
     height: 320,
     width: 350,
-    top:-55,
-    position: 'absolute',
-    zIndex: 1
+    // top:-55,
+    // position: 'absolute',
+    // zIndex: 1
   },
   content: {
     width: '95%',
@@ -241,10 +201,6 @@ const styles = StyleSheet.create({
     color: 'white',
     textTransform: 'uppercase'
   },
-  text: {
-    color: "white",
-    fontSize: 30,
-  },
   uniqueRadio: {
     marginHorizontal: 8,
   },
@@ -254,12 +210,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingVertical: 10,
   },
-  category: {
-    marginVertical: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
+  
   input: {
     height: 40,
     width: 230,
