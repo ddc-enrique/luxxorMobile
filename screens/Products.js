@@ -17,10 +17,7 @@ import SelectPicker from "react-native-form-select-picker"
 import FilterProducts from "../components/FilterProducts"
 import {showMessage} from "react-native-flash-message"
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select'
-<<<<<<< HEAD
-=======
 import {Ionicons } from '@expo/vector-icons'
->>>>>>> origin/micaela
 
 const cardsWidth = (Dimensions.get("screen").width)*0.9
 
