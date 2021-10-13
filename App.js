@@ -12,8 +12,8 @@ import {Provider} from "react-redux"
 import thunk from "redux-thunk"
 import rootReducers from "./redux/reducers/rootReducers"
 import FlashMessage from "react-native-flash-message"
-// import {LogBox} from 'react-native'
-// LogBox.ignoreAllLogs(true)
+import {LogBox} from 'react-native'
+LogBox.ignoreAllLogs(true)
 
 const myStore = createStore(rootReducers, applyMiddleware(thunk))
 

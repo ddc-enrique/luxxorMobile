@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import usersAction from "../redux/actions/usersAction"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import {DrawerItem} from "@react-navigation/drawer"
+import { AntDesign } from '@expo/vector-icons';
 
 const DrawerMenu =(props) =>{
     return(
@@ -47,15 +48,15 @@ const Menu = (props) =>{
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
 
                 <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
-                <DrawerMenu  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
+                <DrawerMenu icon='https://i.postimg.cc/KzhQNPLP/Diseño_sin_título_(73).png'  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
                 {token?
                 <View style={{justifyContent: 'center',marginLeft:100}}>
                 <DrawerItem {...props} label={({ focused }) => <Text style={{ color:'#e3e3e3',fontFamily: 'Spartan_400Regular',fontSize:25 }}>{focused ? 'Salir' : 'Salir'}</Text>} onPress={() => {logOut()}}/>
                 {/* <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Salir' onPress={()=>{logOut()}}/> */}
                 </View>
                 :<>
-                <DrawerMenu  icon='https://i.postimg.cc/6pyCHv2V/sign-up.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
-                <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
+                <DrawerMenu  icon='https://i.postimg.cc/zB89FGPB/registro.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
+                <DrawerMenu  icon='https://i.postimg.cc/c1f0wmW4/Dise-o-sin-t-tulo-78.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
                 </>
                 }
             
@@ -118,8 +119,8 @@ const styles = StyleSheet.create({
         marginVertical:20
     },
     icon:{
-        width: 45,
-        height: 45,
+        width: 55,
+        height: 55,
         marginRight:10
     },
     hi:{

@@ -1,59 +1,67 @@
-import React from "react";
-import { View,StyleSheet, Text, Image, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
 import Carousel from 'react-native-snap-carousel';
+import { View, Text, StyleSheet, Dimensions, Image, ImageBackground } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const CarouselProduct = (props) => {
+const widthCarousel = Dimensions.get('window').width
+
+const CarouselProduct = (props) =>{
     const renderItem = ({item}) => {
         return (
             <View style={styles.slide} >
-                <Image source={{uri:`https://luxxor.herokuapp.com/producstPhoto/${item}`}} style={styles.slideImg} />
-                {console.log(item)}
-            </View>
+                <TouchableOpacity onPress={() => {
+                props.navigation.navigate("Producto", {
+                id: item._id,
+                });
+                }} >
+                    <ImageBackground source={{uri:`https://luxxor.herokuapp.com/productsPhoto/${item.photos[0]}`}} resizeMode="cover"  style={styles.slideImg} ></ImageBackground>
+                    <Text style={styles.slideText}>{item.name} ${item.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                </TouchableOpacity>
+                    </View>
         );
     }
     return(
         <View style={styles.viewContainerCategories} >
-        <View style={styles.slide}> 
-            <Carousel
-                    data={props.photos}
+            <View>
+                <Carousel
+                    data={props.products}
                     renderItem={renderItem}
-                    sliderWidth={500}
-                    itemWidth={580}
-                    loop
-        />
+                    sliderWidth={widthCarousel*0.96}
+                    itemWidth={widthCarousel}
+                    loop={true}
+                    autoplay={true}
+                />
+            </View>
         </View>
-    </View>
-
     )
 }
+
+
 export default CarouselProduct
 
-const styles= StyleSheet.create({
+const styles = StyleSheet.create({
     viewContainerCategories:{
         width: Dimensions.get('window').width,
-    },
-    slideImg: {
-        height: 420,
-        minWidth: 350,
+        height: 650,
+        marginBottom:50
     },
     slide:{
-        height: 500,
-        justifyContent:"center",
-        alignItems: "flex-start",
-        opacity: 0.9,
+        width: '80%',
+        height:600,
+        marginHorizontal:50,
+        padding: 2,
+        alignItems: "center",
+        backgroundColor: '#a7a6a657'
     },
-    slideTitle:{
-        fontSize:25,
-        fontFamily: 'Spartan_400Regular',
-        color: "#e3e3e3",
-        textTransform: "uppercase"
+    slideImg:{
+        width: "100%",
+        height: 450,
     },
     slideText:{
-        fontSize: 20,
-        color: "#e3e3e3",
-        fontFamily: 'Spartan_400Regular',
-        width: '80%'
+        fontSize: 25,
+        fontFamily: 'Spartan_500Medium',
+        color:'#e3e3e3',
+        textAlign: 'center',
+        paddingVertical:20
     }
 })
-
-// backgroundColor:'#e3e3e3',
