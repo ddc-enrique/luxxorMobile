@@ -139,7 +139,8 @@ if (Object.keys(product).length > 0) {
               </TouchableOpacity>)}
           </View>
             </View>
-      
+      {/* el lider es bueno, no hay voluntad, olvidate de ello
+       */}
       </View>
     </ScrollView>
 	</ImageBackground>
