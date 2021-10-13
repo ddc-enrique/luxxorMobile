@@ -10,8 +10,8 @@ import { AntDesign } from '@expo/vector-icons'
 
 
 const FilterProducts = (props) => {
-    const [categories, setCategories] = useState([])
-    const [brands, setBrands] = useState([])
+    const [categories, setCategories] = useState(props.categories)
+    const [brands, setBrands] = useState(props.brands)
     const [activeBrand, setActiveBrand] = useState("allBrands")
     const [activeCategory, setActiveCategory] = useState("allCategories")
     const [visible, setVisible] = useState(false)
@@ -49,8 +49,6 @@ const FilterProducts = (props) => {
         getAllCategories()        
     },[])
     useEffect(() => {
-        console.log("brand", activeBrand)
-        console.log("category", activeCategory)
         let flagAllBrands = activeBrand === "allBrands"
         let flagAllCategories = activeCategory === "allCategories"
         let fp = props.products.filter( product => {
@@ -105,12 +103,12 @@ const FilterProducts = (props) => {
                                             <RadioButtonInput
                                                 obj={brand}
                                                 index={i}
-                                                isSelected={activeBrand === brand._id}
+                                                isSelected={activeBrand === brand.value}
                                                 onPress={(value) => setActiveBrand(value)}
                                                 borderWidth={1}
-                                                buttonInnerColor={'#e74c3c'}
-                                                buttonOuterColor={activeBrand === brand._id ? '#2196f3' : '#000'}
-                                                buttonSize={20}
+                                                buttonInnerColor={'#2196f3'}
+                                                buttonOuterColor={activeBrand === brand.value ? '#2196f3' : '#2196f3'}
+                                                buttonSize={28}
                                                 buttonOuterSize={40}
                                                 buttonStyle={styles.radioBtn}
                                                 buttonWrapStyle={{marginLeft: 5}}
@@ -140,12 +138,12 @@ const FilterProducts = (props) => {
                                             <RadioButtonInput
                                                 obj={category}
                                                 index={i}
-                                                isSelected={activeCategory === category._id}
+                                                isSelected={activeCategory === category.value}
                                                 onPress={(value) => setActiveCategory(value)}
                                                 borderWidth={1}
-                                                buttonInnerColor={'#e74c3c'}
-                                                buttonOuterColor={activeCategory === category._id ? 'blue' : 'red'}
-                                                buttonSize={20}
+                                                buttonInnerColor={'#2196f3'}
+                                                buttonOuterColor={activeCategory === category.value ? '#2196f3' : '#2196f3'}
+                                                buttonSize={28}
                                                 buttonOuterSize={40}
                                                 buttonStyle={styles.radioBtn}
                                                 buttonWrapStyle={{marginLeft: 5}}
@@ -172,7 +170,15 @@ const mapDispatchToProps = {
     getBrands: productsActions.brands
 }
 
-export default connect(null, mapDispatchToProps)(FilterProducts)
+const mapStateToProps = (state) => {
+    return{
+        brands: state.products.brands,
+        categories: state.products.categories,
+        products: state.products.products
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterProducts)
 
 const styles = StyleSheet.create({
     container: {

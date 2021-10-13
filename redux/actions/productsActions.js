@@ -6,7 +6,7 @@ const productsActions = {
             try {
                 let response = await axios.get("http://luxxor.herokuapp.com/api/admin/categories")
                 if(!response.data.success) throw new Error(response.data.response)
-                dispatch({type: "CATEGORIES", payload: response})
+                dispatch({type: "CATEGORIES", payload: response.data.response})
                 return response.data.response
             }catch(e){
                 return({success: false, response: e})
@@ -34,7 +34,7 @@ const productsActions = {
             try {
                 let response = await axios.get("http://luxxor.herokuapp.com/api/admin/brands")
                 if(response.data.success) {
-                    dispatch({type: "BRANDS", payload: response})
+                    dispatch({type: "BRANDS", payload: response.data.response})
                     return response.data.response
                 }else {
                     throw new Error(response.data.response)
