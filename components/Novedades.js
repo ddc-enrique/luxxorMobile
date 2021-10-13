@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from 'react-native-snap-carousel';
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, ImageBackground } from "react-native";
+import productsActions from "../redux/actions/productsActions";
+import { connect } from "react-redux";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const widthCarousel = Dimensions.get('window').width
 
-const Novedades = () =>{
-    const images = [{pic: 'https://i.postimg.cc/9fNRMm8P/1000x1000_1-removebg-preview.png', name: 'Macbook Pro 13 M1 Chip Ram 8gb 256gb Silver'} , 
-    {pic: 'https://i.postimg.cc/SKYqgXsy/8a9591545481ca29b3f44f9ed47b7d23-removebg-preview.png', name: 'Auriculares Inalambricos Sony Bluetooth'},
-]
+const Novedades = (props) =>{
+    const[products, setProducts] = useState([])
+    useEffect(()=>{
+        props.getProducts()
+        .then((res)=>{
+            setProducts(res.reverse().slice(0, 6))
+        })
+    },[])
     const renderItem = ({item}) => {
         return (
             <View style={styles.slide} >
-                <Image source={{uri: item.pic}} style={styles.slideImg} />
-                <Text style={styles.slideText}>{item.name}</Text>
-            </View>
+                <TouchableOpacity onPress={() => {
+                props.navigation.navigate("Producto", {
+                id: item._id,
+                });
+                }} >
+                    <ImageBackground source={{uri:`https://luxxor.herokuapp.com/productsPhoto/${item.photos[0]}`}} resizeMode="cover"  style={styles.slideImg} ></ImageBackground>
+                    <Text style={styles.slideText}>{item.name} ${item.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                </TouchableOpacity>
+                    </View>
         );
     }
     return(
         <View style={styles.viewContainerCategories} >
             <View>
                 <Carousel
-                    data={images}
+                    data={products}
                     renderItem={renderItem}
                     sliderWidth={widthCarousel*0.96}
                     itemWidth={widthCarousel}
@@ -32,26 +45,40 @@ const Novedades = () =>{
     )
 }
 
-export default Novedades
+const mapStateToProps = (state) => {
+    return {
+        products:state.products.products
+    }
+}
+const mapDispatchToProps ={
+    getProducts:productsActions.products,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Novedades)
 
 const styles = StyleSheet.create({
     viewContainerCategories:{
         width: Dimensions.get('window').width,
-        alignItems: "center",
-        height: 500,
+        height: 650,
         marginBottom:50
     },
     slide:{
         width: '80%',
-        height: 50,
+        height:600,
+        marginHorizontal:50,
+        padding: 2,
+        alignItems: "center",
+        backgroundColor: '#a7a6a657'
     },
     slideImg:{
         width: "100%",
-        height: 350,
+        height: 450,
     },
     slideText:{
-        fontSize: 20,
-        fontFamily: 'Spartan_400Regular',
+        fontSize: 25,
+        fontFamily: 'Spartan_500Medium',
         color:'#e3e3e3',
+        textAlign: 'center',
+        paddingVertical:20
     }
 })

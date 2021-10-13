@@ -25,7 +25,8 @@ const SectionInfo = () => {
                     renderItem={renderItem}
                     sliderWidth={600}
                     itemWidth={580}
-                    loop
+                    loop={true}
+                    autoplay={true}
         />
         </View>
     </View>

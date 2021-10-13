@@ -20,6 +20,7 @@ import productsActions from "../redux/actions/productsActions"
 import Novedades from "../components/Novedades"
 import shopCartActions from '../redux/actions/shopCartActions'
 import { showMessage, hideMessage } from "react-native-flash-message"
+import { TouchableOpacity } from "react-native-gesture-handler"
 
 const Product = (props) => {
  const [detailsOn, setDetailsOn] = useState(false);
@@ -27,28 +28,36 @@ const Product = (props) => {
   const[products, setProducts]= useState(props.products)
   const [modal, setModal] = useState(false);
   const [loading,setLoading]=useState(true)
+  const [prodRecomen, setProdRecomen] = useState(false)
+  let arrayRecom = []
   useEffect(()=>{
     if(props.products.length===0){
       props.getProducts()
-
       .then((res)=>{
           setProducts(res)
           setProduct(res.find(product=> product._id===props.route.params.id))
-        setLoading(!loading) 
+          setLoading(!loading) 
       })
-     .catch(error=>{
+    .catch(error=>{
         setLoading(!loading)
         console.log(error)
-       console.log("Problemas tecnicos")
       })
-   
     }else{
       setProduct(products.find(product=> product._id===props.route.params.id))
       setLoading(!loading) 
     }
   },[])
-      
-    const addProductHandler=()=>{
+  useEffect(()=>{
+      if (Object.keys(product).length > 0) {
+        setProduct(products.find(product=> product._id===props.route.params.id))
+        setLoading(!loading) 
+      }
+  }, [prodRecomen])
+  if (Object.keys(product).length > 0) {
+      arrayRecom =products.filter(item => item.category.name === product.category.name && item._id !== product._id)
+  }
+
+  const addProductHandler=()=>{
     props.addProduct(props.route.params.id,product.price,product.discount,product.name)
     showMessage({
       message: "Eliminaste producto ! ",
@@ -58,37 +67,46 @@ const Product = (props) => {
     props.navigation.navigate('ShoppingCart')
   }
   
+  const clickRecomen = () =>{
+    setProdRecomen(!prodRecomen)
+    props.navigation.navigate("Producto", {
+      id: item._id,
+      });
+  }
+
     if(loading){
-      return <Text>Hola!</Text>
+      return( 
+        <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+          <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+      </ImageBackground>)
     }
 
   return (
-	   <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
+	<ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
     <ScrollView>
       <View>
         <Header {...props} />
             <View style={styles.productsContainer}>
-           <View style={styles.containerProduct}>
-           {/* <CarouselProduct photos={product.photos}/> */}
-           <Image style={styles.photo} source={{uri:`https://luxxor.herokuapp.com/productsPhoto/${product.photos[0]}` }}/>
-           <View style={styles.containerTitle}>
-           
-           <Text style={styles.subrayado}>{product.category.name}</Text>
-           <Text style={styles.text}>{product.name}</Text>
-           <Text style={styles.subrayado}>Diseño elegante y plegable</Text>
-           <Text style={styles.border}>{product.brand.name}</Text>  
-           <Text style={styles.title}>$ {product.price}</Text>
-           </View>
-           
-           <View style={styles.description} >
-           <Text style={styles.info} onPress={() => setDetailsOn(!detailsOn)}>{!detailsOn ? 'VER +' : 'VER -'}</Text>
+            <View style={styles.containerProduct}>
+            <Image source={{uri:`https://luxxor.herokuapp.com/productsPhoto/${product.photos[0]}`}} style={styles.photo} />
+            <View style={styles.containerTitle}>
+            <Text style={styles.subrayado}>{product.category.name}</Text>
+            <Text style={styles.text}>{product.name}</Text>
+            <Text style={styles.subrayado}>{product.dataSheet[0].optionValue}</Text>
+            <Text style={styles.border}>{product.brand.name}</Text>  
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={styles.title}>$ {product.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                <Text style={styles.title2}> $ {(product.price * (1-(product.discount/100))).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</  Text>
             </View>
-           {detailsOn &&(
+            </View>
+            
+            <View style={styles.description} >
+            <Text style={styles.info} onPress={() => setDetailsOn(!detailsOn)}>{!detailsOn ? 'VER +' : 'VER -'}</Text>
+              </View>
+            {detailsOn &&(
             <>
                 <View style={styles.boxInfo}>
-                        <Text style={styles.info} >CARACTERÍSTICAS</Text>
-                    <Text style={styles.info}>Ver todas las promociones</Text>
-                    <Text style={styles.info}>Te llega a partir de <Text style={styles.orange}>Mañana 6 de Octubre</Text>
+                    <Text style={styles.info}>Te llega a partir del<Text style={styles.orange}> 16 de Octubre</Text>
                             </Text>
                             <Text style={styles.info}>
                                 1 Año de garantia oficial. 10 días para cambios y
@@ -107,35 +125,34 @@ const Product = (props) => {
                   <Text
                     style={styles.icon}
                     onPress={() => setModal(!modal)}>X</Text>
-				  <View>
-                  <Text style={styles.textTecnic}>FICHA TÉCNICA</Text>
-              {/* {
-                product.dataSheet.map(item =>{
-                    <>
-                      <Text>{item.optionName}: {item.optionValue}</Text>
-                    </>
-                })
-              } */}
+				  <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.textTecnic}>FICHA TÉCNICA</Text>             
+                      {/* <Text>{product.optionName} : {product.optionValue}</Text> */}
                 <Text style={styles.textTecnic2}>DESCRIPCIÓN</Text>
 				<Text style={styles.textTecnic2}>{product.description}</Text>
 				</View>
                 </View>
               )}
-         
+
           </View>
           <View style={styles.divRecomendados}>
             <Text style={styles.textRecomendados}>
               También te puede interesar..
             </Text>
-            <Novedades/>
+            {arrayRecom.map((item)=>
+              <TouchableOpacity key={item._id} onPress={clickRecomen}>
+                  <View style={{flexDirection: 'column', width:'100%', minHeight: 300,   backgroundColor: '#a7a6a657', marginVertical:15}}>
+                      <ImageBackground source={{uri:`https://luxxor.herokuapp.com/productsPhoto/${item.photos[0]}`}} style={styles.photoRecomend}></ImageBackground>
+                      <Text style={styles.info}>{item.name}</Text> 
+                      <Text style={styles.info}>Precio con descuento  ${(item.price * (1-(item.discount/100))).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                </View>
+              </TouchableOpacity>)}
           </View>
-
-       
             </View>
       
       </View>
     </ScrollView>
-	   </ImageBackground>
+	</ImageBackground>
   )
 }
 
@@ -169,10 +186,17 @@ const styles = StyleSheet.create({
   marginVertical: 50,
 },
 photo: {
+  alignSelf:'center',
   height: 320,
   width: 350,
+  // filter: 'dropShadow(-37 45 7 rgba(0, 0, 0, 0.79))'
 },
+photoRecomend: {
+  alignSelf:'center',
+  height: 320,
+  width: 350,
 
+},
 containerTitle: {
 	textAlign: 'center',
 	fontSize: 20,
@@ -193,13 +217,20 @@ description: {
   margin:10
 },
 boxInfo: {
-    height:300,
-    justifyContent: 'space-between',
+    height:200,
 },
 title: {
 	fontSize: 40,
+	color: 'gray',
+  fontFamily: 'Spartan_700Bold',
+  textDecorationLine: 'line-through',
+  textDecorationColor: 'red',
+  textDecorationStyle:'solid',
+},
+title2: {
+	fontSize: 40,
 	color: 'white',
-    fontFamily: 'Spartan_700Bold'
+  fontFamily: 'Spartan_700Bold',
 },
 cart: {
     // borderBottom: 1,

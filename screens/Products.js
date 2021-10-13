@@ -117,13 +117,11 @@ const Products = (props) => {
       uri: "https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png",
   }
 
-  if(!loading) {
-    <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
-      <Image
-        style={styles.preLoader} 
-        source={{ uri:"https://i.postimg.cc/TwZG2QWc/loading.gif" }}
-      />
-    </ImageBackground>
+  if(loading){
+    return( 
+      <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+        <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+    </ImageBackground>)
   }
 
   return (

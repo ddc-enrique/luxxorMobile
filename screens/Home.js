@@ -24,7 +24,7 @@ const Home = (props)=>{
                     <Text style={styles.textCategories}>
                     NOVEDADES
                 </Text>
-                    <Novedades/>
+                    <Novedades {...props}/>
                     <SectionInfo/>
                     <Contact/>
                     </View>
