@@ -75,7 +75,6 @@ const ShoppingCart = (props) => {
           </View>
         </View>
         <View style={{ alignItems: "center" }}>
-        {console.log(props.cartProduct)}
         {props.cartProduct.length === 0?
          <Text style={{color:'white',fontSize:23,fontWeight:'bold'}}>El carrito esta vacio ! </Text>
         :products.map((product,index) => <CardScProduct key={index} product={product}  setTotal={setTotal} total={total}/>)
@@ -142,9 +141,9 @@ const ShoppingCart = (props) => {
               <Text
                 style={{ fontSize: 18, fontWeight: "bold", color: "white" }}
               >
-                15%OFF
+                {props.total>0 ? parseFloat((100-props.total*100/props.subtotal).toFixed(2))+ " % OFF": "- %"}
               </Text>
-              <Text style={{ fontSize: 15, color: "white" }}>${props.total}</Text>
+              <Text style={{ fontSize: 15, color: "white" }}>${(props.total).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
             </View>
           </View>
         </View>
@@ -166,7 +165,7 @@ const ShoppingCart = (props) => {
             <Text style={{ color: "white", fontSize: 22, fontWeight: "bold" }}>
               TOTAL:{" "}
             </Text>
-            <Text style={styles.textt}>{props.total}</Text>
+            <Text style={styles.textt}>${(props.total).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
           </View>
         </View>
         <View style={{ alignItems: "center", marginVertical: 10 }}>

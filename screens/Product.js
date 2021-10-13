@@ -9,6 +9,7 @@ import {
   Button,
   Link,
   Image,
+  TouchableOpacity
 } from "react-native"
 import Header from "../components/Header"
 import { LinearGradient } from "expo-linear-gradient"
@@ -17,6 +18,8 @@ import { connect } from "react-redux"
 import {useEffect} from 'react'
 import productsActions from "../redux/actions/productsActions"
 import Novedades from "../components/Novedades"
+import shopCartActions from '../redux/actions/shopCartActions'
+import { showMessage, hideMessage } from "react-native-flash-message"
 
 const Product = (props) => {
  const [detailsOn, setDetailsOn] = useState(false);
@@ -29,7 +32,6 @@ const Product = (props) => {
       props.getProducts()
 
       .then((res)=>{
-        console.log(res)
           setProducts(res)
           setProduct(res.find(product=> product._id===props.route.params.id))
         setLoading(!loading) 
@@ -45,9 +47,15 @@ const Product = (props) => {
       setLoading(!loading) 
     }
   },[])
-    console.log(product)
-      const addProductHandler=()=>{
-    {props.addProduct(props.route.params.id,product.price)}
+      
+    const addProductHandler=()=>{
+    props.addProduct(props.route.params.id,product.price,product.discount,product.name)
+    showMessage({
+      message: "Eliminaste producto ! ",
+      type: "success",
+      backgroundColor: "#00bb2d",
+    })
+    props.navigation.navigate('ShoppingCart')
   }
   
     if(loading){
@@ -90,17 +98,16 @@ const Product = (props) => {
             </>
             )}
         <Text onPress={() => setModal(!modal)} style={styles.cart}>ESPECIFICACIONES</Text>
-            <Text onPress={()=>{
-                    props.addProduct(props.route.params.id)
-                  }}
-                  style={styles.cart}>AGREGAR AL CARRITO</Text>
+  
+            <TouchableOpacity onPress={addProductHandler}>
+                  <Text style={styles.cart}>AGREGAR AL CARRITO</Text>
+            </TouchableOpacity>
            	{modal && (
                 <View style={styles.modal}>
                   <Text
                     style={styles.icon}
                     onPress={() => setModal(!modal)}>X</Text>
 				  <View>
-                  {console.log(product.dataSheet)}
                   <Text style={styles.textTecnic}>FICHA TÉCNICA</Text>
               {/* {
                 product.dataSheet.map(item =>{
@@ -139,7 +146,7 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps ={
-//   addProduct:shopCartActions.addToCart,
+  addProduct:shopCartActions.addToCart,
   getProduct:productsActions.product,
   getProducts:productsActions.products,
 }

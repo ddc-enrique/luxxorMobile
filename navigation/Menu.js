@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import usersAction from "../redux/actions/usersAction"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import {DrawerItem} from "@react-navigation/drawer"
+import shopCartActions from '../redux/actions/shopCartActions'
 
 const DrawerMenu =(props) =>{
     return(
@@ -22,6 +23,7 @@ const Menu = (props) =>{
 
     useEffect(() => {
         loginLocalStoreUser()
+        loadScAsync()
     }, [])
 
      const loginLocalStoreUser = async () => {
@@ -29,10 +31,34 @@ const Menu = (props) =>{
            const tokenAsyncStorage = await AsyncStorage.getItem("token")
            if (tokenAsyncStorage) {
              props.signWithLocal(tokenAsyncStorage)
-             return null
+            //  return null
            }
          }
+         
        }
+
+    //    const loadScAsync= async ()=>{
+    //     if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
+    //         const productsAsynSc= await AsyncStorage.getItem("shopCart")
+    //         const productsAsynSubtotal= await AsyncStorage.getItem("subtotal")
+    //         const productsAsynTotal= await AsyncStorage.getItem("total")
+
+    //         if(productsAsynSc && productsAsynSubtotal && productsAsynTotal){
+    //            props.loadShopInLs(AsyncStorage.getItem('shopCart'),AsyncStorage.getItem('subtotal'),AsyncStorage.getItem('total'))
+    //            return null
+    //         }else{
+    //             console.log('no existe :(')
+    //         }
+    //      }else{
+    //          console.log('no hay NADA EN ASYNCSTORAGE')
+    //      }
+    //    }
+
+const loadScAsync = async()=>{
+    if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
+        props.loadShopInLs(AsyncStorage.getItem('shopCart'),AsyncStorage.getItem('subtotal'),AsyncStorage.getItem('total'))
+    }
+}
 
     return(
         <View style={styles.container1}>
@@ -76,7 +102,8 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = {
     signWithLocal:usersAction.signWithLocal,
-    logOut:usersAction.logOut
+    logOut:usersAction.logOut,
+    loadShopInLs:shopCartActions.loadShopInLs
   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)
