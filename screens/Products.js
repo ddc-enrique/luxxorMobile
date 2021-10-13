@@ -16,13 +16,15 @@ import productsActions from "../redux/actions/productsActions"
 import SelectPicker from "react-native-form-select-picker"
 import FilterProducts from "../components/FilterProducts"
 import {showMessage} from "react-native-flash-message"
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select'
+
 
 const cardsWidth = (Dimensions.get("screen").width)*0.9
 
 
 const Products = (props) => {
-  const [products, setProducts] = useState([])
-  const [filteredProducts, setFilteredProducts] = useState([])
+  const [products, setProducts] = useState(props.products)
+  const [filteredProducts, setFilteredProducts] = useState(props.products)
   const [updateOnSort, setUpdateOnSort] = useState(true)
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState()
@@ -48,7 +50,69 @@ const Products = (props) => {
     setLoading(false)
   },[])
 
-  const options = ["Mayor precio", "Menor precio", "A-Z","Z-A"]
+  const sortProducts = (sortBy) => {
+    switch (sortBy) {
+      case "lowerPrice":
+        setFilteredProducts(
+          filteredProducts.sort((productA, productB) => productA.price - productB.price)
+        )
+        break;
+
+      case "higherPrice":
+        setFilteredProducts(
+          filteredProducts.sort((productA, productB) => productB.price - productA.price)
+        )
+        break;
+      
+      case "A-Z":
+        setFilteredProducts(
+          filteredProducts.sort((productA, productB) => {
+            if (productA.name > productB.name) {
+              return 1;
+            }
+            if (productA.name < productB.name) {
+              return -1;
+            }
+            return 0;
+          })
+        )
+        break;
+
+      case "Z-A":
+        setFilteredProducts(
+          filteredProducts.sort((productA, productB) => {
+            if (productA.name < productB.name) {
+              return 1;
+            }
+            if (productA.name > productB.name) {
+              return -1;
+            }
+            return 0;
+          })
+        )
+        break;
+
+      case "mostRelevants":
+        setFilteredProducts(
+          filteredProducts.sort((productA, productB) => {
+            if (productA._id > productB._id) {
+              return 1;
+            }
+            if (productA._id < productB._id) {
+              return -1;
+            }
+            return 0;
+          })
+        )
+        break;
+
+      default:
+        break;
+    }
+    setUpdateOnSort(!updateOnSort)
+  }
+
+  const options = ["Más Relevantes","Mayor precio", "Menor precio", "A-Z", "Z-A"]
   const image = {
       uri: "https://i.postimg.cc/Jhmptvkj/1000x1000-1-removebg-preview-1.png",
   }
@@ -68,23 +132,21 @@ const Products = (props) => {
                     <Header {...props} />
                     <FilterProducts 
                       setFilteredProducts={setFilteredProducts}
-                      products={products}
                     />
                     <View style={styles.selectOptions}>
-                        <Text>Ordena por:</Text>
-                        <SelectPicker
-                            placeholderStyle={{ color: "black" }}
-                            onValueChange={(value) => {
-                            setSelected(value)
-                            }}
-                            selected={selected}
-                            style={styles.input}
-                            placeholder="Rango a elegir"
-                        >
-                            {Object.values(options).map((val, index) => (
-                            <SelectPicker.Item label={val} value={val} key={index} />
-                            ))}
-                        </SelectPicker>
+                        <Text style={styles.orderText}>Ordenar por:</Text>
+                        <RNPickerSelect 
+                          items={[
+                            {label:"Más Relevantes", value:"mostRelevants"},
+                            {label:"Mayor Precio", value:"higherPrice"},
+                            {label:"Menor Precio", value:"lowerPrice"},
+                            {label:"A-Z", value:"A-Z"},
+                            {label:"Z-A", value:"Z-A"}
+                          ]}
+                          onValueChange={(value) => sortProducts(value)}
+                          style={styles.pickerSelect}
+                          placeholder={{}}
+                        />
                     </View>
                 </View>
             }
@@ -131,8 +193,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return{
-    brands: state.products,
-    categories: state.products,
+    products: state.products.products
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Products)
@@ -202,25 +263,48 @@ const styles = StyleSheet.create({
   uniqueRadio: {
     marginHorizontal: 8,
   },
+  orderText:{
+    color: "white",
+    fontSize: 30,
+    // textAlign: "center",
+    marginBottom: 5,
+  },
   selectOptions: {
+    // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
+    marginHorizontal: 10,
     paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 5,
+  },
+  pickerSelect: {
+    // width:"70%",
+    fontSize: 16,
+    paddingHorizontal: "10%",
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'white',
+    paddingRight: 30,
   },
   
-  input: {
-    height: 40,
-    width: 230,
-    margin: 12,
-    padding: 10,
-    borderRadius: 2,
-    borderColor: "#000e19",
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderRadius: 10,
-    // backgroundColor: "white",
-  },
+
+  // input: {
+  //   height: 40,
+  //   width: 230,
+  //   margin: 12,
+  //   padding: 10,
+  //   borderRadius: 2,
+  //   borderColor: "#000e19",
+  //   borderStyle: "solid",
+  //   borderWidth: 1,
+  //   borderRadius: 10,
+  //   // backgroundColor: "white",
+  // },
   cardContainer: {
     alignItems: "center",
   },

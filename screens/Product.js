@@ -9,6 +9,7 @@ import {
   Button,
   Link,
   Image,
+  TouchableOpacity
 } from "react-native"
 import Header from "../components/Header"
 import { LinearGradient } from "expo-linear-gradient"
@@ -16,6 +17,9 @@ import CarouselProduct from "../components/CarouselProduct"
 import { connect } from "react-redux"
 import {useEffect} from 'react'
 import productsActions from "../redux/actions/productsActions"
+import Novedades from "../components/Novedades"
+import shopCartActions from '../redux/actions/shopCartActions'
+import { showMessage, hideMessage } from "react-native-flash-message"
 import { TouchableOpacity } from "react-native-gesture-handler"
 
 const Product = (props) => {
@@ -43,20 +47,26 @@ const Product = (props) => {
       setLoading(!loading) 
     }
   },[])
-
-    useEffect(()=>{
-    if (Object.keys(product).length > 0) {
-      setProduct(products.find(product=> product._id===props.route.params.id))
-      setLoading(!loading) 
-    }
-}, [prodRecomen])
-if (Object.keys(product).length > 0) {
-    arrayRecom =products.filter(item => item.category.name === product.category.name && item._id !== product._id)
-}
-
-      const addProductHandler=()=>{
-    {props.addProduct(props.route.params.id,product.price)}
+  useEffect(()=>{
+      if (Object.keys(product).length > 0) {
+        setProduct(products.find(product=> product._id===props.route.params.id))
+        setLoading(!loading) 
+      }
+  }, [prodRecomen])
+  if (Object.keys(product).length > 0) {
+      arrayRecom =products.filter(item => item.category.name === product.category.name && item._id !== product._id)
   }
+
+  const addProductHandler=()=>{
+    props.addProduct(props.route.params.id,product.price,product.discount,product.name)
+    showMessage({
+      message: "Eliminaste producto ! ",
+      type: "success",
+      backgroundColor: "#00bb2d",
+    })
+    props.navigation.navigate('ShoppingCart')
+  }
+  
   const clickRecomen = () =>{
     setProdRecomen(!prodRecomen)
     props.navigation.navigate("Producto", {
@@ -106,10 +116,10 @@ if (Object.keys(product).length > 0) {
             </>
             )}
         <Text onPress={() => setModal(!modal)} style={styles.cart}>ESPECIFICACIONES</Text>
-            <Text onPress={()=>{
-                    props.addProduct(props.route.params.id)
-                  }}
-                  style={styles.cart}>AGREGAR AL CARRITO</Text>
+  
+            <TouchableOpacity onPress={addProductHandler}>
+                  <Text style={styles.cart}>AGREGAR AL CARRITO</Text>
+            </TouchableOpacity>
            	{modal && (
                 <View style={styles.modal}>
                   <Text
@@ -154,7 +164,7 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps ={
-//   addProduct:shopCartActions.addToCart,
+  addProduct:shopCartActions.addToCart,
   getProduct:productsActions.product,
   getProducts:productsActions.products,
 }

@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import usersAction from "../redux/actions/usersAction"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import {DrawerItem} from "@react-navigation/drawer"
+import shopCartActions from '../redux/actions/shopCartActions'
 import { AntDesign } from '@expo/vector-icons';
 
 const DrawerMenu =(props) =>{
@@ -23,6 +24,7 @@ const Menu = (props) =>{
 
     useEffect(() => {
         loginLocalStoreUser()
+        loadScAsync()
     }, [])
 
      const loginLocalStoreUser = async () => {
@@ -30,10 +32,34 @@ const Menu = (props) =>{
            const tokenAsyncStorage = await AsyncStorage.getItem("token")
            if (tokenAsyncStorage) {
              props.signWithLocal(tokenAsyncStorage)
-             return null
+            //  return null
            }
          }
+         
        }
+
+    //    const loadScAsync= async ()=>{
+    //     if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
+    //         const productsAsynSc= await AsyncStorage.getItem("shopCart")
+    //         const productsAsynSubtotal= await AsyncStorage.getItem("subtotal")
+    //         const productsAsynTotal= await AsyncStorage.getItem("total")
+
+    //         if(productsAsynSc && productsAsynSubtotal && productsAsynTotal){
+    //            props.loadShopInLs(AsyncStorage.getItem('shopCart'),AsyncStorage.getItem('subtotal'),AsyncStorage.getItem('total'))
+    //            return null
+    //         }else{
+    //             console.log('no existe :(')
+    //         }
+    //      }else{
+    //          console.log('no hay NADA EN ASYNCSTORAGE')
+    //      }
+    //    }
+
+const loadScAsync = async()=>{
+    if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
+        props.loadShopInLs(AsyncStorage.getItem('shopCart'),AsyncStorage.getItem('subtotal'),AsyncStorage.getItem('total'))
+    }
+}
 
     return(
         <View style={styles.container1}>
@@ -46,14 +72,18 @@ const Menu = (props) =>{
                     <Text style={styles.text}>Bienvenido {firstName?firstName:null}!</Text>
                 </View>
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
+                <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Checkout' navigation={()=>props.navigation.navigate('Checkout Cart')}/>
 
                 <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
                 <DrawerMenu icon='https://i.postimg.cc/KzhQNPLP/Diseño_sin_título_(73).png'  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
                 {token?
+                <>
+                <DrawerMenu  titleName = 'Mi cuenta' navigation={()=>props.navigation.navigate('MiCuenta')}/>
                 <View style={{justifyContent: 'center',marginLeft:100}}>
                 <DrawerItem {...props} label={({ focused }) => <Text style={{ color:'#e3e3e3',fontFamily: 'Spartan_400Regular',fontSize:25 }}>{focused ? 'Salir' : 'Salir'}</Text>} onPress={() => {logOut()}}/>
                 {/* <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Salir' onPress={()=>{logOut()}}/> */}
                 </View>
+                </>
                 :<>
                 <DrawerMenu  icon='https://i.postimg.cc/zB89FGPB/registro.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
                 <DrawerMenu  icon='https://i.postimg.cc/c1f0wmW4/Dise-o-sin-t-tulo-78.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
@@ -77,7 +107,8 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = {
     signWithLocal:usersAction.signWithLocal,
-    logOut:usersAction.logOut
+    logOut:usersAction.logOut,
+    loadShopInLs:shopCartActions.loadShopInLs
   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)

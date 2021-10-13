@@ -11,8 +11,8 @@
     "@expo-google-fonts/asap": "^0.2.0",
     "@expo-google-fonts/poiret-one": "^0.2.0",
     "@expo-google-fonts/spartan": "^0.2.0",
+    "@expo/ngrok": "^4.1.0",
     "@react-native-async-storage/async-storage": "~1.15.0",
-    "@react-native-picker/picker": "1.16.1",
     "@react-navigation/bottom-tabs": "^6.0.7",
     "@react-navigation/drawer": "^6.1.6",
     "@react-navigation/native": "^6.0.4",
@@ -31,6 +31,7 @@
     "react-native-flash-message": "^0.2.0",
     "react-native-form-select-picker": "^0.0.12",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-picker-select": "^8.0.4",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
@@ -40,7 +41,8 @@
     "react-native-web": "^0.17.5",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "@react-native-picker/picker": "1.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

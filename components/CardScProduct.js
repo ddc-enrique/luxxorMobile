@@ -17,14 +17,11 @@ const CardScProduct = (props) => {
             props.addProduct(product._id,product.price,product.discount)
             setCounter(counter+1)
         }else{
-            toast("No hay mas unidades a la venta", {
-                icon: "🚫",
-                style: {
-                  borderRadius: "1rem",
-                  background: "#fff",
-                  color: "#545454",
-                }
-            })
+            showMessage({
+                message: "No hay mas unidades ! ",
+                type: "warning",
+                backgroundColor: "#00bb2d",
+              })
         }
     }
     const deleteProductHandler=()=>{

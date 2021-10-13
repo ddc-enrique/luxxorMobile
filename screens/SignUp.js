@@ -170,6 +170,13 @@ const SignUp = (props) => {
             <Text style={styles.text}>Registrarme</Text>
           </TouchableOpacity>
         </View>
+        <View style={{marginVertical:10,alignItems:'center'}}>
+            <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
+            <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
+              <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Click aqui</Text>
+            </TouchableOpacity>
+        </View>
+        
       </LinearGradient>
     </ScrollView>
   )
