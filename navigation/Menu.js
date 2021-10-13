@@ -72,7 +72,7 @@ const loadScAsync = async()=>{
                     <Text style={styles.text}>Bienvenido {firstName?firstName:null}!</Text>
                 </View>
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
-                <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Checkout' navigation={()=>props.navigation.navigate('Checkout Cart')}/>
+                <DrawerMenu  icon='https://i.postimg.cc/mZ7WyqSz/Dise-o-sin-t-tulo-79.png'  titleName = 'Checkout' navigation={()=>props.navigation.navigate('Checkout Cart')}/>
 
                 <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
                 <DrawerMenu icon='https://i.postimg.cc/KzhQNPLP/Diseño_sin_título_(73).png'  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         flexDirection: 'row',
-        paddingHorizontal: 60,
+        paddingHorizontal: 30,
         marginVertical:20
     },
     icon:{
