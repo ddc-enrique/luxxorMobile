@@ -99,86 +99,87 @@ const SignUp = (props) => {
   }
 
   return (
-    <ScrollView>
-      <LinearGradient
-        colors={[
-          " rgba(47,144,176,1)",
-          "rgba(48,106,154,1)",
-          "rgba(49,75,136,1)",
-          "rgba(49,25,109,1)",
-        ]}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.container}
-      >
-        <Header {...props} />
-        <Text style={styles.title}>REGISTRATE</Text>
-        <TextInput
-          style={styles.input}
-          placeholder=" Nombre"
-          value={newUser.firstName}
-          onChangeText={(e) => changeValueInput(e, "firstName")}
-          placeholderTextColor={"white"}
-        />
-        <Text style={styles.error}>{errorName}&nbsp;</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Apellido"
-          value={newUser.lastName}
-          onChangeText={(e) => changeValueInput(e, "lastName")}
-          placeholderTextColor={"white"}
-        />
-        <Text style={styles.error}>{errorLastName}&nbsp;</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Url de imagen"
-          value={newUser.profilePic}
-          onChangeText={(e) => changeValueInput(e, "profilePic")}
-          placeholderTextColor={"white"}
-        />
-        <Text style={styles.error}>{errorProfilePic}&nbsp;</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={newUser.eMail}
-          onChangeText={(e) => changeValueInput(e, "eMail")}
-          placeholderTextColor={"white"}
-        />
-        <Text style={styles.error}>{errorEmail}&nbsp;</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          value={newUser.password}
-          onChangeText={(e) => changeValueInput(e, "password")}
-          placeholderTextColor={"white"}
-        />
-        <Text style={styles.error}>{errorPass}&nbsp;</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Confirmar contraseña"
-          onChangeText={(e) => setConfirmPass(e)}
-          onBlur={compareValues}
-          placeholderTextColor={"white"}
-        />
-        <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
-        <View>
-          <TouchableOpacity
-            onPress={sendForm}
-            style={styles.button}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.text}>Registrarme</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{marginVertical:10,alignItems:'center'}}>
-            <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
-            <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
-              <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Click aqui</Text>
+    <View style={styles.container}>
+          <ScrollView>
+          <LinearGradient
+          colors={[
+            " rgba(47,144,176,1)",
+            "rgba(48,106,154,1)",
+            "rgba(49,75,136,1)",
+            "rgba(49,25,109,1)",
+          ]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 1 }}
+        >
+          <Header {...props} />
+          <Text style={styles.title}>REGISTRATE</Text>
+          <TextInput
+            style={styles.input}
+            placeholder=" Nombre"
+            value={newUser.firstName}
+            onChangeText={(e) => changeValueInput(e, "firstName")}
+            placeholderTextColor={"white"}
+          />
+          <Text style={styles.error}>{errorName}&nbsp;</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Apellido"
+            value={newUser.lastName}
+            onChangeText={(e) => changeValueInput(e, "lastName")}
+            placeholderTextColor={"white"}
+          />
+          <Text style={styles.error}>{errorLastName}&nbsp;</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Url de imagen"
+            value={newUser.profilePic}
+            onChangeText={(e) => changeValueInput(e, "profilePic")}
+            placeholderTextColor={"white"}
+          />
+          <Text style={styles.error}>{errorProfilePic}&nbsp;</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={newUser.eMail}
+            onChangeText={(e) => changeValueInput(e, "eMail")}
+            placeholderTextColor={"white"}
+          />
+          <Text style={styles.error}>{errorEmail}&nbsp;</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            value={newUser.password}
+            onChangeText={(e) => changeValueInput(e, "password")}
+            placeholderTextColor={"white"}
+          />
+          <Text style={styles.error}>{errorPass}&nbsp;</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirmar contraseña"
+            onChangeText={(e) => setConfirmPass(e)}
+            onBlur={compareValues}
+            placeholderTextColor={"white"}
+          />
+          <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
+          <View>
+            <TouchableOpacity
+              onPress={sendForm}
+              style={styles.button}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.text}>Registrarme</Text>
             </TouchableOpacity>
-        </View>
-        
-      </LinearGradient>
-    </ScrollView>
+          </View>
+          <View style={{marginVertical:10,alignItems:'center'}}>
+              <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
+              <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
+                <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Click aqui</Text>
+              </TouchableOpacity>
+          </View>
+          
+        </LinearGradient>
+        </ScrollView>
+    </View>
   )
 }
 
@@ -193,6 +194,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingBottom: 40,
+    flex: 1
   },
   title: {
     fontSize: 40,
