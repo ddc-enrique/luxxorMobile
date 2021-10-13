@@ -2,9 +2,6 @@
 
  const shopCartAction={
      addToCart:(id,price,discount,name)=>{
-         console.log("entre")
-         console.log(price)
-         console.log(discount)
          return(dispatch)=>{
              dispatch({type:'ADD', payload:{id,price,discount,name}})
          }

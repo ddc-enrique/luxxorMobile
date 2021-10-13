@@ -26,16 +26,13 @@ const shopCartReducer=  (state=initialState ,action)=>{
             let aux_shopCart_add_2=[...state.shopCart,{productId:action.payload.id,quantity:1,name:action.payload.name,productPrice:action.payload.price}]
             let subtotal_add=parseFloat((state.subtotal+(action.payload.price)).toFixed(2))
             let total_add=parseFloat((state.total+((action.payload.price)*(100-action.payload.discount)/100)).toFixed(2))
-                     console.log(total_add)
-                     console.log(typeof state.total)
-                     console.log(action.payload.price)
-                     console.log(state)
-                     console.log(action.payload.discount)
+
             // AsyncStorage.setItem('subtotal',JSON.stringify(subtotal_add))
             //  AsyncStorage.setItem('total',JSON.stringify(total_add))
             storeData('subtotal',JSON.stringify(subtotal_add))
             storeData('total',JSON.stringify(total_add))
-            
+            console.log(productFound)
+
             if(productFound){
                 // AsyncStorage.setItem('shopCart',JSON.stringify(aux_shopCart_add))
                 storeData('shopCart',JSON.stringify(aux_shopCart_add))
@@ -47,7 +44,7 @@ const shopCartReducer=  (state=initialState ,action)=>{
                 }
             }else{
                 // AsyncStorage.setItem('shopCart',JSON.stringify(aux_shopCart_add_2))
-                storeData('shopCart',JSON.stringify(aux_shopCart_add))
+                storeData('shopCart',JSON.stringify(aux_shopCart_add_2))
                 return{
                     ...state,
                     shopCart:aux_shopCart_add_2,
@@ -116,8 +113,6 @@ const shopCartReducer=  (state=initialState ,action)=>{
                 }
             }    
             case 'LOAD_LS':{
-                console.log(action.payload.shopCart)
-                console.log(action.payload.subtotal)
                 
                 return {
                     ...state,

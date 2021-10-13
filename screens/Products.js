@@ -18,7 +18,6 @@ import FilterProducts from "../components/FilterProducts"
 import {showMessage} from "react-native-flash-message"
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select'
 
-
 const cardsWidth = (Dimensions.get("screen").width)*0.9
 
 

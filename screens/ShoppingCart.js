@@ -18,12 +18,10 @@ import shopCartActions from '../redux/actions/shopCartActions'
 import productsActions from "../redux/actions/productsActions"
 import { connect } from "react-redux"
 import CardScProduct from '../components/CardScProduct'
+import { showMessage} from "react-native-flash-message"
 
 const ShoppingCart = (props) => {
   const [value, setValue] = useState(0)
-  const image = {
-    uri: "https://www.filo.news/img/2017/07/02/rocky_balboa2.jpg",
-  }
   const [products,setProducts]=useState([])
   const[products2,setProducts2]=useState([])
   const[total,setTotal]=useState(0)
@@ -46,11 +44,22 @@ const ShoppingCart = (props) => {
   }) 
   }, [])
 
-  useEffect(() => {
-    return () => {
-      console.log('me desmonte de Shopping Cart ')
+  const resetSc=()=>{
+    if(props.cartProduct.length === 0){
+      showMessage({
+        message: "El carrito ya esta vacio! ",
+        type:'warning',
+        backgroundColor: "#f80000",
+      })
+    }else{
+      props.resetCart()
+      showMessage({
+        message: "Vaciaste el carrito ! ",
+        type: "success",
+        backgroundColor: "#00bb2d",
+      })
     }
-  }, [])
+  } 
 
   return (
     <ScrollView>
@@ -79,51 +88,18 @@ const ShoppingCart = (props) => {
          <Text style={{color:'white',fontSize:23,fontWeight:'bold'}}>El carrito esta vacio ! </Text>
         :products.map((product,index) => <CardScProduct key={index} product={product}  setTotal={setTotal} total={total}/>)
         }
-        
-       
-        {/* deleteProduct={props.deleteProduct} */}
-          {/* <View style={styles.cardProduct}>
-            <View style={{ paddingHorizontal: 15, justifyContent: "center" }}>
-              <ImageBackground
-                source={image}
-                resizeMode="cover"
-                style={{ width: 80, height: 80 }}
-              ></ImageBackground>
-            </View>
-            <View style={{ flexDirection: "column" }}>
-              <View style={{ flexDirection: "column", marginVertical: 5 }}>
-                <Text
-                  style={{ color: "white", fontSize: 22, marginVertical: 1 }}
-                >
-                  Netbook
-                </Text>
-                <Text
-                  style={{ color: "white", fontSize: 18, marginVertical: 1 }}
-                >
-                  $105{" "}
-                </Text>
-              </View>
-              <View style={styles.sumAndSubtract}>
-                <AntDesign name="minuscircleo" size={24} color="rgb(105,105,105)" />
-                <Text style={{ color: "white", fontSize: 30, paddingHorizontal: 8 }}>0</Text>
-                <AntDesign name="pluscircleo" size={24} color="rgb(105,105,105)" />
-              </View>
-            </View>
-            <View style={{ justifyContent: "center" }}>
-              <Text style={{ color: "white", fontSize: 25 }}>$525</Text>
-            </View>
-            <View style={{ justifyContent: "center" }}>
-                <Entypo name="cross" size={40} color="rgb(105,105,105)" />
-            </View>
-          </View> */}
         </View>
-
         <View style={{ alignItems: "center", marginVertical: 10 }}>
           <View style={styles.btnAdd}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Productos')}>
               <Text style={{ color: "white", fontSize: 20 }}>
                 Agregar mas productos
               </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.btnAdd}>
+            <TouchableOpacity onPress={resetSc}>
+                <Text style={{fontSize:25,color:'white'}}>Vaciar carrito</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -168,7 +144,7 @@ const ShoppingCart = (props) => {
             <Text style={styles.textt}>${(props.total).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
           </View>
         </View>
-        <View style={{ alignItems: "center", marginVertical: 10 }}>
+        <View style={{ alignItems: "center", marginVertical: 10,marginBottom:35 }}>
           <View style={styles.btnAdd}>
             <TouchableOpacity>
               <Text style={{ color: "white", fontSize: 20 }}>
@@ -191,7 +167,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps ={
   deleteProduct:shopCartActions.deleteToCart,
-  product:productsActions.product  
+  product:productsActions.product,
+  resetCart:shopCartActions.resetCart,
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ShoppingCart)
@@ -259,6 +236,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 8,
     paddingHorizontal: 40,
+    marginVertical:15
   },
   rbStyle: {
     height: 32,

@@ -48,6 +48,10 @@ const Menu = (props) =>{
              const productsAsynSubtotal= await AsyncStorage.getItem("subtotal")
              const productsAsynTotal= await AsyncStorage.getItem("total")
 
+             console.log('value',productsAsynSc)
+             console.log('value1',productsAsynSubtotal)
+             console.log('value2',productsAsynTotal)
+
              if(productsAsynSc && productsAsynSubtotal && productsAsynTotal){
                 const shopParse=JSON.parse(productsAsynSc)
                 const bustotParse=JSON.parse(productsAsynSubtotal)
@@ -69,7 +73,7 @@ const Menu = (props) =>{
                     <Text style={styles.text}>Bienvenido {firstName?firstName:null}!</Text>
                 </View>
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
-                <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Checkout' navigation={()=>props.navigation.navigate('Checkout Cart')}/>
+                {/* <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Checkout' navigation={()=>props.navigation.navigate('Checkout Cart')}/> */}
 
                 <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
                 <DrawerMenu icon='https://i.postimg.cc/KzhQNPLP/Diseño_sin_título_(73).png'  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
@@ -105,7 +109,8 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = {
     signWithLocal:usersAction.signWithLocal,
     logOut:usersAction.logOut,
-    loadShopInLs:shopCartActions.loadShopInLs
+    loadShopInLs:shopCartActions.loadShopInLs,
+    resetCart:shopCartActions.resetCart,
   }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)

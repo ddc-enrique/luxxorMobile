@@ -19,7 +19,7 @@ import {useEffect} from 'react'
 import productsActions from "../redux/actions/productsActions"
 import Novedades from "../components/Novedades"
 import shopCartActions from '../redux/actions/shopCartActions'
-import { showMessage, hideMessage } from "react-native-flash-message"
+import { showMessage} from "react-native-flash-message"
 
 const Product = (props) => {
  const [detailsOn, setDetailsOn] = useState(false);
@@ -63,7 +63,6 @@ const Product = (props) => {
       type: "success",
       backgroundColor: "#00bb2d",
     })
-    props.navigation.navigate('ShoppingCart')
   }
   
   const clickRecomen = () =>{
