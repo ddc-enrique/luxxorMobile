@@ -49,10 +49,13 @@ const Menu = (props) =>{
                 <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
                 <DrawerMenu  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
                 {token?
+                <>
+                <DrawerMenu  titleName = 'Mi cuenta' navigation={()=>props.navigation.navigate('MiCuenta')}/>
                 <View style={{justifyContent: 'center',marginLeft:100}}>
                 <DrawerItem {...props} label={({ focused }) => <Text style={{ color:'#e3e3e3',fontFamily: 'Spartan_400Regular',fontSize:25 }}>{focused ? 'Salir' : 'Salir'}</Text>} onPress={() => {logOut()}}/>
                 {/* <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Salir' onPress={()=>{logOut()}}/> */}
                 </View>
+                </>
                 :<>
                 <DrawerMenu  icon='https://i.postimg.cc/6pyCHv2V/sign-up.png'  titleName = 'Registrarme' navigation={()=>props.navigation.navigate('Registrarme')}/>
                 <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Ingresar' navigation={()=>props.navigation.navigate('Ingresar')}/>
