@@ -88,5 +88,19 @@ const productsActions = {
         }
     },
 
+    productsByUser: (id) => {
+        return async (dispatch) => {
+            try{
+                let response =  await axios.get(`http://luxxor.herokuapp.com/api/user/myshopping/${id}`)
+                if (!response.data.success) throw new Error(response.data.response)
+                return response.data.response
+            }catch(e){
+                return ({success: false, response: e.message})
+            }
+        }
+    },
+
+
+
 }
 export default productsActions
