@@ -34,7 +34,7 @@ const CardScProduct = (props) => {
     const deleteProduct=() =>{
          props.deleteProduct(product._id,true,product.price,counter,product.discount)
          showMessage({
-            message: "Eliminaste producto ! ",
+            message:`Eliminaste ${product.name}`,
             type: "success",
             backgroundColor: "#00bb2d",
           })

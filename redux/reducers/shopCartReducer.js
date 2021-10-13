@@ -17,7 +17,7 @@ const storeData = async (title, value) => {
 const shopCartReducer=  (state=initialState ,action)=>{
     switch(action.type){
         case 'ADD':
-        let productFound = state.shopCart.find((item) => item.productId === action.payload.id);
+            let productFound = state.shopCart.find((item) => item.productId === action.payload.id);
             let aux_shopCart_add=state.shopCart.map(item=>
                 item.productId===action.payload.id
                     ?{productId:item.productId,quantity: item.quantity + 1,name:action.payload.name,productPrice:action.payload.price}
@@ -27,14 +27,10 @@ const shopCartReducer=  (state=initialState ,action)=>{
             let subtotal_add=parseFloat((state.subtotal+(action.payload.price)).toFixed(2))
             let total_add=parseFloat((state.total+((action.payload.price)*(100-action.payload.discount)/100)).toFixed(2))
 
-            // AsyncStorage.setItem('subtotal',JSON.stringify(subtotal_add))
-            //  AsyncStorage.setItem('total',JSON.stringify(total_add))
             storeData('subtotal',JSON.stringify(subtotal_add))
             storeData('total',JSON.stringify(total_add))
-            console.log(productFound)
 
             if(productFound){
-                // AsyncStorage.setItem('shopCart',JSON.stringify(aux_shopCart_add))
                 storeData('shopCart',JSON.stringify(aux_shopCart_add))
                 return{
                     ...state,
@@ -43,7 +39,6 @@ const shopCartReducer=  (state=initialState ,action)=>{
                     total:total_add
                 }
             }else{
-                // AsyncStorage.setItem('shopCart',JSON.stringify(aux_shopCart_add_2))
                 storeData('shopCart',JSON.stringify(aux_shopCart_add_2))
                 return{
                     ...state,

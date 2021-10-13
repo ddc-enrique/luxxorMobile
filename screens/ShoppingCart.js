@@ -25,6 +25,7 @@ const ShoppingCart = (props) => {
   const [products,setProducts]=useState([])
   const[products2,setProducts2]=useState([])
   const[total,setTotal]=useState(0)
+  const arrayProd=[]
   let aux
 
   const radio_props = [
@@ -33,15 +34,22 @@ const ShoppingCart = (props) => {
   ]
 
   useEffect(() => {
+    console.log(props.cartProduct)
+    console.log(products2)
     props.cartProduct.forEach(item=>{
       props.product(item.productId)
       .then((res)=>{
           aux= {...res.data.response,quantity:item.quantity}
-           setProducts2(products2.push(aux))
-           setProducts(products2) 
+          console.log(products2)
+           setProducts2(arrayProd.push(aux))
+           if(arrayProd.length !== 0)setProducts(arrayProd) 
       })
       .catch(e=>console.log(e))
-  }) 
+    }) 
+
+    return () => {
+      console.log('me desmonte en SHOPPING CART')
+    }
   }, [])
 
   const resetSc=()=>{
@@ -60,6 +68,7 @@ const ShoppingCart = (props) => {
       })
     }
   } 
+
 
   return (
     <ScrollView>
@@ -85,7 +94,7 @@ const ShoppingCart = (props) => {
         </View>
         <View style={{ alignItems: "center" }}>
         {props.cartProduct.length === 0?
-         <Text style={{color:'white',fontSize:23,fontWeight:'bold'}}>El carrito esta vacio ! </Text>
+         <Text style={{color:'white',fontSize:23,fontWeight:'bold',marginVertical:40}}>El carrito esta vacio ! </Text>
         :products.map((product,index) => <CardScProduct key={index} product={product}  setTotal={setTotal} total={total}/>)
         }
         </View>
@@ -146,7 +155,7 @@ const ShoppingCart = (props) => {
         </View>
         <View style={{ alignItems: "center", marginVertical: 10,marginBottom:35 }}>
           <View style={styles.btnAdd}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> props.navigation.navigate('Checkout')}>
               <Text style={{ color: "white", fontSize: 20 }}>
                 Finalizar Compra
               </Text>

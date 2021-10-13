@@ -31,6 +31,7 @@ const Product = (props) => {
   let arrayRecom = []
   useEffect(()=>{
     if(props.products.length===0){
+      console.log('carrito vacio')
       props.getProducts()
       .then((res)=>{
           setProducts(res)
@@ -42,10 +43,13 @@ const Product = (props) => {
         console.log(error)
       })
     }else{
+      console.log('carrito llenoo')
       setProduct(products.find(product=> product._id===props.route.params.id))
       setLoading(!loading) 
     }
+
   },[])
+
   useEffect(()=>{
       if (Object.keys(product).length > 0) {
         setProduct(products.find(product=> product._id===props.route.params.id))
@@ -59,7 +63,7 @@ const Product = (props) => {
   const addProductHandler=()=>{
     props.addProduct(props.route.params.id,product.price,product.discount,product.name)
     showMessage({
-      message: "Eliminaste producto ! ",
+      message: `Agregaste ${product.name}`,
       type: "success",
       backgroundColor: "#00bb2d",
     })
@@ -156,7 +160,6 @@ const Product = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    // cartProduct:state.shopCart,
     products:state.products.products
   }
 }
