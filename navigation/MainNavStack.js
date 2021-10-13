@@ -6,6 +6,7 @@ import Products from '../screens/Products'
 import Product from '../screens/Product'
 import React from 'react'
 import ShoppingCart from '../screens/ShoppingCart'
+import MyAccount from '../screens/MyAccount'
 
 const Stack = createNativeStackNavigator()
 const Navigator = () =>{
@@ -31,7 +32,10 @@ const Navigator = () =>{
                 }}/> 
                 <Stack.Screen name="Producto" component={Product} options={{
                     headerShown: false
-                }}/>                    
+                }}/>
+                <Stack.Screen name="MiCuenta" component={MyAccount} options={{
+                    headerShown: false
+                }}/>                
         </Stack.Navigator>
     )
 }
