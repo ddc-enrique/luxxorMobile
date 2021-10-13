@@ -38,28 +38,25 @@ const Menu = (props) =>{
          
        }
 
-    //    const loadScAsync= async ()=>{
-    //     if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
-    //         const productsAsynSc= await AsyncStorage.getItem("shopCart")
-    //         const productsAsynSubtotal= await AsyncStorage.getItem("subtotal")
-    //         const productsAsynTotal= await AsyncStorage.getItem("total")
+       useEffect(() => {
+        loadScAsync()
+    }, [])
 
-    //         if(productsAsynSc && productsAsynSubtotal && productsAsynTotal){
-    //            props.loadShopInLs(AsyncStorage.getItem('shopCart'),AsyncStorage.getItem('subtotal'),AsyncStorage.getItem('total'))
-    //            return null
-    //         }else{
-    //             console.log('no existe :(')
-    //         }
-    //      }else{
-    //          console.log('no hay NADA EN ASYNCSTORAGE')
-    //      }
-    //    }
+        const loadScAsync= async ()=>{
+         if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
+             const productsAsynSc= await AsyncStorage.getItem("shopCart")
+             const productsAsynSubtotal= await AsyncStorage.getItem("subtotal")
+             const productsAsynTotal= await AsyncStorage.getItem("total")
 
-const loadScAsync = async()=>{
-    if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
-        props.loadShopInLs(AsyncStorage.getItem('shopCart'),AsyncStorage.getItem('subtotal'),AsyncStorage.getItem('total'))
-    }
-}
+             if(productsAsynSc && productsAsynSubtotal && productsAsynTotal){
+                const shopParse=JSON.parse(productsAsynSc)
+                const bustotParse=JSON.parse(productsAsynSubtotal)
+                const totParse=JSON.parse(productsAsynTotal)
+                props.loadShopInLs(shopParse,bustotParse,totParse)
+             }
+          }
+        }
+
 
     return(
         <View style={styles.container1}>

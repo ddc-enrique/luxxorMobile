@@ -121,9 +121,12 @@ const shopCartReducer=  (state=initialState ,action)=>{
                 
                 return {
                     ...state,
-                     shopCart:JSON.parse(action.payload.shopCart),
-                     subtotal:JSON.parse(action.payload.subtotal),
-                     total:JSON.parse(action.payload.total),                    
+                    //  shopCart:JSON.parse(action.payload.shopCart),
+                    //  subtotal:JSON.parse(action.payload.subtotal),
+                    //  total:JSON.parse(action.payload.total),  
+                    shopCart:action.payload.shopCart,
+                     subtotal:action.payload.subtotal,
+                     total:action.payload.total,                    
                 }
             }
         default:
