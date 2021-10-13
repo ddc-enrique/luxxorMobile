@@ -60,7 +60,8 @@ const usersAction = {
                         lastName: response.data.lastName, 
                         eMail: response.data.eMail, 
                         admin: response.data.profilePic, 
-                        id: response.data.id
+                        id: response.data.id,
+                        dni: response.data.dni
                     }})
             }catch(e){
                 dispatch({type: "LOGOUT"})
@@ -85,6 +86,28 @@ const usersAction = {
           return dispatch({ type: "LOGOUT" });
         }
       },
+    editDataUser: (id, flagEdit, token, dataUser) => {
+        return async (dispatch) => {
+            const url = `http://luxxor.herokuapp.com/api/user/edit-profile/${id}`
+            const headers = { Authorization: "Bearer " + token }
+            let response = flagEdit ? await axios.put(url, {...dataUser}, { headers } ) : await axios.post(url, {...dataUser}, { headers })
+            console.log("respuesta en action", response.data)
+            if(response.data.success){
+                if(flagEdit){
+                    dispatch({ type: "UPDATE_USER", 
+                    payload:{
+                        firstName: response.data.response.firstName,
+                        lastName: response.data.response.lastName,
+                    }})
+                } else {
+                    dispatch({ type: "UPDATE_DNI", dispatch: response.data.response.dni})
+                }
+                return response.data
+            } else {
+                throw response.data.response
+            }
+        }
+    },
 }
 
 export default usersAction
