@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
   container: {
     // justifyContent: "center",
     // alignItems: "center",
+    flexGrow: 1
   },
   inputsContain: {
     marginVertical: 20,
