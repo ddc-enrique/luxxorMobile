@@ -16,7 +16,6 @@ import { connect } from "react-redux"
 import moment from "moment"
 
 const UserPurchase = (props) => {
-    console.log(props.id)
     const [myProduct, setMyProduct] = useState()
     const [error, setError] = useState("")
 
@@ -32,7 +31,7 @@ const UserPurchase = (props) => {
 
 
     return (
-        <View style={styles.containerAll}>
+        <View contentContainerStyle={error && styles.containerAll}>
 
             {!error ? <FlatList 
                 style={styles.flatList}
@@ -51,79 +50,63 @@ const UserPurchase = (props) => {
                             </View>
                             <View style={styles.shopCart}>
                                 {item.shopCart.map(shop=> {
-                                    <View style={styles.container}>
-                                        {console.log(shop.productId)}
-                                        <ScrollView style={styles.productContainer}>
+                                   return <View style={styles.container}>
+                                        <ScrollView contentContainerStyle={styles.productContainer}>
                                             <ImageBackground style={styles.photoProduct} source={{uri:`http://luxxor.herokuapp.com/productsPhoto/${shop.productId.photos[0]}`}}>
                                             </ImageBackground>
                                             <Text>{shop.productId.name}</Text>
                                             <Text>{shop.quantity}</Text>
                                         </ScrollView>
-                                        <Text>Total: ${item.amount}</Text>
+                                        
                                     </View>
                                 })}
+                                <Text style={styles.totalAmount}>Total: ${item.amount}</Text>
                             </View>
                         </View>
                     </View>
                 )}
             /> :
-                <View>
-                    <Text>No tienes compras realizadas</Text>
-                    
+                <View style={styles.containConditional}>
+                    <Text style={styles.textConditional}>No tienes compras realizadas</Text>
                 </View>
             }
         </View>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        firstName:state.users.firstName,
-    }
-}
+
 
 const mapDispatchToProps = {
     myShopping: productsActions.productsByUser
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPurchase)
+export default connect(null, mapDispatchToProps)(UserPurchase)
 
 const styles = StyleSheet.create({
-    containerAll: {
-        
-    },
 
     flatList: {
         height: "80%",
         width: "100%",
-        backgroundColor: "blue"
     },
 
     containerOne: {
         alignSelf: "center",
         width: "90%",
         backgroundColor: "#e3e3e33f",
-        height: 300
+        height: 150,
+        marginBottom: 15
     },
 
     shopCart: {
-        height: "100%",
+        marginTop: 9,
+        height: "50%",
         width: "100%",
-        backgroundColor: "yellow"
     },
     
     container: {
         flexDirection: "row",
         width: "100%",
-        height: "70%",
-        backgroundColor: "gray"
-    },
-
-    cardContainer: {
-        alignSelf: "center",
-        width: "90%",
         height: "100%",
-        backgroundColor: "red",
     },
 
     text: {
@@ -131,10 +114,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
 
-
     photoProduct: {
-        width: "15%",
-        height: "15%",
+        width: 50,
+        height: 50,
     },
 
     titleContainer: {
@@ -145,7 +127,26 @@ const styles = StyleSheet.create({
     productContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
-        backgroundColor: "red"
+    },
+
+    totalAmount: {
+        textAlign: "right",
+        marginRight: 10,
+    },
+    containerAll: {
+        height: "100%",
+    },
+
+    containConditional: {
+        height: 600,
+        justifyContent: "space-around"
+    },
+
+    textConditional: {
+        alignSelf: "center",
+        fontSize: 35,
+        fontFamily: 'Spartan_500Medium',
+        color: "white"
     },
 })
 
