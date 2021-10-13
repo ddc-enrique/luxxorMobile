@@ -3,15 +3,19 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   ScrollView,
   TouchableOpacity,
+  ImageBackground,
+  Image,
+  TextInput
 } from "react-native"
-import { LinearGradient } from "expo-linear-gradient"
 import Header from "../components/Header"
 import usersAction from "../redux/actions/usersAction"
 import { connect } from "react-redux"
 import { showMessage, hideMessage } from "react-native-flash-message"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+
+
 
 const SignIn = (props) => {
   const [newUser, setNewUser] = useState({
@@ -36,6 +40,7 @@ const SignIn = (props) => {
           type: "warning",
           backgroundColor: "#f80000",
         })
+        return false
       } else {
         
         const resp = await props.signIn(newUser)
@@ -71,49 +76,46 @@ const SignIn = (props) => {
   }
 
   return (
-    <ScrollView>
-      <LinearGradient
-        colors={[
-          " rgba(47,144,176,1)",
-          "rgba(48,106,154,1)",
-          "rgba(49,75,136,1)",
-          "rgba(49,25,109,1)",
-        ]}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.container}
-      >
-        <Header {...props} />
-        <Text style={styles.title}>INICIAR SESION</Text>
-        <View style={styles.inputsContain}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={newUser.eMail}
-            onChangeText={(e) => changeValueInput(e, "eMail")}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorEmail}&nbsp;</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            value={newUser.password}
-            onChangeText={(e) => changeValueInput(e, "password")}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorPass}&nbsp;</Text>
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={sendForm}
-            style={styles.button}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.text}>Iniciar sesion</Text>
-          </TouchableOpacity>
-        </View>
-      </LinearGradient>
-    </ScrollView>
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.container}
+      scrollEnabled={false}
+        >  
+      <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.container}>
+            <ScrollView>
+              <Header {...props} />
+              <Text style={styles.title}>INICIAR SESION</Text>
+              <View style={styles.inputsContain}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={newUser.eMail}
+                  onChangeText={(e) => changeValueInput(e, "eMail")}
+                  placeholderTextColor={"white"}
+                />
+                <Text style={styles.error}>{errorEmail}&nbsp;</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Contraseña"
+                  value={newUser.password}
+                  onChangeText={(e) => changeValueInput(e, "password")}
+                  placeholderTextColor={"white"}
+                  secureTextEntry
+                />
+                <Text style={styles.error}>{errorPass}&nbsp;</Text>
+              </View>
+              <View>
+                <TouchableOpacity
+                  onPress={sendForm}
+                  style={styles.button}
+                >
+                  <Text style={styles.textButton}>Iniciar sesion</Text>
+                </TouchableOpacity>
+              </View>
+              <Image source={{uri: 'https://i.postimg.cc/VLZbw28G/Alienware-UFO-concept-tablet-removebg-preview.png'}} style={styles.image}/>
+        </ScrollView>
+        </ImageBackground>
+      </KeyboardAwareScrollView>
   )
 }
 
@@ -125,19 +127,18 @@ export default connect(null, mapDispatchToProps)(SignIn)
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 190,
+    flex:1
   },
   inputsContain: {
     marginVertical: 20,
   },
   title: {
     fontSize: 40,
-    color: "black",
+    color: "#464646",
     backgroundColor: "white",
-    padding: 15,
-    marginTop: 15,
+    padding: 5,
+    alignSelf: "center",
+    fontFamily: 'Spartan_400Regular'
   },
   text: {
     fontSize: 16,
@@ -147,37 +148,43 @@ const styles = StyleSheet.create({
     color: "white",
   },
   button: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
-    elevation: 3,
+    alignSelf: "center",
     marginTop: 20,
-    backgroundColor: "transparent",
-    width: "100%",
+    width: "40%",
     height: 50,
-    zIndex: 1,
     marginBottom: 10,
     padding: 10,
-    borderBottomColor: "white",
-    borderBottomWidth: 2,
+    backgroundColor: '#e3e3e3'
+  },
+  textButton:{
+    textAlign:"center",
+    color: '#464646',
+    fontSize:20,
+    fontFamily:'Spartan_500Medium',
   },
   input: {
-    height: 40,
-    width: 240,
+    height: 50,
+    width: '60%',
     margin: 12,
     padding: 10,
-    borderRadius: 2,
     color: "white",
     borderBottomColor: "white",
-    borderBottomWidth: 2,
-    backgroundColor: "transparent",
+    borderBottomWidth: 1.5,
     fontSize: 20,
+    fontFamily:'Spartan_400Regular',
+    alignSelf:"center"
   },
   error: {
-    fontSize: 15,
-    color: "yellow",
+    fontSize: 18,
+    color: "black",
     margin: 0,
-    paddingHorizontal: 5,
-    fontWeight: "bold",
+    fontFamily:'Spartan_500Medium',
+    alignSelf:"center"
   },
+  image:{
+    marginTop: 100,
+    width: '80%',
+    height: 400,
+    alignSelf: "center"
+  }
 })

@@ -52,7 +52,6 @@ const Contact = ({ sendNewMessage }) =>{
                 })
                 setErrorsValidation(errors);
             } else {
-                // toast.error("Error de Conexión")
                 showMessage({
                     "message": "Error de Conexión",
                     "type":"danger"

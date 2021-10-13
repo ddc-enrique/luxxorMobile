@@ -6,12 +6,13 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  ImageBackground
 } from "react-native"
 import Header from "../components/Header"
-import { LinearGradient } from "expo-linear-gradient"
 import usersAction from "../redux/actions/usersAction"
 import { connect } from "react-redux"
 import { showMessage, hideMessage } from "react-native-flash-message"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 const SignUp = (props) => {
   const [newUser, setNewUser] = useState({
@@ -42,12 +43,11 @@ const SignUp = (props) => {
         Object.values(newUser).some((value) => value === "") ||
         confirmPass === ""
       ) {
-        console.log(props)
         showMessage({
           message: 'Completa todos los campos',
           type: "warning",
           backgroundColor: "#f80000",
-         });
+        });
       } else {
         const resp = await props.signUp(newUser)
         if (resp) {
@@ -81,7 +81,7 @@ const SignUp = (props) => {
             message: 'Bienvenido ',
             type: "success",
             backgroundColor: "#00bb2d",
-           });
+            });
           props.navigation.navigate("HomeStack")
         }
       }
@@ -92,94 +92,92 @@ const SignUp = (props) => {
 
   const compareValues = () => {
     if (confirmPass !== newUser.password) {
-      setErrorPassCkecked("No coinciden... vuelve a intentarlo")
+      setErrorPassCkecked("Las contraseñas deben coincidir")
     } else {
       setErrorPassCkecked(null)
     }
   }
 
   return (
-    <View style={styles.container}>
-          <ScrollView>
-          <LinearGradient
-          colors={[
-            " rgba(47,144,176,1)",
-            "rgba(48,106,154,1)",
-            "rgba(49,75,136,1)",
-            "rgba(49,25,109,1)",
-          ]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 1 }}
+    <KeyboardAwareScrollView
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={styles.viewContainerHome}
+            scrollEnabled={false}
         >
-          <Header {...props} />
-          <Text style={styles.title}>REGISTRATE</Text>
-          <TextInput
-            style={styles.input}
-            placeholder=" Nombre"
-            value={newUser.firstName}
-            onChangeText={(e) => changeValueInput(e, "firstName")}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorName}&nbsp;</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Apellido"
-            value={newUser.lastName}
-            onChangeText={(e) => changeValueInput(e, "lastName")}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorLastName}&nbsp;</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Url de imagen"
-            value={newUser.profilePic}
-            onChangeText={(e) => changeValueInput(e, "profilePic")}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorProfilePic}&nbsp;</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={newUser.eMail}
-            onChangeText={(e) => changeValueInput(e, "eMail")}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorEmail}&nbsp;</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            value={newUser.password}
-            onChangeText={(e) => changeValueInput(e, "password")}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorPass}&nbsp;</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Confirmar contraseña"
-            onChangeText={(e) => setConfirmPass(e)}
-            onBlur={compareValues}
-            placeholderTextColor={"white"}
-          />
-          <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
-          <View>
-            <TouchableOpacity
-              onPress={sendForm}
-              style={styles.button}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.text}>Registrarme</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{marginVertical:10,alignItems:'center'}}>
-              <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
-              <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
-                <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Click aqui</Text>
-              </TouchableOpacity>
-          </View>
-          
-        </LinearGradient>
-        </ScrollView>
-    </View>
+        <View style={styles.viewContainerHome}>
+              <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
+              <ScrollView>
+              <Header {...props} />
+              <Text style={styles.title}>REGISTRATE</Text>
+              <TextInput
+                style={styles.input}
+                placeholder=" Nombre"
+                value={newUser.firstName}
+                onChangeText={(e) => changeValueInput(e, "firstName")}
+                placeholderTextColor={"white"}
+              />
+              <Text style={styles.error}>{errorName}&nbsp;</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Apellido"
+                value={newUser.lastName}
+                onChangeText={(e) => changeValueInput(e, "lastName")}
+                placeholderTextColor={"white"}
+              />
+              <Text style={styles.error}>{errorLastName}&nbsp;</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Url de imagen"
+                value={newUser.profilePic}
+                onChangeText={(e) => changeValueInput(e, "profilePic")}
+                placeholderTextColor={"white"}
+              />
+              <Text style={styles.error}>{errorProfilePic}&nbsp;</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={newUser.eMail}
+                onChangeText={(e) => changeValueInput(e, "eMail")}
+                placeholderTextColor={"white"}
+              />
+              <Text style={styles.error}>{errorEmail}&nbsp;</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Contraseña"
+                value={newUser.password}
+                onChangeText={(e) => changeValueInput(e, "password")}
+                placeholderTextColor={"white"}
+                secureTextEntry
+              />
+              <Text style={styles.error}>{errorPass}&nbsp;</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Confirmar contraseña"
+                onChangeText={(e) => setConfirmPass(e)}
+                onBlur={compareValues}
+                placeholderTextColor={"white"}
+                secureTextEntry
+              />
+              <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
+              <View>
+                <TouchableOpacity
+                  onPress={sendForm}
+                  style={styles.button}
+                >
+                  <Text style={styles.textButton}>Registrarme</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{marginVertical:10,alignItems:'center'}}>
+                  <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
+                  <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
+                    <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Click aqui</Text>
+                  </TouchableOpacity>
+              </View>
+              
+            </ScrollView>
+              </ImageBackground>
+        </View>
+    </KeyboardAwareScrollView>
   )
 }
 
@@ -190,45 +188,46 @@ const mapDispatchToProps = {
 export default connect(null, mapDispatchToProps)(SignUp)
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 40,
-    flex: 1
-  },
+  viewContainerHome:{
+    flex: 1,
+
+},
   title: {
     fontSize: 40,
-    color: "black",
-    backgroundColor: "white",
+    color: "#464646",
+    backgroundColor:'#e3e3e3',
     padding: 15,
     marginTop: 0,
+    fontFamily:'Spartan_400Regular',
+    textAlign:"center",
+    alignSelf:"center"
   },
   input: {
-    height: 40,
-    width: 240,
+    height: 50,
+    width: '60%',
     margin: 12,
     padding: 10,
-    borderRadius: 2,
     color: "white",
     borderBottomColor: "white",
-    borderBottomWidth: 2,
-    backgroundColor: "transparent",
+    borderBottomWidth: 1.5,
     fontSize: 20,
+    fontFamily:'Spartan_400Regular',
+    alignSelf:"center"
   },
   button: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
-    elevation: 3,
+    alignSelf: "center",
     marginTop: 20,
-    backgroundColor: "transparent",
-    width: "100%",
+    width: "40%",
     height: 50,
-    zIndex: 1,
     marginBottom: 10,
     padding: 10,
-    borderBottomColor: "white",
-    borderBottomWidth: 2,
+    backgroundColor: '#e3e3e3'
+  },
+  textButton:{
+    textAlign:"center",
+    color: '#464646',
+    fontSize:20,
+    fontFamily:'Spartan_500Medium',
   },
   text: {
     fontSize: 16,
@@ -236,12 +235,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
+    fontFamily:'Spartan_400Regular',
   },
   error: {
-    fontSize: 15,
-    color: "yellow",
+    fontSize: 18,
+    color: "black",
     margin: 0,
-    paddingHorizontal: 5,
-    fontWeight: "bold",
+    fontFamily:'Spartan_500Medium',
+    alignSelf:"center"
   },
 })

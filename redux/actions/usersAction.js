@@ -15,8 +15,8 @@ const usersAction = {
                     await AsyncStorage.setItem('profilePic', response.data.response.profilePic)
                     await AsyncStorage.setItem("id", response.data.response._id)
                     await AsyncStorage.setItem('token', response.data.response.token)
-                   dispatch({type: "SIGN", payload: response.data.response})
-               }else {
+                dispatch({type: "SIGN", payload: response.data.response})
+                }else {
                     return response.data.errors
                 }
             }catch(error) {
@@ -30,10 +30,10 @@ const usersAction = {
             try {
                 let response = await axios.post("http://luxxor.herokuapp.com/api/user/sign-up", userSignUp)
                 if(response.data.success){
-                     await AsyncStorage.setItem('firstName', response.data.response.firstName)
-                     await AsyncStorage.setItem('profilePic', response.data.response.profilePic)
-                     await AsyncStorage.setItem("id", response.data.response._id)
-                     await AsyncStorage.setItem('token', response.data.response.token)
+                        await AsyncStorage.setItem('firstName', response.data.response.firstName)
+                        await AsyncStorage.setItem('profilePic', response.data.response.profilePic)
+                        await AsyncStorage.setItem("id", response.data.response._id)
+                        await AsyncStorage.setItem('token', response.data.response.token)
                     dispatch({type: "SIGN", payload: response.data.response})
                 }else {
                     return response.data.errors
