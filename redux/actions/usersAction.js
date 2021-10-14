@@ -100,7 +100,7 @@ const usersAction = {
                         lastName: response.data.response.lastName,
                     }})
                 } else {
-                    dispatch({ type: "UPDATE_DNI", dispatch: response.data.response.dni})
+                    dispatch({ type: "UPDATE_DNI", payload: response.data.response})
                 }
                 return response.data
             } else {

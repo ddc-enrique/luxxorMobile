@@ -44,7 +44,7 @@ const usersReducer = (state = initState, action) =>{
         case "UPDATE_DNI":
             return{
                 ...state,
-                dni: action.payload.dni
+                dni: action.payload
                 }    
             default:
                 return state
