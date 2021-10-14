@@ -21,13 +21,9 @@ const SignUp = (props) => {
     eMail: "",
     profilePic: "",
   })
-  const [errorName, setErrorName] = useState(null)
-  const [errorLastName, setErrorLastName] = useState(null)
-  const [errorEmail, setErrorEmail] = useState(null)
-  const [errorPass, setErrorPass] = useState(null)
   const [errorPassChecked, setErrorPassCkecked] = useState(null)
   const [confirmPass, setConfirmPass] = useState(null)
-  const [errorProfilePic, setErrorProfilePic] = useState(null)
+  const [errorsValidation, setErrorsValidation] = useState({})
 
   const changeValueInput = (e, field) => {
     setNewUser({
@@ -37,57 +33,51 @@ const SignUp = (props) => {
   }
 
   const sendForm = async () => {
-    try {
+    
       if (
         Object.values(newUser).some((value) => value === "") ||
         confirmPass === ""
       ) {
-        console.log(props)
         showMessage({
           message: 'Completa todos los campos',
           type: "warning",
           backgroundColor: "#f80000",
          });
       } else {
-        const resp = await props.signUp(newUser)
-        if (resp) {
-          setErrorName(
-            resp.find((err) => err.path[0] === "firstName")
-              ? resp.find((err) => err.path[0] === "firstName").message
-              : null
-          )
-          setErrorLastName(
-            resp.find((err) => err.path[0] === "lastName")
-              ? resp.find((err) => err.path[0] === "lastName").message
-              : null
-          )
-          setErrorEmail(
-            resp.find((err) => err.path[0] === "eMail")
-              ? resp.find((err) => err.path[0] === "eMail").message
-              : null
-          )
-          setErrorPass(
-            resp.find((err) => err.path[0] === "password")
-              ? resp.find((err) => err.path[0] === "password").message
-              : null
-          )
-          setErrorProfilePic(
-            resp.find((err) => err.path[0] === "profilePic")
-              ? resp.find((err) => err.path[0] === "profilePic").message
-              : null
-          )
-        } else {
-          showMessage({
-            message: 'Bienvenido ',
-            type: "success",
-            backgroundColor: "#00bb2d",
-           });
-          props.navigation.navigate("HomeStack")
-        }
+         try{
+          const resp = await props.signUp(newUser)
+           if(!resp.success){
+             let err=resp.response
+             throw err
+           }
+           
+             showMessage({
+             message: 'Bienvenido ',
+             type: "success",
+             backgroundColor: "#00bb2d",
+            });
+           props.navigation.navigate("HomeStack")
+         }catch(error){
+            if (typeof error === 'string'){
+              showMessage({
+                  "message":error,
+                  "type":"danger"
+              })
+            } else if (Array.isArray(error)){
+                let errors = {};
+                error.forEach(err=> {
+                    errors[err.path[0]] = err.message
+                })
+                setErrorsValidation(errors)
+            } else {
+                showMessage({
+                    "message": "Error de Conexión",
+                    "type":"danger"
+                })
+            }
+         }
       }
-    } catch (error) {
-      console.log(error)
-    }
+    
   }
 
   const compareValues = () => {
@@ -120,7 +110,8 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "firstName")}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorName}&nbsp;</Text>
+        {!errorsValidation["firstName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+        {errorsValidation["firstName"] && <Text style={styles.error}>&nbsp;{errorsValidation["firstName"]}</Text>}
         <TextInput
           style={styles.input}
           placeholder="Apellido"
@@ -128,7 +119,8 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "lastName")}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorLastName}&nbsp;</Text>
+        {!errorsValidation["lastName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+        {errorsValidation["lastName"] && <Text style={styles.error}>&nbsp;{errorsValidation["lastName"]}</Text>}
         <TextInput
           style={styles.input}
           placeholder="Url de imagen"
@@ -136,7 +128,8 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "profilePic")}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorProfilePic}&nbsp;</Text>
+        {!errorsValidation["profilePic"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+        {errorsValidation["profilePic"] && <Text style={styles.error}>&nbsp;{errorsValidation["profilePic"]}</Text>}
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -144,7 +137,8 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "eMail")}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorEmail}&nbsp;</Text>
+        {!errorsValidation["eMail"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+        {errorsValidation["eMail"] && <Text style={styles.error}>&nbsp;{errorsValidation["eMail"]}</Text>}
         <TextInput
           style={styles.input}
           placeholder="Contraseña"
@@ -152,7 +146,8 @@ const SignUp = (props) => {
           onChangeText={(e) => changeValueInput(e, "password")}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorPass}&nbsp;</Text>
+        {!errorsValidation["password"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+        {errorsValidation["password"] && <Text style={styles.error}>&nbsp;{errorsValidation["password"]}</Text>}
         <TextInput
           style={styles.input}
           placeholder="Confirmar contraseña"
@@ -160,7 +155,7 @@ const SignUp = (props) => {
           onBlur={compareValues}
           placeholderTextColor={"white"}
         />
-        <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
+        <Text style={{color:'red'}}>{errorPassChecked}&nbsp;</Text>
         <View>
           <TouchableOpacity
             onPress={sendForm}
@@ -235,11 +230,26 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: "white",
   },
-  error: {
+  errorPlaceholder:{
+    width: "100%",    
     fontSize: 15,
-    color: "yellow",
-    margin: 0,
-    paddingHorizontal: 5,
-    fontWeight: "bold",
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 5,
+    marginBottom: 5
+    },
+  error:{
+    width:"75%",
+    fontFamily: 'Spartan_400Regular',
+    fontSize: 15,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 5,
+    color: "red",
+    backgroundColor: "white",
+    textAlign: "center",
+    marginBottom: 5
   },
 })

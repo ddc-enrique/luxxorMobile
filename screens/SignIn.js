@@ -11,15 +11,14 @@ import { LinearGradient } from "expo-linear-gradient"
 import Header from "../components/Header"
 import usersAction from "../redux/actions/usersAction"
 import { connect } from "react-redux"
-import { showMessage, hideMessage } from "react-native-flash-message"
+import { showMessage } from "react-native-flash-message"
 
 const SignIn = (props) => {
   const [newUser, setNewUser] = useState({
     password: "",
     eMail: "",
   })
-  const [errorEmail, setErrorEmail] = useState(null)
-  const [errorPass, setErrorPass] = useState(null)
+  const [errorsValidation, setErrorsValidation] = useState({})
 
   const changeValueInput = (e, field) => {
     setNewUser({
@@ -29,7 +28,7 @@ const SignIn = (props) => {
   }
 
   const sendForm = async () => {
-    try {
+
       if (newUser.eMail === "" || newUser.password === "") {
         showMessage({
           message: "Completa todos los campos",
@@ -37,37 +36,42 @@ const SignIn = (props) => {
           backgroundColor: "#f80000",
         })
       } else {
-        
-        const resp = await props.signIn(newUser)
-        if(resp === 'Email y/o contraseña incorrectos'){
-          showMessage({
-            message: "Email y/o contraseña incorrectos",
-            type: "warning",
-            backgroundColor: "#f80000",
-          })
-        } else if (resp) {
-          setErrorEmail(
-            resp.find((err) => err.path[0] === "eMail")
-              ? resp.find((err) => err.path[0] === "eMail").message
-              : null
-          )
-          setErrorPass(
-            resp.find((err) => err.path[0] === "password")
-              ? resp.find((err) => err.path[0] === "password").message
-              : null
-          )
-        } else {
+        try{
+          const resp = await props.signIn(newUser)
+          console.log(resp)
+          if(!resp.success){
+            let err=resp.response
+            throw err
+          }
+
           showMessage({
             message: "Bienvenido ",
             type: "success",
             backgroundColor: "#00bb2d",
           })
           props.navigation.navigate("HomeStack")
+        }catch(error){
+          if (typeof error === 'string'){
+            showMessage({
+                "message":error,
+                "type":"danger"
+            })
+          } else if (Array.isArray(error)){
+              let errors = {};
+              error.forEach(err=> {
+                  errors[err.path[0]] = err.message
+              })
+              setErrorsValidation(errors)
+          } else {
+              showMessage({
+                  "message": "Error de Conexión",
+                  "type":"danger"
+              })
+          }
         }
+        
       }
-    } catch (error) {
-      console.log(error)
-    }
+
   }
 
   return (
@@ -93,7 +97,8 @@ const SignIn = (props) => {
             onChangeText={(e) => changeValueInput(e, "eMail")}
             placeholderTextColor={"white"}
           />
-          <Text style={styles.error}>{errorEmail}&nbsp;</Text>
+          {!errorsValidation["eMail"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+          {errorsValidation["eMail"] && <Text style={styles.error}>&nbsp;{errorsValidation["eMail"]}</Text>}
           <TextInput
             style={styles.input}
             placeholder="Contraseña"
@@ -101,7 +106,8 @@ const SignIn = (props) => {
             onChangeText={(e) => changeValueInput(e, "password")}
             placeholderTextColor={"white"}
           />
-          <Text style={styles.error}>{errorPass}&nbsp;</Text>
+          {!errorsValidation["password"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+          {errorsValidation["password"] && <Text style={styles.error}>&nbsp;{errorsValidation["password"]}</Text>}
         </View>
         <View>
           <TouchableOpacity
@@ -173,11 +179,26 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     fontSize: 20,
   },
-  error: {
+  errorPlaceholder:{
+    width: "100%",    
     fontSize: 15,
-    color: "yellow",
-    margin: 0,
-    paddingHorizontal: 5,
-    fontWeight: "bold",
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 5,
+    marginBottom: 5
+    },
+  error:{
+    width:"75%",
+    fontFamily: 'Spartan_400Regular',
+    fontSize: 15,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 5,
+    color: "red",
+    backgroundColor: "white",
+    textAlign: "center",
+    marginBottom: 5
   },
 })
