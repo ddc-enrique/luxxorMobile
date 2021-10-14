@@ -24,7 +24,7 @@ const Menu = (props) =>{
 
     useEffect(() => {
         loginLocalStoreUser()
-        // loadScAsync()
+        loadScAsync()
     }, [])
 
      const loginLocalStoreUser = async () => {
@@ -37,10 +37,6 @@ const Menu = (props) =>{
          }
          
        }
-
-       useEffect(() => {
-        loadScAsync()
-    }, [])
 
         const loadScAsync= async ()=>{
          if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){

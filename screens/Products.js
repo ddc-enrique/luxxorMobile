@@ -33,7 +33,6 @@ const Products = (props) => {
       if(!products.length) {
           try {
           let response = await props.getProducts()
-              // console.log(response)
           if(!Array.isArray(response)) throw new Error(response.response)         
           setProducts(response)
           setFilteredProducts(response)

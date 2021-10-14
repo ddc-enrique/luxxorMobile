@@ -38,7 +38,6 @@ const SignIn = (props) => {
       } else {
         try{
           const resp = await props.signIn(newUser)
-          console.log(resp)
           if(!resp.success){
             let err=resp.response
             throw err

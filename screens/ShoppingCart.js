@@ -34,22 +34,15 @@ const ShoppingCart = (props) => {
   ]
 
   useEffect(() => {
-    console.log(props.cartProduct)
-    console.log(products2)
     props.cartProduct.forEach(item=>{
       props.product(item.productId)
       .then((res)=>{
           aux= {...res.data.response,quantity:item.quantity}
-          console.log(products2)
            setProducts2(arrayProd.push(aux))
            if(arrayProd.length !== 0)setProducts(arrayProd) 
       })
       .catch(e=>console.log(e))
     }) 
-
-    return () => {
-      console.log('me desmonte en SHOPPING CART')
-    }
   }, [])
 
   const resetSc=()=>{

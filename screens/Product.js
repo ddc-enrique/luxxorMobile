@@ -31,7 +31,6 @@ const Product = (props) => {
   let arrayRecom = []
   useEffect(()=>{
     if(props.products.length===0){
-      console.log('carrito vacio')
       props.getProducts()
       .then((res)=>{
           setProducts(res)
@@ -43,7 +42,6 @@ const Product = (props) => {
         console.log(error)
       })
     }else{
-      console.log('carrito llenoo')
       setProduct(products.find(product=> product._id===props.route.params.id))
       setLoading(!loading) 
     }
