@@ -14,13 +14,6 @@ const Contact = ({ sendNewMessage }) =>{
     })
     const [errorsValidation, setErrorsValidation] = useState({})
 
-    // const handleInputText = (e) => {
-    //     setNewMessage({
-    //         ...newMessage,
-    //         [e.target.name]: e.target.value
-    //     })
-    // }
-
     const sendMessage = async() => {
         console.log("enviar mensaje")
         console.log(newMessage)
