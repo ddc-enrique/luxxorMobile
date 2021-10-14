@@ -23,11 +23,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 const CheckOutProducts = (props) => {
 
+  const {propsNavigation}=props
   const [products,setProducts]=useState([])
   const[products2,setProducts2]=useState([])
   const [value, setValue] = useState(0)
   const[total,setTotal]=useState(0)
-  const[dataClient,setDataClient]=useState({firstName: '', lastName: '',dni:"",phone:"",address:"",optional:"",city:"",zipCode:""})
+  const[dataClient,setDataClient]=useState({firstName: props.firstName, lastName: props.lastName,dni:props.dni} )
   const[dataAddress,setDataAddress]=useState({})
 
 
@@ -49,29 +50,51 @@ const CheckOutProducts = (props) => {
   props.getUserData(props.id,props.token)
         .then(res=>{
             setDataAddress(res)
-            setDataClient({...res,firstName: props.firstName, lastName: props.lastName,dni:props.dni})
+            setDataClient({firstName: props.firstName, lastName: props.lastName,dni:props.dni,phone:res.phone}) 
             /* console.log("dataClient1",dataClient) */
         })
         .catch(e=>console.log(e))
   }, [])
 
-  const handlerInput = (e, campo) => {
-    setDataClient({
+  const handlerInput = (e, campo,type) => {
+    if (type==="receiver"){
+      setDataClient({
         ...dataClient,
         [campo]: e 
-    })
+      })
+    }else{
+      setDataAddress({
+        ...dataAddress,
+        [campo]:e
+      })
+    }
+    
 }
   const submitHandler=()=>{
     let inputs=Object.values(dataClient).some((input)=>input==="")  
-      if(inputs){
+    let inputsShipping=Object.values(dataAddress).filter(item=>item==="optional").some((input)=>input==="")  
+    if(props.shopCart.length===0){
+      showMessage({
+        message: 'Debe tener al menos un producto el carrito.',
+        type: "warning",
+        backgroundColor: "rgba(49,25,109,1)",
+      });
+      /* propsNavigation.navigation.navigate('Productos') */
+      }else if(value===0 && inputs || value===1&&inputsShipping || value===1&&inputs ){
         showMessage({
           message: 'Por favor llena todos los campos para continuar.',
           type: "warning",
           backgroundColor: "rgba(49,25,109,1)",
         });
       }else{
+        if(value===0){
+          props.setShipping(false)
+        }else{
+          props.setShipping(true)
+        }
         props.setScreen(2)
       }
+      
   }
 
   return(
@@ -84,14 +107,14 @@ const CheckOutProducts = (props) => {
               style={styles.input}
               placeholder="Nombre"
               placeholderTextColor={"white"}
-              onChangeText={(e) => handlerInput(e, 'firstName')}
+              onChangeText={(e) => handlerInput(e, 'firstName',"receiver")}
               defaultValue={props.firstName}
             />
             <TextInput
               style={styles.input}
               placeholder="Apellido"
               placeholderTextColor={"white"}
-              onChangeText={(e) => handlerInput(e, 'lastName')}
+              onChangeText={(e) => handlerInput(e, 'lastName',"receiver")}
               defaultValue={props.lastName}
             />
             <TextInput
@@ -99,7 +122,7 @@ const CheckOutProducts = (props) => {
               placeholder="DNI"
               placeholderTextColor={"white"}
               keyboardType={"numeric"}
-              onChangeText={(e) => handlerInput(e, 'dni')}
+              onChangeText={(e) => handlerInput(e, 'dni',"receiver")}
               defaultValue={props.dni&&(props.dni).toString()}
             />
             <TextInput
@@ -107,7 +130,7 @@ const CheckOutProducts = (props) => {
               placeholder="Teléfono"
               placeholderTextColor={"white"}
               keyboardType={"numeric"}
-              onChangeText={(e) => handlerInput(e, 'phone')}
+              onChangeText={(e) => handlerInput(e, 'phone',"receiver")}
               defaultValue={dataAddress.phone}
             />
           </View>
@@ -147,21 +170,21 @@ const CheckOutProducts = (props) => {
             style={styles.input}
             placeholder="Dirección"
             placeholderTextColor={"white"}
-            onChangeText={(e) => handlerInput(e, 'address')}
+            onChangeText={(e) => handlerInput(e, 'address',"info_address")}
             defaultValue={dataAddress.address}
           />
           <TextInput
             style={styles.input}
             placeholder="Departamento (opcional)"
             placeholderTextColor={"white"}
-            onChangeText={(e) => handlerInput(e, 'optional')}
+            onChangeText={(e) => handlerInput(e, 'optional',"info_address")}
             defaultValue={dataAddress.optional}
           />
           <TextInput
             style={styles.input}
             placeholder="Ciudad"
             placeholderTextColor={"white"}
-            onChangeText={(e) => handlerInput(e, 'city')}
+            onChangeText={(e) => handlerInput(e, 'city',"info_address")}
             defaultValue={dataAddress.city}
           />
           <TextInput
@@ -169,8 +192,8 @@ const CheckOutProducts = (props) => {
             placeholder="Código postal"
             placeholderTextColor={"white"}
             keyboardType={"numeric"}
-            onChangeText={(e) => handlerInput(e, 'zipCode')}
-            defaultValue={(dataAddress&& dataAddress.zipCode).toString()}
+            onChangeText={(e) => handlerInput(e, 'zipCode',"info_address")}
+            defaultValue={dataAddress&& dataAddress.zipCode.toString()}
           />
           
         </View>

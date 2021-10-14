@@ -4,10 +4,6 @@ import {
   Text,
   View,
   ScrollView,
-  Switch,
-  ImageBackground,
-  Button,
-  Image,
   TouchableOpacity
 } from "react-native"
 import { connect } from "react-redux"
@@ -22,6 +18,7 @@ const Checkout = (props) => {
     const [payment,setPayment]= useState(false)
     const[screen,setScreen]=useState(1)
     let componentToRender
+    const[shipping,setShipping]=useState(false)
 
     useEffect(()=>{
 
@@ -53,13 +50,13 @@ const Checkout = (props) => {
     }
     switch(screen){
         case 1:
-            componentToRender= <CheckOutProducts setScreen={setScreen} />
+            componentToRender= <CheckOutProducts setScreen={setScreen} propsNavigation={props} setShipping={setShipping}/>
             break
         case 2:
-            componentToRender= <Payment setScreen={setScreen} setPayment={setPayment} /* toast={toast} *//>
+            componentToRender= <Payment setScreen={setScreen} setPayment={setPayment}  /* toast={toast} *//>
             break
         case 3:
-            componentToRender= <ConfirmedSale payment={payment}/>
+            componentToRender= <ConfirmedSale payment={payment} shipping={shipping}/>
             break 
     }
     return(

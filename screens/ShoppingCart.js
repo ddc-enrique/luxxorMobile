@@ -61,7 +61,17 @@ const ShoppingCart = (props) => {
       })
     }
   } 
-
+  const endShop=()=>{
+    if(props.cartProduct.length>0){
+      props.navigation.navigate('Checkout Cart')
+    } else{
+      showMessage({
+        message: 'Debe agregar algun producto al carrito.',
+        type: "warning",
+        backgroundColor: "rgba(49,25,109,1)",
+      });
+    }
+  }
 
   return (
     <ScrollView>
@@ -148,7 +158,7 @@ const ShoppingCart = (props) => {
         </View>
         <View style={{ alignItems: "center", marginVertical: 10,marginBottom:35 }}>
           <View style={styles.btnAdd}>
-            <TouchableOpacity onPress={()=> props.navigation.navigate('Checkout Cart')}>
+            <TouchableOpacity onPress={endShop}>
               <Text style={{ color: "white", fontSize: 20 }}>
                 Finalizar Compra
               </Text>

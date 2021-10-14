@@ -33,19 +33,14 @@ const Payment = (props) => {
                             <Text style={{color:"white",fontSize:15}}>Contado Efectivo</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.boxPayment} onPress={()=>props.setScreen(3)}>
-                        <View style={styles.subContainerTextImg}>
-                            <Image style={styles.imgMethod} source={{uri: "https://i.postimg.cc/8cNHW9Sv/credit-card-1.png"}}/>
-                            <Text style={{color:"white",fontSize:15}}>Paypal</Text>
-                        </View>
-                    </TouchableOpacity>
+                    
                     <TouchableOpacity style={styles.boxPayment} onPress={()=>setView(true)}>
                         
                             {!view ?
                             <View style={styles.subContainerTextImg} >
                                 <View>
                                     <Image  style={styles.imgMethod} source={{uri: "https://i.postimg.cc/8cNHW9Sv/credit-card-1.png"}}/>
-                                    <Text style={{color:"white",fontSize:15}}>Tarjetas</Text>
+                                    <Text style={{color:"white",fontSize:15, textAlign:"center"}}>Tarjetas</Text>
                                 </View>
                             </View>
                             :
