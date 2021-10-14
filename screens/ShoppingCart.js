@@ -43,6 +43,7 @@ const ShoppingCart = (props) => {
       })
       .catch(e=>console.log(e))
     }) 
+    // console.log(f)
   }, [])
 
   const resetSc=()=>{
