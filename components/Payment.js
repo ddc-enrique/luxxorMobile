@@ -48,7 +48,6 @@ const Payment = (props) => {
                                     <Text style={{color:"white",fontSize:15}}>Tarjetas</Text>
                                 </View>
                             </View>
-                            
                             <TouchableOpacity  onPress={()=>setView(false)}>
                                 <View style={view ? styles.subContainerTextImg : styles.none} >
                                     <StripeProvider publishableKey="pk_test_51Jj1qDLyz3SCpT0O3dmugpTo4iA2C78CtOPdxQlVspZixLw1sOHMezxnQrmRJCQKUtocOMDMizxW3YraU9Rli0KL00RpThZaav">
