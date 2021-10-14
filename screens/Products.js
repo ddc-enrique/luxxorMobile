@@ -207,8 +207,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   card: {
-    borderWidth: 1,
-    borderColor: 'grey',
     minHeight: 420,
     minWidth: cardsWidth,
     padding: 1,
