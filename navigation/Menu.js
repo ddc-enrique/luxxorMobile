@@ -39,19 +39,11 @@ const Menu = (props) =>{
          
        }
 
-       useEffect(() => {
-        loadScAsync()
-    }, [])
-
         const loadScAsync= async ()=>{
          if(AsyncStorage.getItem('shopCart') && AsyncStorage.getItem('subtotal') && AsyncStorage.getItem('subtotal')){
              const productsAsynSc= await AsyncStorage.getItem("shopCart")
              const productsAsynSubtotal= await AsyncStorage.getItem("subtotal")
              const productsAsynTotal= await AsyncStorage.getItem("total")
-
-             console.log('value',productsAsynSc)
-             console.log('value1',productsAsynSubtotal)
-             console.log('value2',productsAsynTotal)
 
              if(productsAsynSc && productsAsynSubtotal && productsAsynTotal){
                 const shopParse=JSON.parse(productsAsynSc)
