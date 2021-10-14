@@ -96,24 +96,23 @@ const MyAccount = (props) => {
         }
     }
 
-    if(loading){
-        return( 
-            <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
-            </ImageBackground>
-        )
-    }
+    // if(loading){
+    //     return( 
+    //         <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+    //             <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+    //         </ImageBackground>
+    //     )
+    // }
 
     return (
+    <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.viewContainerHome}
+        scrollEnabled={false}
+    >
         <ScrollView>
-            <KeyboardAwareScrollView
-                // style={{ backgroundColor: '#4c69a5' }}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                contentContainerStyle={styles.container}
-                scrollEnabled={false}
-            >
                 <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
-                    <View>
+                    <View style={styles.viewContainerHome}>
                         <Header {...props} />
                         <View>
                             <Text style={styles.title}>
@@ -128,24 +127,27 @@ const MyAccount = (props) => {
                             
                                 <View style={styles.inputToEdit}>
                                     {!completeAccount &&
-                                    <View>
+                                    <View style={styles.inputText}>
                                         <Text style={styles.label}>DNI</Text>
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder="ej 44444444"
-                                            // defaultValue={completeAccount ? dataUser.firstName : ''}
-                                            onChangeText={(newDNI) => setDataUser({
-                                                ...dataUser, dni: parseInt(newDNI)
-                                            })}
-                                            placeholderTextColor={"white"}
-                                            keyboardType={"numeric"}                                        
-                                        />
-                                        {!errorsValidation["dni"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["dni"] && <Text style={styles.error}>&nbsp;{errorsValidation["dni"]}</Text>}
+                                            <View>
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder="ej 44444444"
+                                                // defaultValue={completeAccount ? dataUser.firstName : ''}
+                                                onChangeText={(newDNI) => setDataUser({
+                                                    ...dataUser, dni: parseInt(newDNI)
+                                                })}
+                                                placeholderTextColor={"white"}
+                                                keyboardType={"numeric"}                                        
+                                            />
+                                            {!errorsValidation["dni"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                            {errorsValidation["dni"] && <Text style={styles.error}>&nbsp;{errorsValidation["dni"]}</Text>}
+                                            </View>
                                     </View>}                        
                                     {completeAccount &&
-                                    <View>
+                                    <View style={styles.inputText}>
                                         <Text style={styles.label}>Nombre: </Text>
+                                        <View>
                                         <TextInput
                                             style={styles.input}
                                             placeholder="ej Juan"
@@ -157,93 +159,108 @@ const MyAccount = (props) => {
                                         />
                                         {!errorsValidation["firstName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
                                         {errorsValidation["firstName"] && <Text style={styles.error}>&nbsp;{errorsValidation["firstName"]}</Text>}
+                                        </View>
                                     </View>}
                                     {completeAccount &&
-                                    <View>
+                                    <View style={styles.inputText}>
                                         <Text style={styles.label}>Apellido: </Text>
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder="ej Garcia"
-                                            defaultValue={completeAccount ? dataUser.lastName : ''}
-                                            onChangeText={(newLastName) => setDataUser({
-                                                ...dataUser, lastName: newLastName
-                                            })}
-                                            placeholderTextColor={"white"}
-                                        />
-                                        {!errorsValidation["lastName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["lastName"] && <Text style={styles.error}>&nbsp;{errorsValidation["lastName"]}</Text>}
+                                        <View>
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder="ej Garcia"
+                                                defaultValue={completeAccount ? dataUser.lastName : ''}
+                                                onChangeText={(newLastName) => setDataUser({
+                                                    ...dataUser, lastName: newLastName
+                                                })}
+                                                placeholderTextColor={"white"}
+                                            />
+                                            {!errorsValidation["lastName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                            {errorsValidation["lastName"] && <Text style={styles.error}>&nbsp;{errorsValidation["lastName"]}</Text>}
+                                        </View>
                                     </View>}
-                                    <View>
+                                    <View style={styles.inputText}>
                                         {completeAccount && <Text style={styles.label}>Teléfono: </Text>}
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder={!completeAccount ? "Teléfono" : "ej 114587427"}
-                                            defaultValue={completeAccount ? dataUser.phone : ''}
-                                            onChangeText={(newPhone) => setDataUser({
-                                                ...dataUser, phone: newPhone
-                                            })}
-                                            placeholderTextColor={"white"}
-                                            keyboardType={"numeric"}
-                                        />
-                                        {!errorsValidation["phone"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["phone"] && <Text style={styles.error}>&nbsp;{errorsValidation["phone"]}</Text>}
+                                        <View>
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder={!completeAccount ? "Teléfono" : "ej 114587427"}
+                                                defaultValue={completeAccount ? dataUser.phone : ''}
+                                                onChangeText={(newPhone) => setDataUser({
+                                                    ...dataUser, phone: newPhone
+                                                })}
+                                                placeholderTextColor={"white"}
+                                                keyboardType={"numeric"}
+                                            />
+                                            {!errorsValidation["phone"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                            {errorsValidation["phone"] && <Text style={styles.error}>&nbsp;{errorsValidation["phone"]}</Text>}
+                                        </View>
                                     </View>
-                                    <View>
+                                    <View style={styles.inputText}>
                                         {completeAccount && <Text style={styles.label}>Ciudad: </Text>}
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder={!completeAccount ? "Ciudad" : "ej Maipu, Mendoza"}
-                                            defaultValue={completeAccount ? dataUser.city : ''}
-                                            onChangeText={(newCity) => setDataUser({
-                                                ...dataUser, city: newCity
-                                            })}
-                                            placeholderTextColor={"white"}
-                                        />
-                                        {!errorsValidation["city"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["city"] && <Text style={styles.error}>&nbsp;{errorsValidation["city"]}</Text>}
+                                        <View>
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder={!completeAccount ? "Ciudad" : "ej Maipu, Mendoza"}
+                                                defaultValue={completeAccount ? dataUser.city : ''}
+                                                onChangeText={(newCity) => setDataUser({
+                                                    ...dataUser, city: newCity
+                                                })}
+                                                placeholderTextColor={"white"}
+                                            />
+                                            {!errorsValidation["city"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                            {errorsValidation["city"] && <Text style={styles.error}>&nbsp;{errorsValidation["city"]}</Text>}
+                                        </View>
                                     </View>
-                                    <View>
-                                        {completeAccount && <Text style={styles.label}>Código Postal: </Text>}
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder={!completeAccount ? "Código postal" : "ej 5501"}
-                                            defaultValue={completeAccount ? dataUser.zipCode : ''}
-                                            onChangeText={(newZipCode) => setDataUser({
-                                                ...dataUser, zipCode: parseInt(newZipCode)
-                                            })}
-                                            placeholderTextColor={"white"}
-                                            keyboardType={"numeric"}
-                                        />
-                                        {!errorsValidation["zipCode"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["zipCode"] && <Text style={styles.error}>&nbsp;{errorsValidation["zipCode"]}</Text>}
+                                    <View style={styles.inputText}>
+                                        {completeAccount && <Text style={styles.label}>Cod Postal: </Text>}
+                                        <View>
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder={!completeAccount ? "Código postal" : "ej 5501"}
+                                                defaultValue={completeAccount ? dataUser.zipCode : ''}
+                                                onChangeText={(newZipCode) => setDataUser({
+                                                    ...dataUser, zipCode: parseInt(newZipCode)
+                                                })}
+                                                placeholderTextColor={"white"}
+                                                keyboardType={"numeric"}
+                                            />
+                                            {!errorsValidation["zipCode"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                            {errorsValidation["zipCode"] && <Text style={styles.error}>&nbsp;{errorsValidation["zipCode"]}</Text>}
+                                        </View>
                                     </View>
-                                    <View>
+                                    <View style={styles.inputText}>
                                         {completeAccount && <Text style={styles.label}>Dirección: </Text>}
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder={!completeAccount ? "Dirección" : "ej Salta 1234"}
-                                            defaultValue={completeAccount ? dataUser.address : ''}
-                                            onChangeText={(newAddress) => setDataUser({
-                                                ...dataUser, address: newAddress
-                                            })}
-                                            placeholderTextColor={"white"}
-                                        />
-                                        {!errorsValidation["address"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["address"] && <Text style={styles.error}>&nbsp;{errorsValidation["address"]}</Text>}
+                                        <View>
+                                            <View>
+                                                <TextInput
+                                                    style={styles.input}
+                                                    placeholder={!completeAccount ? "Dirección" : "ej Salta 1234"}
+                                                    defaultValue={completeAccount ? dataUser.address : ''}
+                                                    onChangeText={(newAddress) => setDataUser({
+                                                        ...dataUser, address: newAddress
+                                                    })}
+                                                    placeholderTextColor={"white"}
+                                                />
+                                                {!errorsValidation["address"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                                {errorsValidation["address"] && <Text style={styles.error}>&nbsp;{errorsValidation["address"]}</Text>}
+                                            </View>
+                                            </View>
                                     </View>
-                                    <View>
+                                    <View style={styles.inputText}>
                                         {completeAccount && <Text style={styles.label}>Opcional: </Text>}
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder={!completeAccount ? "Opcional" : "ej casa o depto/piso"}
-                                            defaultValue={completeAccount ? dataUser.optional : ''}
-                                            onChangeText={(newOptional) => setDataUser({
-                                                ...dataUser, optional: newOptional
-                                            })}
-                                            placeholderTextColor={"white"}
-                                        />
-                                        {!errorsValidation["optional"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["optional"] && <Text style={styles.error}>&nbsp;{errorsValidation["optional"]}</Text>}
+                                        <View>
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder={!completeAccount ? "Opcional" : "ej casa o depto/piso"}
+                                                defaultValue={completeAccount ? dataUser.optional : ''}
+                                                onChangeText={(newOptional) => setDataUser({
+                                                    ...dataUser, optional: newOptional
+                                                })}
+                                                placeholderTextColor={"white"}
+                                            />
+                                            {!errorsValidation["optional"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                            {errorsValidation["optional"] && <Text style={styles.error}>&nbsp;{errorsValidation["optional"]}</Text>}
+                                            </View>
                                     </View>
                                     <TouchableOpacity 
                                         onPress={updateDataUser}
@@ -254,11 +271,11 @@ const MyAccount = (props) => {
                                 </View>
                                 : <UserPurchase id={props.id}/>}
                         </View>
-                        
+                        <Image source={{uri: 'https://i.postimg.cc/0yLGwPx4/d-removebg-preview.png' }} style={{width: '60%' , height: 200 , alignSelf: 'center', marginVertical:50}}/>
                     </View>
                 </ImageBackground>
-            </KeyboardAwareScrollView>
         </ScrollView>
+    </KeyboardAwareScrollView>
     )
 }
 
@@ -282,7 +299,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(MyAccount)
 const styles = StyleSheet.create({
     viewContainerHome:{
         flex: 1
-      },
+    },
 
     title: {
         textAlign: "center",
@@ -294,7 +311,7 @@ const styles = StyleSheet.create({
     },
 
     inputToEdit: {
-        justifyContent: "center",
+        width: '100%',
         alignItems: "center"
     },
 
@@ -310,48 +327,37 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        height: 40,
+        height: 30,
         width: 240,
-        margin: 12,
-        padding: 10,
-        borderRadius: 2,
+        marginTop: 25,
         color: "white",
         borderBottomColor: "white",
-        borderBottomWidth: 2,
-        backgroundColor: "transparent",
+        borderBottomWidth: 1,
         fontSize: 20,
-      },
+        paddingHorizontal:15
+    },
     
     textButton: {
-        fontSize: 16,
+        fontSize: 20,
         lineHeight: 21,
-        fontWeight: "bold",
-        letterSpacing: 0.25,
-        color: "white",
+        fontFamily: 'Spartan_500Medium',
+        color: "#464646",
     },
 
     button: {
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 4,
-        elevation: 3,
         marginTop: 20,
-        backgroundColor: "transparent",
-        width: "50%",
+        backgroundColor: "#e3e3e3",
+        width: "40%",
         height: 50,
-        zIndex: 1,
         marginBottom: 10,
-        padding: 10,
-        borderBottomColor: "white",
-        borderBottomWidth: 2,
-      },
-      error:{
+        padding: 10
+    },
+    error:{
         width:"100%",
-        // height: 20,
         fontFamily: 'Spartan_400Regular',
         fontSize: 15,
-        borderBottomRightRadius: 8,
-        borderBottomLeftRadius: 8,
         paddingHorizontal: 4,
         paddingVertical: 5,
         color: "red",
@@ -360,16 +366,21 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     errorPlaceholder:{
-        // height: 20,
         width: "100%",    
         fontSize: 15,
-        borderBottomRightRadius: 8,
-        borderBottomLeftRadius: 8,
         paddingHorizontal: 4,
         paddingVertical: 5,
-        // color: "red",
-        // backgroundColor: "white",
-        // textAlign: "center",
         marginBottom: 5
+    },
+    label:{
+        fontSize: 20,
+        color: '#1B1B1B',
+        fontFamily: 'Spartan_500Medium'
+    },
+    inputText:{
+        flexDirection: 'row',
+        width: '60%', 
+        alignItems: "center", 
+        alignSelf: "center"
     }
 })

@@ -79,9 +79,9 @@ const Menu = (props) =>{
                 <DrawerMenu icon='https://i.postimg.cc/KzhQNPLP/Diseño_sin_título_(73).png'  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
                 {token?
                 <>
-                <DrawerMenu  titleName = 'Mi cuenta' navigation={()=>props.navigation.navigate('MiCuenta')}/>
+                <DrawerMenu icon='https://i.postimg.cc/c1f0wmW4/Dise-o-sin-t-tulo-78.png'   titleName = 'Mi cuenta' navigation={()=>props.navigation.navigate('MiCuenta')}/>
                 <View style={{justifyContent: 'center',marginLeft:100}}>
-                <DrawerItem {...props} label={({ focused }) => <Text style={{ color:'#e3e3e3',fontFamily: 'Spartan_400Regular',fontSize:25 }}>{focused ? 'Salir' : 'Salir'}</Text>} onPress={() => {logOut()}}/>
+                <DrawerItem  {...props} label={({ focused }) => <Text style={{ color:'#e3e3e3',fontFamily: 'Spartan_400Regular',fontSize:25 }}>{focused ? 'Salir' : 'Salir'}</Text>} onPress={() => {logOut()}}/>
                 {/* <DrawerMenu  icon='https://i.postimg.cc/q7GnqX9T/user.png'  titleName = 'Salir' onPress={()=>{logOut()}}/> */}
                 </View>
                 </>
@@ -104,14 +104,13 @@ const mapStateToProps = (state) => {
         firstName:state.users.firstName,
         profilePic:state.users.profilePic
     }
-  }
-  
-  const mapDispatchToProps = {
+}
+const mapDispatchToProps = {
     signWithLocal:usersAction.signWithLocal,
     logOut:usersAction.logOut,
     loadShopInLs:shopCartActions.loadShopInLs,
     resetCart:shopCartActions.resetCart,
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)
 
