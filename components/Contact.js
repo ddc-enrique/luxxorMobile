@@ -14,13 +14,6 @@ const Contact = ({ sendNewMessage }) =>{
     })
     const [errorsValidation, setErrorsValidation] = useState({})
 
-    // const handleInputText = (e) => {
-    //     setNewMessage({
-    //         ...newMessage,
-    //         [e.target.name]: e.target.value
-    //     })
-    // }
-
     const sendMessage = async() => {
         console.log("enviar mensaje")
         console.log(newMessage)
@@ -52,7 +45,6 @@ const Contact = ({ sendNewMessage }) =>{
                 })
                 setErrorsValidation(errors);
             } else {
-                // toast.error("Error de Conexión")
                 showMessage({
                     "message": "Error de Conexión",
                     "type":"danger"
@@ -72,7 +64,7 @@ const Contact = ({ sendNewMessage }) =>{
                     onChangeText={(newName) => setNewMessage({
                         ...newMessage, authorName: newName
                     })}
-                    value={newMessage.authorName}
+                    defaultValue={newMessage.authorName}
                     />
                 {!errorsValidation["authorName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
                 {errorsValidation["authorName"] && <Text style={styles.error}>&nbsp;{errorsValidation["authorName"]}</Text>}
@@ -84,7 +76,7 @@ const Contact = ({ sendNewMessage }) =>{
                     onChangeText={(newEmail) => setNewMessage({
                         ...newMessage, email: newEmail
                     })}
-                    value={newMessage.email}
+                    defaultValue={newMessage.email}
                     />
                 {!errorsValidation["email"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
                 {errorsValidation["email"] && <Text style={styles.error}>&nbsp;{errorsValidation["email"]}</Text>}
@@ -98,7 +90,7 @@ const Contact = ({ sendNewMessage }) =>{
                         onChangeText={(newText) => setNewMessage({
                             ...newMessage, textMessage: newText
                         })}
-                        value={newMessage.textMessage}
+                        defaultValue={newMessage.textMessage}
                 /> 
                 {!errorsValidation["email"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
                 {errorsValidation["email"] && <Text style={styles.error}>&nbsp;{errorsValidation["email"]}</Text>}

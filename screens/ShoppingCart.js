@@ -62,7 +62,17 @@ const ShoppingCart = (props) => {
       })
     }
   } 
-
+  const endShop=()=>{
+    if(props.cartProduct.length>0){
+      props.navigation.navigate('Checkout Cart')
+    } else{
+      showMessage({
+        message: 'Debe agregar algun producto al carrito.',
+        type: "warning",
+        backgroundColor: "rgba(49,25,109,1)",
+      });
+    }
+  }
 
   return (
     <ScrollView>
@@ -129,14 +139,20 @@ const ShoppingCart = (props) => {
         <View style={{ alignItems: "center" }}>
           <View style={styles.selectView}>
             <Text style={{ color: "white", fontSize: 18, marginVertical: 8 }}>
-              Seleccione una forma de entrega:
+            Formas de entrega:
             </Text>
-            <RadioForm
+            <Text style={{ color: "white", fontSize: 18, marginVertical: 8 }}>
+              Retiro en Local
+            </Text>
+            <Text style={{ color: "white", fontSize: 18, marginVertical: 8 }}>
+            Envio a domicilio Gratis-Entrega a partir de 5 dias hábiles
+            </Text>
+            {/* <RadioForm
               radio_props={radio_props}
               initial={0}
               onPress={(value) => setValue(value)}
               labelStyle={{ fontSize: 15, color: "white" }}
-            />
+            /> */}
           </View>
         </View>
         <View style={{ alignItems: "center" }}>
@@ -149,7 +165,7 @@ const ShoppingCart = (props) => {
         </View>
         <View style={{ alignItems: "center", marginVertical: 10,marginBottom:35 }}>
           <View style={styles.btnAdd}>
-            <TouchableOpacity onPress={()=> props.navigation.navigate('Checkout')}>
+            <TouchableOpacity onPress={endShop}>
               <Text style={{ color: "white", fontSize: 20 }}>
                 Finalizar Compra
               </Text>

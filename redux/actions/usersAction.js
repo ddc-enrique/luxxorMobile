@@ -13,6 +13,7 @@ const usersAction = {
                  if(response.data.success){
                     await AsyncStorage.setItem('firstName', response.data.response.firstName)
                     await AsyncStorage.setItem('profilePic', response.data.response.profilePic)
+                    await AsyncStorage.setItem("id", response.data.response._id)
                     await AsyncStorage.setItem('token', response.data.response.token)
                    dispatch({type: "SIGN", payload: response.data.response})
                }
@@ -29,9 +30,10 @@ const usersAction = {
                 let response = await axios.post("http://luxxor.herokuapp.com/api/user/sign-up", userSignUp)
 
                 if(response.data.success){
-                     await AsyncStorage.setItem('firstName', response.data.response.firstName)
-                     await AsyncStorage.setItem('profilePic', response.data.response.profilePic)
-                     await AsyncStorage.setItem('token', response.data.response.token)
+                        await AsyncStorage.setItem('firstName', response.data.response.firstName)
+                        await AsyncStorage.setItem('profilePic', response.data.response.profilePic)
+                        await AsyncStorage.setItem("id", response.data.response._id)
+                        await AsyncStorage.setItem('token', response.data.response.token)
                     dispatch({type: "SIGN", payload: response.data.response})
                 }
                     return response.data
@@ -56,7 +58,8 @@ const usersAction = {
                         lastName: response.data.lastName, 
                         eMail: response.data.eMail, 
                         admin: response.data.profilePic, 
-                        id: response.data.id
+                        id: response.data.id,
+                        dni: response.data.dni
                     }})
             }catch(e){
                 dispatch({type: "LOGOUT"})
@@ -81,6 +84,39 @@ const usersAction = {
           return dispatch({ type: "LOGOUT" });
         }
       },
+    editDataUser: (id, flagEdit, token, dataUser) => {
+        return async (dispatch) => {
+            const url = `http://luxxor.herokuapp.com/api/user/edit-profile/${id}`
+            const headers = { Authorization: "Bearer " + token }
+            let response = flagEdit ? await axios.put(url, {...dataUser}, { headers } ) : await axios.post(url, {...dataUser}, { headers })
+            console.log("respuesta en action", response.data)
+            if(response.data.success){
+                if(flagEdit){
+                    dispatch({ type: "UPDATE_USER", 
+                    payload:{
+                        firstName: response.data.response.firstName,
+                        lastName: response.data.response.lastName,
+                    }})
+                } else {
+                    dispatch({ type: "UPDATE_DNI", payload: response.data.response})
+                }
+                return response.data
+            } else {
+                throw response.data.response
+            }
+        }
+    },
+    sendNewBill: (userId, amount, shopCart, shipping, methodPayment, token) => {
+        return async () => {
+            let data = {userId, amount, shopCart, shipping, methodPayment}
+            let response = await axios.post("http://luxxor.herokuapp.com/api/sales", data , {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
+            })
+            return response.data
+        }
+    }
 }
 
 export default usersAction

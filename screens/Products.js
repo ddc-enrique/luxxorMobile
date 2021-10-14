@@ -17,6 +17,7 @@ import SelectPicker from "react-native-form-select-picker"
 import FilterProducts from "../components/FilterProducts"
 import {showMessage} from "react-native-flash-message"
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select'
+import {Ionicons } from '@expo/vector-icons'
 
 const cardsWidth = (Dimensions.get("screen").width)*0.9
 
@@ -132,7 +133,7 @@ const Products = (props) => {
                       setFilteredProducts={setFilteredProducts}
                     />
                     <View style={styles.selectOptions}>
-                        <Text style={styles.orderText}>Ordenar por:</Text>
+                        <Text style={styles.orderText}>Ordenar</Text>
                         <RNPickerSelect 
                           items={[
                             {label:"Más Relevantes", value:"mostRelevants"},
@@ -142,8 +143,8 @@ const Products = (props) => {
                             {label:"Z-A", value:"Z-A"}
                           ]}
                           onValueChange={(value) => sortProducts(value)}
-                          style={styles.pickerSelect}
                           placeholder={{}}
+                          placeholderTextColor= '#e3e3e3'
                         />
                     </View>
                 </View>
@@ -205,8 +206,6 @@ const styles = StyleSheet.create({
     height: 200,
   },
   card: {
-    borderWidth: 1,
-    borderColor: 'grey',
     minHeight: 420,
     minWidth: cardsWidth,
     padding: 1,
@@ -264,30 +263,16 @@ const styles = StyleSheet.create({
   orderText:{
     color: "white",
     fontSize: 30,
-    // textAlign: "center",
+    fontFamily: 'Spartan_500Medium',
     marginBottom: 5,
   },
   selectOptions: {
-    // flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 10,
-    marginHorizontal: 10,
-    paddingVertical: 10,
+    width: '40%',
     borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 5,
-  },
-  pickerSelect: {
-    // width:"70%",
-    fontSize: 16,
-    paddingHorizontal: "10%",
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'white',
-    paddingRight: 30,
+    borderColor: '#e3e3e3',
+    marginLeft: 60,
+    marginTop:20,
+    paddingLeft:2
   },
   
 

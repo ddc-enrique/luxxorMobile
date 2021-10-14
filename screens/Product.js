@@ -19,7 +19,8 @@ import {useEffect} from 'react'
 import productsActions from "../redux/actions/productsActions"
 import Novedades from "../components/Novedades"
 import shopCartActions from '../redux/actions/shopCartActions'
-import { showMessage} from "react-native-flash-message"
+import { showMessage, hideMessage } from "react-native-flash-message"
+
 
 const Product = (props) => {
  const [detailsOn, setDetailsOn] = useState(false);
@@ -149,7 +150,8 @@ const Product = (props) => {
               </TouchableOpacity>)}
           </View>
             </View>
-      
+      {/* el lider es bueno, no hay voluntad, olvidate de ello
+       */}
       </View>
     </ScrollView>
 	</ImageBackground>

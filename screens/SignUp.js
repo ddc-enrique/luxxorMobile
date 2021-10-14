@@ -6,12 +6,13 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  ImageBackground
 } from "react-native"
 import Header from "../components/Header"
-import { LinearGradient } from "expo-linear-gradient"
 import usersAction from "../redux/actions/usersAction"
 import { connect } from "react-redux"
 import { showMessage, hideMessage } from "react-native-flash-message"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 const SignUp = (props) => {
   const [newUser, setNewUser] = useState({
@@ -42,7 +43,7 @@ const SignUp = (props) => {
           message: 'Completa todos los campos',
           type: "warning",
           backgroundColor: "#f80000",
-         });
+        });
       } else {
          try{
           const resp = await props.signUp(newUser)
@@ -82,98 +83,89 @@ const SignUp = (props) => {
 
   const compareValues = () => {
     if (confirmPass !== newUser.password) {
-      setErrorPassCkecked("No coinciden... vuelve a intentarlo")
+      setErrorPassCkecked("Las contraseñas deben coincidir")
     } else {
       setErrorPassCkecked(null)
     }
   }
 
   return (
-    <ScrollView>
-      <LinearGradient
-        colors={[
-          " rgba(47,144,176,1)",
-          "rgba(48,106,154,1)",
-          "rgba(49,75,136,1)",
-          "rgba(49,25,109,1)",
-        ]}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.container}
-      >
-        <Header {...props} />
-        <Text style={styles.title}>REGISTRATE</Text>
-        <TextInput
-          style={styles.input}
-          placeholder=" Nombre"
-          value={newUser.firstName}
-          onChangeText={(e) => changeValueInput(e, "firstName")}
-          placeholderTextColor={"white"}
-        />
-        {!errorsValidation["firstName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-        {errorsValidation["firstName"] && <Text style={styles.error}>&nbsp;{errorsValidation["firstName"]}</Text>}
-        <TextInput
-          style={styles.input}
-          placeholder="Apellido"
-          value={newUser.lastName}
-          onChangeText={(e) => changeValueInput(e, "lastName")}
-          placeholderTextColor={"white"}
-        />
-        {!errorsValidation["lastName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-        {errorsValidation["lastName"] && <Text style={styles.error}>&nbsp;{errorsValidation["lastName"]}</Text>}
-        <TextInput
-          style={styles.input}
-          placeholder="Url de imagen"
-          value={newUser.profilePic}
-          onChangeText={(e) => changeValueInput(e, "profilePic")}
-          placeholderTextColor={"white"}
-        />
-        {!errorsValidation["profilePic"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-        {errorsValidation["profilePic"] && <Text style={styles.error}>&nbsp;{errorsValidation["profilePic"]}</Text>}
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={newUser.eMail}
-          onChangeText={(e) => changeValueInput(e, "eMail")}
-          placeholderTextColor={"white"}
-        />
-        {!errorsValidation["eMail"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-        {errorsValidation["eMail"] && <Text style={styles.error}>&nbsp;{errorsValidation["eMail"]}</Text>}
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          value={newUser.password}
-          onChangeText={(e) => changeValueInput(e, "password")}
-          placeholderTextColor={"white"}
-        />
-        {!errorsValidation["password"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-        {errorsValidation["password"] && <Text style={styles.error}>&nbsp;{errorsValidation["password"]}</Text>}
-        <TextInput
-          style={styles.input}
-          placeholder="Confirmar contraseña"
-          onChangeText={(e) => setConfirmPass(e)}
-          onBlur={compareValues}
-          placeholderTextColor={"white"}
-        />
-        <Text style={{color:'red'}}>{errorPassChecked}&nbsp;</Text>
-        <View>
-          <TouchableOpacity
-            onPress={sendForm}
-            style={styles.button}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.text}>Registrarme</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{marginVertical:10,alignItems:'center'}}>
-            <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
-            <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
-              <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Click aqui</Text>
-            </TouchableOpacity>
-        </View>
-        
-      </LinearGradient>
-    </ScrollView>
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.viewContainerHome}
+      scrollEnabled={false}
+    >
+      <View style={styles.viewContainerHome}>
+        <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
+          <ScrollView>
+            <Header {...props} />
+            <Text style={styles.title}>REGISTRATE</Text>
+            <TextInput
+              style={styles.input}
+              placeholder=" Nombre"
+              value={newUser.firstName}
+              onChangeText={(e) => changeValueInput(e, "firstName")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["firstName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["firstName"] && <Text style={styles.error}>&nbsp;{errorsValidation["firstName"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Apellido"
+              value={newUser.lastName}
+              onChangeText={(e) => changeValueInput(e, "lastName")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["lastName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["lastName"] && <Text style={styles.error}>&nbsp;{errorsValidation["lastName"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Url de imagen"
+              value={newUser.profilePic}
+              onChangeText={(e) => changeValueInput(e, "profilePic")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["profilePic"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["profilePic"] && <Text style={styles.error}>&nbsp;{errorsValidation["profilePic"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={newUser.eMail}
+              onChangeText={(e) => changeValueInput(e, "eMail")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["eMail"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["eMail"] && <Text style={styles.error}>&nbsp;{errorsValidation["eMail"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Contraseña"
+              value={newUser.password}
+              onChangeText={(e) => changeValueInput(e, "password")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["password"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["password"] && <Text style={styles.error}>&nbsp;{errorsValidation["password"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Confirmar contraseña"
+              onChangeText={(e) => setConfirmPass(e)}
+              onBlur={compareValues}
+              placeholderTextColor={"white"}
+            />
+            <Text style={{color:'red'}}>{errorPassChecked}&nbsp;</Text>
+            <View>
+              <TouchableOpacity
+                onPress={sendForm}
+                style={styles.button}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.text}>Registrarme</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </ImageBackground>
+      </View>
+    </KeyboardAwareScrollView>
   )
 }
 
@@ -184,44 +176,46 @@ const mapDispatchToProps = {
 export default connect(null, mapDispatchToProps)(SignUp)
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 40,
-  },
+  viewContainerHome:{
+    flex: 1,
+
+},
   title: {
     fontSize: 40,
-    color: "black",
-    backgroundColor: "white",
+    color: "#464646",
+    backgroundColor:'#e3e3e3',
     padding: 15,
     marginTop: 0,
+    fontFamily:'Spartan_400Regular',
+    textAlign:"center",
+    alignSelf:"center"
   },
   input: {
-    height: 40,
-    width: 240,
+    height: 50,
+    width: '60%',
     margin: 12,
     padding: 10,
-    borderRadius: 2,
     color: "white",
     borderBottomColor: "white",
-    borderBottomWidth: 2,
-    backgroundColor: "transparent",
+    borderBottomWidth: 1.5,
     fontSize: 20,
+    fontFamily:'Spartan_400Regular',
+    alignSelf:"center"
   },
   button: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
-    elevation: 3,
+    alignSelf: "center",
     marginTop: 20,
-    backgroundColor: "transparent",
-    width: "100%",
+    width: "40%",
     height: 50,
-    zIndex: 1,
     marginBottom: 10,
     padding: 10,
-    borderBottomColor: "white",
-    borderBottomWidth: 2,
+    backgroundColor: '#e3e3e3'
+  },
+  textButton:{
+    textAlign:"center",
+    color: '#464646',
+    fontSize:20,
+    fontFamily:'Spartan_500Medium',
   },
   text: {
     fontSize: 16,
@@ -229,6 +223,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
+    fontFamily:'Spartan_400Regular',
   },
   errorPlaceholder:{
     width: "100%",    

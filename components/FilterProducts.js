@@ -5,7 +5,8 @@ import { connect } from "react-redux"
 import productsActions from "../redux/actions/productsActions"
 import {showMessage} from "react-native-flash-message"
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign,Ionicons } from '@expo/vector-icons'
+
 
 
 
@@ -74,7 +75,7 @@ const FilterProducts = (props) => {
             <TouchableOpacity
                 onPress={() => setVisible(!visible)}
             >
-                <Text style={styles.textFilter}>Filtrar por: </Text>
+                <Text style={styles.textFilter}>Filtrar<Ionicons name="md-arrow-down-outline" size={24} color="#e3e3e3" /></Text>
             </TouchableOpacity>
             {visible &&
                     <LinearGradient
@@ -157,7 +158,7 @@ const FilterProducts = (props) => {
                             onPress={() => setVisible(!visible)}
                             style={styles.closeFilter}
                         >
-                            <AntDesign name="closecircle" size={24} color="black" />
+                            <AntDesign name="closecircle" size={24} color="white" />
                         </TouchableOpacity>
                     </LinearGradient>
             }
@@ -185,22 +186,31 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-start",
-        paddingVertical: 15,
-        paddingLeft: 20,
-        paddingRight: 5,
+        padding: 20,
+        width:'80%',
+        alignSelf: 'center',
+        borderWidth: 1,
+        borderColor: '#e3e3e3'
     },
     textFilter: {
         color: "white",
         fontSize: 30,
-        // textAlign: "center",
+        borderWidth: 1,
+        borderColor: '#e3e3e3',
+        padding:2,
+        textAlign: 'center',
+        width: 150,
         marginBottom: 5,
-        marginLeft: "6%"
+        marginLeft: "6%",
+        fontFamily: 'Spartan_500Medium',
+        marginLeft: 60
     },
     text: {
         color: "white",
         fontSize: 30,
         textAlign: "center",
-        marginBottom: 10
+        marginBottom: 10,
+        fontFamily: 'Spartan_500Medium'
     },
     
     column: {
@@ -216,10 +226,12 @@ const styles = StyleSheet.create({
         // backgroundColor: "green",
     },
     radioBtn: {
-
+        backgroundColor: 'gray'
     },
     radioBtnLabel: {
-        fontSize:20
+        fontSize:20,
+        fontFamily: 'Spartan_400Regular'
+        
     },
     closeFilter: { 
         alignSelf: "flex-start",
