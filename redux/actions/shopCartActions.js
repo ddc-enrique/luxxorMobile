@@ -17,11 +17,9 @@
          return (dispatch)=>dispatch({type:'RESET_CART'})
      },
      payCart:(id, amount)=>{
-         console.log(id)
-         console.log(amount)
          return async (dispatch)=>{
              let response = await axios.post("http://luxxor.herokuapp.com/api/checkout", id, amount)
-             console.log(response)
+             return response.data
          }
      },
      loadShopInLs:(shopCart,subtotal,total)=>{
