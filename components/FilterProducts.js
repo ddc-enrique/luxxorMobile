@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
     column: {
         width:"40%",
         // backgroundColor: "red"
+         // backgroundColor: "red"
     },
     eachRadioBtn: {
         width: "85%",
