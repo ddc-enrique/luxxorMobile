@@ -142,24 +142,31 @@ const SignUp = (props) => {
               value={newUser.password}
               onChangeText={(e) => changeValueInput(e, "password")}
               placeholderTextColor={"white"}
+              secureTextEntry
             />
             {!errorsValidation["password"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
             {errorsValidation["password"] && <Text style={styles.error}>&nbsp;{errorsValidation["password"]}</Text>}
             <TextInput
-              style={styles.input}
-              placeholder="Confirmar contraseña"
-              onChangeText={(e) => setConfirmPass(e)}
-              onBlur={compareValues}
-              placeholderTextColor={"white"}
+                style={styles.input}
+                placeholder="Confirmar contraseña"
+                onChangeText={(e) => setConfirmPass(e)}
+                onBlur={compareValues}
+                placeholderTextColor={"white"}
+                secureTextEntry
             />
-            <Text style={{color:'red'}}>{errorPassChecked}&nbsp;</Text>
+            <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
             <View>
               <TouchableOpacity
                 onPress={sendForm}
                 style={styles.button}
-                activeOpacity={0.7}
               >
-                <Text style={styles.text}>Registrarme</Text>
+                <Text style={styles.textButton}>Registrarme</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{marginVertical:10,alignItems:'center'}}>
+              <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
+              <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
+                <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Presiona aqui</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -226,25 +233,31 @@ const styles = StyleSheet.create({
     fontFamily:'Spartan_400Regular',
   },
   errorPlaceholder:{
-    width: "100%",    
-    fontSize: 15,
-    borderBottomRightRadius: 8,
-    borderBottomLeftRadius: 8,
-    paddingHorizontal: 4,
-    paddingVertical: 5,
-    marginBottom: 5
+    // width: "100%",    
+    // fontSize: 15,
+    // borderBottomRightRadius: 8,
+    // borderBottomLeftRadius: 8,
+    // paddingHorizontal: 4,
+    // paddingVertical: 5,
+    // marginBottom: 5
+    height: 20
     },
   error:{
-    width:"75%",
-    fontFamily: 'Spartan_400Regular',
-    fontSize: 15,
-    borderBottomRightRadius: 8,
-    borderBottomLeftRadius: 8,
-    paddingHorizontal: 4,
-    paddingVertical: 5,
-    color: "red",
-    backgroundColor: "white",
-    textAlign: "center",
-    marginBottom: 5
+    // width:"75%",
+    // fontFamily: 'Spartan_400Regular',
+    // fontSize: 15,
+    // borderBottomRightRadius: 8,
+    // borderBottomLeftRadius: 8,
+    // paddingHorizontal: 4,
+    // paddingVertical: 5,
+    // color: "red",
+    // backgroundColor: "white",
+    // textAlign: "center",
+    // marginBottom: 5
+    fontSize: 18,
+    color: "black",
+    margin: 0,
+    fontFamily:'Spartan_500Medium',
+    alignSelf:"center"
   },
 })

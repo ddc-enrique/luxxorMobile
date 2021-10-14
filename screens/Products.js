@@ -27,7 +27,6 @@ const Products = (props) => {
   const [filteredProducts, setFilteredProducts] = useState(props.products)
   const [updateOnSort, setUpdateOnSort] = useState(true)
   const [loading, setLoading] = useState(true)
-  const [selected, setSelected] = useState()
   
   useEffect(()=> {
     const getAllProducts = async() =>{
@@ -133,7 +132,7 @@ const Products = (props) => {
                       setFilteredProducts={setFilteredProducts}
                     />
                     <View style={styles.selectOptions}>
-                        <Text style={styles.orderText}>Ordenar</Text>
+                        <Text style={styles.orderText}>Ordenar por:</Text>
                         <RNPickerSelect 
                           items={[
                             {label:"Más Relevantes", value:"mostRelevants"},
@@ -144,7 +143,8 @@ const Products = (props) => {
                           ]}
                           onValueChange={(value) => sortProducts(value)}
                           placeholder={{}}
-                          placeholderTextColor= '#e3e3e3'
+                          placeholderTextColor= 'white'
+                          style={pickerSelectStyles}
                         />
                     </View>
                 </View>
@@ -265,9 +265,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: 'Spartan_500Medium',
     marginBottom: 5,
+    // paddingLeft: 5,
   },
   selectOptions: {
-    width: '40%',
+    width: '50%',
+    alignItems: "center",
     borderWidth: 1,
     borderColor: '#e3e3e3',
     marginLeft: 60,
@@ -309,4 +311,27 @@ const styles = StyleSheet.create({
     flex:1, 
     marginVertical:10
   }
+})
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'white',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'red',
+    borderRadius: 8,
+    color: 'white',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
 })

@@ -84,7 +84,7 @@ const FilterProducts = (props) => {
                         end={{ x: 1, y: 1 }}
                         style={styles.container}
                     >
-                        <View style={styles.column}>
+                        <View style={styles.columnB}>
                             <Text style={styles.text}>Marca</Text>
                             <View >
                                 <RadioForm
@@ -119,7 +119,7 @@ const FilterProducts = (props) => {
                                 </RadioForm>
                             </View>
                         </View>
-                        <View style={styles.column}>
+                        <View style={styles.columnC}>
                             <Text style={styles.text}>Categoria</Text>
                             <View >
                                 <RadioForm
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "flex-start",
         padding: 20,
-        width:'80%',
+        width:'90%',
         alignSelf: 'center',
         borderWidth: 1,
         borderColor: '#e3e3e3'
@@ -211,22 +211,23 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginBottom: 10,
         fontFamily: 'Spartan_500Medium'
-    },
-    
-    column: {
-        width:"40%",
+    },    
+    columnB: {
+        width:"43%",
         // backgroundColor: "red"
     },
+    columnC: {
+        width: "49%",
+    },    
     eachRadioBtn: {
         width: "85%",
         alignSelf: "center",
         flexDirection: "row",
         justifyContent: "space-between",
         marginBottom: 10,
-        // backgroundColor: "green",
     },
     radioBtn: {
-        backgroundColor: 'gray'
+        backgroundColor: 'white'
     },
     radioBtnLabel: {
         fontSize:20,

@@ -67,7 +67,15 @@ const UserPurchase = (props) => {
                 )}
             /> :
                 <View style={styles.containConditional}>
-                    <Text style={styles.textConditional}>No tienes compras realizadas</Text>
+                    <Text style={styles.textConditional}>No tienes compras realizadas. {"\n"}{"\n"}
+
+                    {/* </Text>
+                    
+                    <Text style={styles.textConditional}> */}
+                        Puedes comprar presionando <TouchableOpacity
+                                                        onPress={()=> props.navigation.navigate('Productos')}
+                                                    ><Text style={styles.textConditionalCA}>AQUÍ</Text></TouchableOpacity>
+                    </Text>
                 </View>
             }
         </View>
@@ -139,14 +147,28 @@ const styles = StyleSheet.create({
 
     containConditional: {
         height: 600,
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        alignItems: "center",
+        // backgroundColor: "red"
     },
 
     textConditional: {
         alignSelf: "center",
+        textAlign: "center",
         fontSize: 35,
         fontFamily: 'Spartan_500Medium',
         color: "white"
+    },
+    textConditionalCA: {
+        alignSelf: "center",
+        textAlignVertical: "center",
+        textAlign: "center",
+        fontSize: 35,
+        fontFamily: 'Spartan_500Medium',
+        color: "white",
+        textDecorationLine: "underline",
+        textDecorationStyle: "solid",
+        textDecorationColor: "white"
     },
 })
 
