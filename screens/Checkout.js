@@ -16,11 +16,36 @@ import { LinearGradient } from "expo-linear-gradient"
 import CheckOutProducts from "../components/CheckOutProducts";
 import Payment from "../components/Payment";
 import ConfirmedSale from "../components/ConfirmedSale";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 const Checkout = (props) => {
     const [payment,setPayment]= useState(false)
     const[screen,setScreen]=useState(1)
     let componentToRender
+
+    useEffect(()=>{
+
+        if(!props.token ){
+            showMessage({
+                message: "Deberas loguearte para finaliza la compra",
+                type: "warning",
+                backgroundColor: "rgba(49,25,109,1)",
+              })
+              props.navigation.navigate('Registrarme')
+        }
+        if(props.token && !props.dni){
+            showMessage({
+                message: "Completa tu perfil para finalizar la compra",
+                type: "warning",
+                backgroundColor: "rgba(49,25,109,1)",
+              })  
+            props.navigation.navigate('MiCuenta')
+     
+        }
+
+    })
+
+
     const changeMenuHandler=()=>{
         if(screen===2){
             setScreen(1)
@@ -82,14 +107,12 @@ const Checkout = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-
+        dni: state.users.dni,     
+        token:state.users.token, 
     }
-  }
-  const mapDispatchToProps ={
+}
 
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
+  export default connect(mapStateToProps)(Checkout)
 
 
   const styles = StyleSheet.create({
