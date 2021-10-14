@@ -155,7 +155,7 @@ const ShoppingCart = (props) => {
         </View>
         <View style={{ alignItems: "center", marginVertical: 10,marginBottom:35 }}>
           <View style={styles.btnAdd}>
-            <TouchableOpacity onPress={()=> props.navigation.navigate('Checkout')}>
+            <TouchableOpacity onPress={()=> props.navigation.navigate('Checkout Cart')}>
               <Text style={{ color: "white", fontSize: 20 }}>
                 Finalizar Compra
               </Text>

@@ -13,6 +13,10 @@ import {
 import { connect } from "react-redux"
 
 const Payment = (props) => {
+    const chooseCash = () => {
+        props.setPayment("Efectivo")       
+        props.setScreen(3)
+    }
         return(
             <>
              <View style={styles.container}>
@@ -20,7 +24,7 @@ const Payment = (props) => {
                             <Image style={styles.imgMethod} source={{uri: "https://i.postimg.cc/qv5jY1sf/moneyy.png"}}/>
                         </View>
                         <Text>AHAHHAHAHAH</Text> */}
-                   <TouchableOpacity style={styles.boxPayment} onPress={()=>props.setScreen(3)}>
+                   <TouchableOpacity style={styles.boxPayment} onPress={chooseCash}>
                         <View style={styles.subContainerTextImg} >
                             <Image style={styles.imgMethod} source={{uri: "https://i.postimg.cc/qv5jY1sf/moneyy.png"}}/>
                             <Text style={{color:"white",fontSize:15}}>Contado Efectivo</Text>

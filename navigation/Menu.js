@@ -8,6 +8,7 @@ import {DrawerItem} from "@react-navigation/drawer"
 import shopCartActions from '../redux/actions/shopCartActions'
 import { AntDesign } from '@expo/vector-icons';
 
+
 const DrawerMenu =(props) =>{
     return(
         <TouchableOpacity onPress={props.navigation}>
@@ -73,10 +74,10 @@ const Menu = (props) =>{
                     <Text style={styles.text}>Bienvenido {firstName?firstName:null}!</Text>
                 </View>
                 <DrawerMenu icon='https://i.postimg.cc/RVjjhd94/home.png' titleName = 'Inicio' navigation={()=>props.navigation.navigate('HomeStack')}/>
-                {/* <DrawerMenu  icon='https://i.postimg.cc/mZ7WyqSz/Dise-o-sin-t-tulo-79.png'  titleName = 'Checkout' navigation={()=>props.navigation.navigate('Checkout Cart')}/> */}
+            {/* <DrawerMenu  icon='https://i.postimg.cc/mZ7WyqSz/Dise-o-sin-t-tulo-79.png'  titleName = 'Checkout' navigation={()=>props.navigation.navigate('Checkout Cart')}/>   */}
 
                 <DrawerMenu  icon='https://i.postimg.cc/ZYL8C5SR/productos.png'  titleName = 'Productos' navigation={()=>props.navigation.navigate('Productos')}/>
-                <DrawerMenu icon='https://i.postimg.cc/KzhQNPLP/Diseño_sin_título_(73).png'  titleName = 'Carrito' navigation={()=>props.navigation.navigate('ShoppingCart')}/>
+                <DrawerMenu icon='https://i.postimg.cc/KzhQNPLP/Diseño_sin_título_(73).png'  titleName = 'Carrito'  navigation={()=>props.navigation.navigate('ShoppingCart')}/>
                 {token?
                 <>
                 <DrawerMenu  titleName = 'Mi cuenta' navigation={()=>props.navigation.navigate('MiCuenta')}/>

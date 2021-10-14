@@ -108,6 +108,17 @@ const usersAction = {
             }
         }
     },
+    sendNewBill: (userId, amount, shopCart, shipping, methodPayment, token) => {
+        return async () => {
+            let data = {userId, amount, shopCart, shipping, methodPayment}
+            let response = await axios.post("http://luxxor.herokuapp.com/api/sales", data , {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
+            })
+            return response.data
+        }
+    }
 }
 
 export default usersAction

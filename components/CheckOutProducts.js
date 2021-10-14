@@ -5,16 +5,15 @@ import {
   View,
   TextInput,
   ScrollView,
-  Switch,
-  ImageBackground,
-  Button,
-  Image,
   TouchableOpacity
 } from "react-native"
+import { showMessage, hideMessage } from "react-native-flash-message";
 import { connect } from "react-redux"
 import shopCartActions from '../redux/actions/shopCartActions'
 import productsActions from "../redux/actions/productsActions"
+import usersAction from "../redux/actions/usersAction";
 import CardScProduct from '../components/CardScProduct'
+
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -23,11 +22,15 @@ import RadioForm, {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 const CheckOutProducts = (props) => {
+
   const [products,setProducts]=useState([])
   const[products2,setProducts2]=useState([])
   const [value, setValue] = useState(0)
   const[total,setTotal]=useState(0)
   const[dataClient,setDataClient]=useState({firstName: '', lastName: '',dni:"",phone:"",address:"",optional:"",city:"",zipCode:""})
+  const[dataAddress,setDataAddress]=useState({})
+
+
   let aux
   const radio_props = [
     { label: "Retiro en local", value: 0 },
@@ -43,13 +46,33 @@ const CheckOutProducts = (props) => {
       })
       .catch(e=>console.log(e))
   }) 
+  props.getUserData(props.id,props.token)
+        .then(res=>{
+            setDataAddress(res)
+            setDataClient({...res,firstName: props.firstName, lastName: props.lastName,dni:props.dni})
+            /* console.log("dataClient1",dataClient) */
+        })
+        .catch(e=>console.log(e))
   }, [])
+
   const handlerInput = (e, campo) => {
-    setNewUser({
+    setDataClient({
         ...dataClient,
         [campo]: e 
     })
 }
+  const submitHandler=()=>{
+    let inputs=Object.values(dataClient).some((input)=>input==="")  
+      if(inputs){
+        showMessage({
+          message: 'Por favor llena todos los campos para continuar.',
+          type: "warning",
+          backgroundColor: "rgba(49,25,109,1)",
+        });
+      }else{
+        props.setScreen(2)
+      }
+  }
 
   return(
     <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
@@ -62,13 +85,14 @@ const CheckOutProducts = (props) => {
               placeholder="Nombre"
               placeholderTextColor={"white"}
               onChangeText={(e) => handlerInput(e, 'firstName')}
-              defaultValue={"holi"}
+              defaultValue={props.firstName}
             />
             <TextInput
               style={styles.input}
               placeholder="Apellido"
               placeholderTextColor={"white"}
               onChangeText={(e) => handlerInput(e, 'lastName')}
+              defaultValue={props.lastName}
             />
             <TextInput
               style={styles.input}
@@ -76,6 +100,7 @@ const CheckOutProducts = (props) => {
               placeholderTextColor={"white"}
               keyboardType={"numeric"}
               onChangeText={(e) => handlerInput(e, 'dni')}
+              defaultValue={props.dni&&(props.dni).toString()}
             />
             <TextInput
               style={styles.input}
@@ -83,6 +108,7 @@ const CheckOutProducts = (props) => {
               placeholderTextColor={"white"}
               keyboardType={"numeric"}
               onChangeText={(e) => handlerInput(e, 'phone')}
+              defaultValue={dataAddress.phone}
             />
           </View>
             <RadioForm formHorizontal={false} animation={true} style={{width:"90%", marginBottom:20}}>                            
@@ -122,18 +148,21 @@ const CheckOutProducts = (props) => {
             placeholder="Dirección"
             placeholderTextColor={"white"}
             onChangeText={(e) => handlerInput(e, 'address')}
+            defaultValue={dataAddress.address}
           />
           <TextInput
             style={styles.input}
             placeholder="Departamento (opcional)"
             placeholderTextColor={"white"}
             onChangeText={(e) => handlerInput(e, 'optional')}
+            defaultValue={dataAddress.optional}
           />
           <TextInput
             style={styles.input}
             placeholder="Ciudad"
             placeholderTextColor={"white"}
             onChangeText={(e) => handlerInput(e, 'city')}
+            defaultValue={dataAddress.city}
           />
           <TextInput
             style={styles.input}
@@ -141,6 +170,7 @@ const CheckOutProducts = (props) => {
             placeholderTextColor={"white"}
             keyboardType={"numeric"}
             onChangeText={(e) => handlerInput(e, 'zipCode')}
+            defaultValue={(dataAddress&& dataAddress.zipCode).toString()}
           />
           
         </View>
@@ -148,7 +178,7 @@ const CheckOutProducts = (props) => {
             
             <Text style={{color:"white",margin: 12, marginBottom:10,fontSize:25 }}>TOTAL: $ {(props.total).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
             <View style={{width:"100%", alignItems:'center'}}>
-              <TouchableOpacity onPress={()=>props.setScreen(2)} > 
+              <TouchableOpacity onPress={submitHandler} > 
                 <View style={styles.boxTitle}>
                   <Text style={{color:"white",fontSize:20}}>Continuar Compra</Text>
                 </View>               
@@ -164,13 +194,19 @@ const CheckOutProducts = (props) => {
 const mapStateToProps = (state) => {
     return {
       shopCart:state.shopCart.shopCart,
+      id:state.users.id,
+      token:state.users.token,
+      lastName:state.users.lastName,
+      firstName:state.users.firstName,
+      dni:state.users.dni,
       total:state.shopCart.total,
       subtotal:state.shopCart.subtotal
     }
   }
   const mapDispatchToProps ={
     deleteProduct:shopCartActions.deleteToCart,
-    product:productsActions.product  
+    product:productsActions.product,
+    getUserData:usersAction.getUserData 
 
   }
 export default connect(mapStateToProps, mapDispatchToProps)(CheckOutProducts)

@@ -2,6 +2,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer'
 import React from 'react'
 import NavStack from './MainNavStack'
 import Menu from './Menu'
+import ShopCartNavigator from './ShopCartNavigator'
 
 const Drawer = createDrawerNavigator()
 const Navigator = () =>{
@@ -11,6 +12,7 @@ const Navigator = () =>{
                     headerShown: false,
                     
                 }}/>
+              {/*   <Drawer.Screen name='Cart' component={ShopCartNavigator} /> */}
                 {/* <Drawer.Screen name="Productos" component={Products} options={{
                     headerShown: false
                 }}/>
