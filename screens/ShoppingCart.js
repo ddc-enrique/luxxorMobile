@@ -138,14 +138,20 @@ const ShoppingCart = (props) => {
         <View style={{ alignItems: "center" }}>
           <View style={styles.selectView}>
             <Text style={{ color: "white", fontSize: 18, marginVertical: 8 }}>
-              Seleccione una forma de entrega:
+            Formas de entrega:
             </Text>
-            <RadioForm
+            <Text style={{ color: "white", fontSize: 18, marginVertical: 8 }}>
+              Retiro en Local
+            </Text>
+            <Text style={{ color: "white", fontSize: 18, marginVertical: 8 }}>
+            Envio a domicilio Gratis-Entrega a partir de 5 dias hábiles
+            </Text>
+            {/* <RadioForm
               radio_props={radio_props}
               initial={0}
               onPress={(value) => setValue(value)}
               labelStyle={{ fontSize: 15, color: "white" }}
-            />
+            /> */}
           </View>
         </View>
         <View style={{ alignItems: "center" }}>
