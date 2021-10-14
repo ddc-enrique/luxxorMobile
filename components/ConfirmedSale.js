@@ -15,8 +15,8 @@ import { connect } from "react-redux"
 import usersAction from '../redux/actions/usersAction'
 import shopCartActions from "../redux/actions/shopCartActions"
 
-const ConfirmedSale = ({ id, total, shopCart, token, shipping, payment, sendBill,resetCart}) => {
-
+const ConfirmedSale = (props) => {
+    const { id, total, shopCart, token, shipping, payment, sendBill,resetCart} = props
     const [confirmedMessage, setConfirmedMessage] = useState("Muchas gracias por su compra. En breve recibirás un mail con la información de su orden de compra.")
     const [loading, setLoading] = useState(true)
 
@@ -37,13 +37,27 @@ const ConfirmedSale = ({ id, total, shopCart, token, shipping, payment, sendBill
         sendNewBill()
         setLoading(false)
     },[])
-    if(loading) return <Text>Loading...</Text>
+    if(loading){
+        return( 
+          <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+            <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+        </ImageBackground>)
+      }
     return(
         <View style={styles.container}>
             <View style={styles.box}>
                 <Text style={{color:"white",fontSize:20, fontFamily: 'Spartan_700Bold'}}>{confirmedMessage}</Text>
                 <Image style={styles.bgContainer} source={{uri: 'https://i.postimg.cc/ZRS7fqNB/fondo-Consola.png'}} />         
             </View>
+            <TouchableOpacity
+                onPress={() => props.navigation.navigate('HomeStack')}
+                style={styles.btnHome}
+            >
+                <Image source={{uri:'https://i.postimg.cc/RVjjhd94/home.png'}} style={{width: 30, height: 30}}/>
+                <Text style={styles.homeText}>
+                    Volver a Inicio
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 
@@ -86,6 +100,7 @@ const styles = StyleSheet.create({
 		elevation: 1.5,
 		borderBottomLeftRadius:  3,
         borderBottomRightRadius:  3,
+        marginBottom: "10%"
     },
     bgContainer:{
         width:"100%",
@@ -94,11 +109,24 @@ const styles = StyleSheet.create({
     boxPayment:{
         width:200,
         height:200,
-        backgroundColor:"red",
+        // backgroundColor:"red",
     },
     imgMethod:{
         width:20,
         height:20,
-    }
+    },
+    btnHome: {
+        borderStyle: "solid",
+        borderWidth: 2,
+        borderColor: "#e3e3e3",
+        padding: 5,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    homeText: {
+        marginLeft: 5,
+        fontFamily: 'Spartan_400Regular',
+        color: "#e3e3e3",
+    },
 
 })

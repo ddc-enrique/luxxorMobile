@@ -96,13 +96,12 @@ const MyAccount = (props) => {
         }
     }
 
-    // if(loading){
-    //     return( 
-    //         <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
-    //             <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
-    //         </ImageBackground>
-    //     )
-    // }
+    if(loading){
+        return( 
+          <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+            <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+        </ImageBackground>)
+    }
 
     return (
     <KeyboardAwareScrollView

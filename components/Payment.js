@@ -3,10 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
-  Switch,
-  ImageBackground,
-  Button,
   Image,
   TouchableOpacity
 } from "react-native"
@@ -23,10 +19,6 @@ const Payment = (props) => {
         return(
             <>
              <View style={styles.container}>
-                        {/*<View  style={styles.boxPayment}> 
-                            <Image style={styles.imgMethod} source={{uri: "https://i.postimg.cc/qv5jY1sf/moneyy.png"}}/>
-                        </View>
-                        <Text>AHAHHAHAHAH</Text> */}
                    <TouchableOpacity style={styles.boxPayment} onPress={chooseCash}>
                         <View style={styles.subContainerTextImg} >
                             <Image style={styles.imgMethod} source={{uri: "https://i.postimg.cc/qv5jY1sf/moneyy.png"}}/>
