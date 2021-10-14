@@ -215,8 +215,6 @@ const styles = StyleSheet.create({
     
     column: {
         width:"40%",
-        // backgroundColor: "red"
-         // backgroundColor: "red"
     },
     eachRadioBtn: {
         width: "85%",
@@ -224,7 +222,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginBottom: 10,
-        // backgroundColor: "green",
     },
     radioBtn: {
         backgroundColor: 'gray'
