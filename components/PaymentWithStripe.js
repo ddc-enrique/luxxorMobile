@@ -6,13 +6,9 @@ import { connect } from "react-redux";
 
 const PaymentWithStripe = (props) => {
     const [card, setCard] = useState(null)
-
-    const stripe = useStripe()
-    
-
+    const stripe = useStripe()  
 
     const handlePayPress = async () => {
-
         const {error, paymentMethod} = await stripe.createPaymentMethod({
             type: "Card",
             card: card
@@ -21,20 +17,18 @@ const PaymentWithStripe = (props) => {
             const {id} = paymentMethod
             props.payCart({
                 id,
-                amount: props.total*100
-            }).then(response => {
-                if(!response.success) throw new Error("error")
-                props.setPayment("Tarjeta de crédito")
-                props.setScreen(3)
-            }).catch((e)=> console.log(e.message))
+                amount: (props.total*100)/186
+            }).then(response => {console.log(response)
+                    props.setPayment("Tarjeta de crédito")
+                    props.setScreen(3)
+            }).catch((e)=> console.log(e))
         }
-
     }
 
     return (
         <View>
             <CardField 
-                postalCodeEnabled={true}
+                postalCodeEnabled={false}
                 placeholder={{
                 number: "4242 4242 4242 4242",
                 }}
