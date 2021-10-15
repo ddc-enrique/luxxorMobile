@@ -20,6 +20,10 @@ import productsActions from "../redux/actions/productsActions"
 import Novedades from "../components/Novedades"
 import shopCartActions from '../redux/actions/shopCartActions'
 import { showMessage, hideMessage } from "react-native-flash-message"
+import moment from "moment"
+import Moment from "react-moment"
+import "moment/locale/es"
+import { AntDesign } from '@expo/vector-icons'
 
 
 const Product = (props) => {
@@ -74,6 +78,10 @@ const Product = (props) => {
       });
   }
 
+  // let date = moment.unix(Date.now()).format("DD/MM/YYYY")
+  // let date1 = moment.((new Date()).add(3, 'days').calendar()
+  // console.log(date)
+
     if(loading){
       return( 
         <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
@@ -106,10 +114,12 @@ const Product = (props) => {
             {detailsOn &&(
             <>
                 <View style={styles.boxInfo}>
-                    <Text style={styles.info}>Te llega a partir del<Text style={styles.orange}> 16 de Octubre</Text>
+                    <Text style={styles.info}>Te llega a partir del<Text style={styles.orange}> 21 de Octubre</Text>
+                    {/* <Text style={styles.info}>Te llega a partir del<Text style={styles.orange}> </Text> */}
+                    {/* <Moment format="DD/MM/YYYY" unix>{Date.now()+432000000}</Moment> */}
                             </Text>
                             <Text style={styles.info}>
-                                1 Año de garantia oficial. 10 días para cambios y
+                                1 Año de garantía oficial. 30 días para cambios y
                                 devoluciones
                             </Text>
                 </View>
@@ -121,16 +131,36 @@ const Product = (props) => {
                   <Text style={styles.cart}>AGREGAR AL CARRITO</Text>
             </TouchableOpacity>
            	{modal && (
-                <View style={styles.modal}>
-                  <Text
-                    style={styles.icon}
-                    onPress={() => setModal(!modal)}>X</Text>
-				  <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.textTecnic}>FICHA TÉCNICA</Text>             
-                      {/* <Text>{product.optionName} : {product.optionValue}</Text> */}
-                <Text style={styles.textTecnic2}>DESCRIPCIÓN</Text>
-				<Text style={styles.textTecnic2}>{product.description}</Text>
-				</View>
+                <View style={styles.modal}>                  
+                  <LinearGradient
+                    colors={[" rgba(47,144,176,0.5)", "rgba(48,106,154,0.5)"]}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 1 }}
+                    style={styles.specifications}
+                  >
+                    <TouchableOpacity
+                      styles={styles.closeModal}
+                      onPress={() => setModal(!modal)}
+                    >
+                      {/* <Text
+                        style={styles.icon}>
+                          X
+                      </Text> */}
+                      <AntDesign name="closecircle" size={24} color="black" />
+                    </TouchableOpacity>
+                    {/* <View style={styles.specifications}> */}
+                      <Text style={styles.textTecnic}>FICHA TÉCNICA</Text>
+                      {product.dataSheet.map(data =>
+                        <Text style={styles.dataSheets}
+                         key={data._id}
+                         >
+                           {'\u2022'}{data.optionName} : {data.optionValue}
+                        </Text>
+                        )}
+                      <Text style={styles.textTecnic2}>DESCRIPCIÓN</Text>
+                      <Text style={styles.textTecnic3}>{product.description}</Text>
+                    {/* </View> */}
+                  </LinearGradient>
                 </View>
               )}
 
@@ -148,9 +178,7 @@ const Product = (props) => {
                 </View>
               </TouchableOpacity>)}
           </View>
-            </View>
-      {/* el lider es bueno, no hay voluntad, olvidate de ello
-       */}
+        </View>
       </View>
     </ScrollView>
 	</ImageBackground>
@@ -204,9 +232,9 @@ containerTitle: {
 	paddingTop: 10,
 	textTransform: 'uppercase',
 	fontWeight: 'bold',
-    justifyContent: 'space-between',
-    minHeight: 280,
-    paddingHorizontal: 10
+  justifyContent: 'space-between',
+  minHeight: 280,
+  paddingHorizontal: 10
 },
 description: {
   height: 100,
@@ -217,7 +245,7 @@ description: {
   margin:10
 },
 boxInfo: {
-    height:200,
+  height:200,
 },
 title: {
 	fontSize: 40,
@@ -233,134 +261,154 @@ title2: {
   fontFamily: 'Spartan_700Bold',
 },
 cart: {
-    // borderBottom: 1,
-    borderColor: 'white',
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 30,
-    paddingVertical: 10,
-    margin:10,
-    borderBottomWidth: 1
+  // borderBottom: 1,
+  borderColor: 'white',
+  textAlign: 'center',
+  color: 'white',
+  fontSize: 30,
+  paddingVertical: 10,
+  margin:10,
+  borderBottomWidth: 1
 },
 subrayado: {
-    fontSize:22,
-    textDecorationLine : 'underline',
-    color: 'white',
-    fontFamily: 'Spartan_400Regular',
-    paddingVertical:1
+  fontSize:22,
+  textDecorationLine : 'underline',
+  color: 'white',
+  fontFamily: 'Spartan_400Regular',
+  paddingVertical:1
 },
 border: {
-    fontSize:30,
-    borderWidth:1,
-    minWidth:150,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    color: 'white',
-    borderColor: 'white',
-    fontFamily: 'Spartan_700Bold',
-    padding: 10,
-    marginVertical:10
+  fontSize:30,
+  borderWidth:1,
+  minWidth:150,
+  textAlign: 'center',
+  textTransform: 'uppercase',
+  color: 'white',
+  borderColor: 'white',
+  fontFamily: 'Spartan_700Bold',
+  padding: 10,
+  marginVertical:10
 },
 info: {
-      fontSize:25,
-      color: 'white',
-      padding:10,
-      fontFamily: 'Spartan_400Regular'
-  },
-button: {
-    fontSize: 20,
-    textAlign: 'center',
-    backgroundColor: '#000000a8',
+    fontSize:25,
     color: 'white',
-    padding: 10,
-    margin:10,
+    padding:10,
+    fontFamily: 'Spartan_400Regular'
+},
+button: {
+  fontSize: 20,
+  textAlign: 'center',
+  backgroundColor: '#000000a8',
+  color: 'white',
+  padding: 10,
+  margin:10,
 },
 
-  text: {
-    color: "white",
-    fontSize: 50,
-    fontWeight: 'bold',
+text: {
+  color: "white",
+  fontSize: 50,
+  fontWeight: 'bold',
+  fontFamily: 'Spartan_700Bold'
+},
+textRecomendados:{
+  color: "white",
+  fontSize: 30,
+  fontWeight: 'bold',
+  fontFamily: 'Spartan_700Bold'
+},
+uniqueRadio: {
+  marginHorizontal: 8,
+},
+selectOptions: {
+  justifyContent: "center",
+  alignItems: "center",
+  marginVertical: 10,
+  paddingVertical: 10,
+},
+category: {
+  marginVertical: 20,
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "row",
+},
+modal: {
+  height: 400,
+  width: '100%',
+  position: 'absolute',
+  top: 420,
+  margin: 12,
+  // padding: 10,
+  borderRadius: 2,
+  borderRadius: 10,
+  backgroundColor: '#fffffff1',
+  shadowOpacity: 1,
+      shadowRadius: 3,
+      shadowOffset: {
+          height: 500,
+          width: 100
+  },
+  elevation: 40,
+  borderRadius: 5,
+  shadowColor: 'black',
+},
+specifications: {
+  height: "100%",
+  width: "100%",
+  padding: 5,
+  justifyContent: "space-between"
+  // alignItems: "center"
+},
+icon: {
+  fontSize: 20,
+  textAlign: 'center',
+  borderWidth:1,
+  borderRadius:100,
+  width:30,
+  backgroundColor:'black',
+  color: 'white',
+  borderWidth:1,
+  },
+closeModal:{
+  alignSelf: "flex-end",
+  // marginLeft: "90%"
+},
+  textTecnic: {
+      textAlign: 'center',
+      fontSize:20,
+      fontFamily: 'Spartan_700Bold',
+      margin:10
+  },
+  textTecnic2: {
+      fontSize:15,
+      fontFamily: 'Spartan_700Bold'
+  },
+  textTecnic3: {
+    fontSize:14,
     fontFamily: 'Spartan_700Bold'
+},
+  dataSheets:{
+    fontSize:18,
+    fontFamily: 'Spartan_400Regular',
+    // margin:10
   },
-  textRecomendados:{
-    color: "white",
-    fontSize: 30,
-    fontWeight: 'bold',
-    fontFamily: 'Spartan_700Bold'
-  },
-  uniqueRadio: {
-    marginHorizontal: 8,
-  },
-  selectOptions: {
-    justifyContent: "center",
+cardTitleText:{
+  marginLeft:15,
+  fontSize:20,
+  paddingVertical:5
+},
+centerCard:{
     alignItems: "center",
-    marginVertical: 10,
-    paddingVertical: 10,
-  },
-  category: {
-    marginVertical: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  modal: {
-    minHeight: 300,
-    width: '95%',
-    position: 'absolute',
-    top: 420,
-    margin: 12,
-    padding: 10,
-    borderRadius: 2,
-    borderRadius: 10,
-    backgroundColor: '#fffffff1',
-    shadowOpacity: 1,
-        shadowRadius: 3,
-        shadowOffset: {
-            height: 500,
-            width: 100
-    },
-        elevation: 40,
-        borderRadius: 5,
-         shadowColor: 'black',
-  },
-    icon: {
-        fontSize: 20,
-        textAlign: 'center',
-        borderWidth:1,
-        borderRadius:100,
-        width:30,
-        backgroundColor:'black',
-        color: 'white',
-        borderWidth:1
-    },
-    textTecnic: {
-        textAlign: 'center',
-        fontSize:20,
-        fontFamily: 'Spartan_700Bold',
-        margin:10
-    },
-    textTecnic2: {
-        fontSize:15,
-        fontFamily: 'Spartan_700Bold'
-    },
-  cardTitleText:{
-    marginLeft:15,
-    fontSize:20,
-    paddingVertical:5
-  },
-  centerCard:{
-      alignItems: "center",
-  },
-  prices:{
-    flexDirection:'row',
-    justifyContent: 'space-between',
-    flex:1, 
-    marginVertical:10
-  },
-  divRecomendados:{
-    justifyContent: "center",
-    alignItems:"center"
-  }
+},
+prices:{
+  flexDirection:'row',
+  justifyContent: 'space-between',
+  flex:1, 
+  marginVertical:10
+},
+divRecomendados:{
+  justifyContent: "center",
+  alignItems:"center"
+}
 })
 
 

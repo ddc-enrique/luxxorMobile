@@ -18,6 +18,7 @@ import moment from "moment"
 const UserPurchase = (props) => {
     const [myProduct, setMyProduct] = useState()
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(true)
 
     useEffect(()=> {
         const myShops = async () => {
@@ -26,9 +27,15 @@ const UserPurchase = (props) => {
             setMyProduct(response)
         }
         myShops()
+        setLoading(false)
     }, [])
 
-
+    if(loading){
+        return( 
+            <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+          </ImageBackground>)
+    }
 
     return (
         <View contentContainerStyle={error && styles.containerAll}>
@@ -60,8 +67,8 @@ const UserPurchase = (props) => {
                                         
                                     </View>
                                 })}
-                                <Text style={styles.totalAmount}>Total: ${item.amount}</Text>
                             </View>
+                                <Text style={styles.totalAmount}>Total: ${item.amount}</Text>
                         </View>
                     </View>
                 )}
@@ -114,7 +121,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         width: "100%",
-        height: "100%",
+        height: 150,
     },
 
     text: {
@@ -140,6 +147,7 @@ const styles = StyleSheet.create({
     totalAmount: {
         textAlign: "right",
         marginRight: 10,
+        marginBottom: -15,
     },
     containerAll: {
         height: "100%",
