@@ -18,7 +18,7 @@ import moment from "moment"
 const UserPurchase = (props) => {
     const [myProduct, setMyProduct] = useState()
     const [error, setError] = useState("")
-    const [loading, setLoading] = useState(true)
+    
 
     useEffect(()=> {
         const myShops = async () => {
@@ -27,10 +27,10 @@ const UserPurchase = (props) => {
             setMyProduct(response)
         }
         myShops()
-        setLoading(false)
+        props.setLoadingPurchase(false)
     }, [])
 
-    if(loading){
+    if(props.loadingPurchase){
         return( 
             <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
               <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
@@ -39,7 +39,7 @@ const UserPurchase = (props) => {
 
     return (
         <View contentContainerStyle={error && styles.containerAll}>
-
+        <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>            
             {!error ? <FlatList 
                 style={styles.flatList}
                 data={myProduct}
@@ -85,6 +85,7 @@ const UserPurchase = (props) => {
                     </Text>
                 </View>
             }
+        </ImageBackground>
         </View>
     )
 }
@@ -149,9 +150,9 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginBottom: -15,
     },
-    containerAll: {
-        height: "100%",
-    },
+    // containerAll: {
+    //     height: "100%",
+    // },
 
     containConditional: {
         height: 600,

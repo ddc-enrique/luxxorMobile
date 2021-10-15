@@ -30,6 +30,7 @@ const CheckOutProducts = (props) => {
   const[total,setTotal]=useState(0)
   const[dataClient,setDataClient]=useState({firstName: props.firstName, lastName: props.lastName,dni:props.dni} )
   const[dataAddress,setDataAddress]=useState({})
+  const arrayProd=[]
 
 
   let aux
@@ -42,8 +43,8 @@ const CheckOutProducts = (props) => {
       props.product(item.productId)
       .then((res)=>{
           aux= {...res.data.response,quantity:item.quantity}
-           setProducts2(products2.push(aux))
-           setProducts(products2) 
+          setProducts2(arrayProd.push(aux))
+          if(arrayProd.length !== 0)setProducts(arrayProd) 
       })
       .catch(e=>console.log(e))
   }) 

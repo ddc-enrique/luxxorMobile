@@ -29,6 +29,7 @@ const MyAccount = (props) => {
     const [dataUser, setDataUser] = useState(initialDataUser)
     const [errorsValidation, setErrorsValidation] = useState({})
     const [loading,setLoading]=useState(true)
+    const [loadingPurchase, setLoadingPurchase] = useState(true)
 
 
     useEffect( () => {
@@ -266,9 +267,9 @@ const MyAccount = (props) => {
                                         <Text style={styles.textButton}>{completeAccount ? "Editar" : "Enviar!"}</Text>
                                     </TouchableOpacity>
                                 </View>
-                                : <UserPurchase id={props.id}/>}
+                                : <UserPurchase id={props.id} setLoadingPurchase={setLoadingPurchase} loadingPurchase={loadingPurchase}/>}
                         </View>
-                        <Image source={{uri: 'https://i.postimg.cc/0yLGwPx4/d-removebg-preview.png' }} style={{width: '76%' , height: 200 , alignSelf: 'center', marginVertical:50}}/>
+                        {(view && loadingPurchase) && <Image source={{uri: 'https://i.postimg.cc/0yLGwPx4/d-removebg-preview.png' }} style={{width: '76%' , height: 200 , alignSelf: 'center', marginVertical:50}}/>}
                     </View>
                 </ImageBackground>
         </ScrollView>
