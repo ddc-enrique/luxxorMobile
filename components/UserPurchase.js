@@ -18,6 +18,7 @@ import moment from "moment"
 const UserPurchase = (props) => {
     const [myProduct, setMyProduct] = useState()
     const [error, setError] = useState("")
+    
 
     useEffect(()=> {
         const myShops = async () => {
@@ -26,13 +27,19 @@ const UserPurchase = (props) => {
             setMyProduct(response)
         }
         myShops()
+        props.setLoadingPurchase(false)
     }, [])
 
-
+    if(props.loadingPurchase){
+        return( 
+            <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+          </ImageBackground>)
+    }
 
     return (
         <View contentContainerStyle={error && styles.containerAll}>
-
+        <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>            
             {!error ? <FlatList 
                 style={styles.flatList}
                 data={myProduct}
@@ -60,16 +67,25 @@ const UserPurchase = (props) => {
                                         
                                     </View>
                                 })}
-                                <Text style={styles.totalAmount}>Total: ${item.amount}</Text>
                             </View>
+                                <Text style={styles.totalAmount}>Total: ${item.amount}</Text>
                         </View>
                     </View>
                 )}
             /> :
                 <View style={styles.containConditional}>
-                    <Text style={styles.textConditional}>No tienes compras realizadas</Text>
+                    <Text style={styles.textConditional}>No tienes compras realizadas. {"\n"}{"\n"}
+
+                    {/* </Text>
+                    
+                    <Text style={styles.textConditional}> */}
+                        Puedes comprar presionando <TouchableOpacity
+                                                        onPress={()=> props.navigation.navigate('Productos')}
+                                                    ><Text style={styles.textConditionalCA}>AQUÍ</Text></TouchableOpacity>
+                    </Text>
                 </View>
             }
+        </ImageBackground>
         </View>
     )
 }
@@ -106,7 +122,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         width: "100%",
-        height: "100%",
+        height: 150,
     },
 
     text: {
@@ -132,21 +148,36 @@ const styles = StyleSheet.create({
     totalAmount: {
         textAlign: "right",
         marginRight: 10,
+        marginBottom: -15,
     },
-    containerAll: {
-        height: "100%",
-    },
+    // containerAll: {
+    //     height: "100%",
+    // },
 
     containConditional: {
         height: 600,
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        alignItems: "center",
+        // backgroundColor: "red"
     },
 
     textConditional: {
         alignSelf: "center",
+        textAlign: "center",
         fontSize: 35,
         fontFamily: 'Spartan_500Medium',
         color: "white"
+    },
+    textConditionalCA: {
+        alignSelf: "center",
+        textAlignVertical: "center",
+        textAlign: "center",
+        fontSize: 35,
+        fontFamily: 'Spartan_500Medium',
+        color: "white",
+        textDecorationLine: "underline",
+        textDecorationStyle: "solid",
+        textDecorationColor: "white"
     },
 })
 

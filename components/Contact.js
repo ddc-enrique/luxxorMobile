@@ -15,8 +15,6 @@ const Contact = ({ sendNewMessage }) =>{
     const [errorsValidation, setErrorsValidation] = useState({})
 
     const sendMessage = async() => {
-        console.log("enviar mensaje")
-        console.log(newMessage)
         try {
             let response = await sendNewMessage(newMessage)
             if(response.success) {
@@ -32,7 +30,6 @@ const Contact = ({ sendNewMessage }) =>{
                 textMessage: ""
             })
         } catch (error) {
-            console.log(error)
             if (typeof error === 'string'){
                 showMessage({
                     "message":error,
@@ -92,8 +89,8 @@ const Contact = ({ sendNewMessage }) =>{
                         })}
                         defaultValue={newMessage.textMessage}
                 /> 
-                {!errorsValidation["email"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                {errorsValidation["email"] && <Text style={styles.error}>&nbsp;{errorsValidation["email"]}</Text>}
+                {!errorsValidation["textMessage"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                {errorsValidation["textMessage"] && <Text style={styles.error}>&nbsp;{errorsValidation["textMessage"]}</Text>}
             </View>
             
             <TouchableOpacity onPress={()=> sendMessage()}>

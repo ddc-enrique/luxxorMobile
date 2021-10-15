@@ -23,12 +23,13 @@ const MyAccount = (props) => {
     const { dni , id, getData, token, firstName, lastName, editDataUser } = props
     const [view, setView] = useState(true)
     console.log(dni)
-    let completeAccount = typeof dni === "number"
+    let completeAccount = dni > 0
     let initialDataUser = completeAccount ? { firstName: "", lastName: "", city: "", zipCode: "", address: "", optional: "", phone: "" }
         : { dni: null, city: "", zipCode: "", address: "", optional: "", phone: "" } 
     const [dataUser, setDataUser] = useState(initialDataUser)
     const [errorsValidation, setErrorsValidation] = useState({})
     const [loading,setLoading]=useState(true)
+    const [loadingPurchase, setLoadingPurchase] = useState(true)
 
 
     useEffect( () => {
@@ -96,13 +97,12 @@ const MyAccount = (props) => {
         }
     }
 
-    // if(loading){
-    //     return( 
-    //         <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
-    //             <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
-    //         </ImageBackground>
-    //     )
-    // }
+    if(loading){
+        return( 
+          <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+            <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+        </ImageBackground>)
+    }
 
     return (
     <KeyboardAwareScrollView
@@ -114,57 +114,57 @@ const MyAccount = (props) => {
                 <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
                     <View style={styles.viewContainerHome}>
                         <Header {...props} />
-                        <View>
+                        <View >
                             <Text style={styles.title}>
                                 {!view ? "Historial de compras" : completeAccount ? 
                                     "Puedes editar estos datos de tu cuenta" : "Completa tus datos para poder comprar"}
                             </Text>
                             <TouchableOpacity style={styles.menu}>
-                                <Text style={styles.textMenu} onPress={()=>setView(false)}>Mis compras</Text>
-                                <Text style={styles.textMenu} onPress={()=>setView(true)}>Mis datos</Text>
+                                <Text style={!view ? styles.textMenuV : styles.textMenu} onPress={()=>setView(false)}>Mis compras</Text>
+                                <Text style={view ? styles.textMenuV : styles.textMenu} onPress={()=>setView(true)}>Mis datos</Text>
                             </TouchableOpacity>
                             {view ?
                             
                                 <View style={styles.inputToEdit}>
                                     {!completeAccount &&
-                                    <View style={styles.inputText}>
-                                        <Text style={styles.label}>DNI</Text>
-                                            <View>
-                                            <TextInput
-                                                style={styles.input}
-                                                placeholder="ej 44444444"
-                                                // defaultValue={completeAccount ? dataUser.firstName : ''}
-                                                onChangeText={(newDNI) => setDataUser({
-                                                    ...dataUser, dni: parseInt(newDNI)
-                                                })}
-                                                placeholderTextColor={"white"}
-                                                keyboardType={"numeric"}                                        
-                                            />
-                                            {!errorsValidation["dni"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                            {errorsValidation["dni"] && <Text style={styles.error}>&nbsp;{errorsValidation["dni"]}</Text>}
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
+                                        {/* <Text style={styles.label}>DNI</Text> */}
+                                            <View style={styles.inputContainer}>
+                                                <TextInput
+                                                    style={styles.input}
+                                                    placeholder="DNI"
+                                                    // defaultValue={completeAccount ? dataUser.firstName : ''}
+                                                    onChangeText={(newDNI) => setDataUser({
+                                                        ...dataUser, dni: parseInt(newDNI)
+                                                    })}
+                                                    placeholderTextColor={"white"}
+                                                    keyboardType={"numeric"}                                        
+                                                />
+                                                {!errorsValidation["dni"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                                {errorsValidation["dni"] && <Text style={styles.error}>&nbsp;{errorsValidation["dni"]}</Text>}
                                             </View>
                                     </View>}                        
                                     {completeAccount &&
-                                    <View style={styles.inputText}>
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
                                         <Text style={styles.label}>Nombre: </Text>
-                                        <View>
-                                        <TextInput
-                                            style={styles.input}
-                                            placeholder="ej Juan"
-                                            defaultValue={completeAccount ? dataUser.firstName : ''}
-                                            onChangeText={(newFirstName) => setDataUser({
-                                                ...dataUser, firstName: newFirstName
-                                            })}
-                                            placeholderTextColor={"white"}
-                                        />
-                                        {!errorsValidation["firstName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
-                                        {errorsValidation["firstName"] && <Text style={styles.error}>&nbsp;{errorsValidation["firstName"]}</Text>}
+                                        <View style={styles.inputContainer}>
+                                            <TextInput
+                                                style={styles.input}
+                                                placeholder="ej Juan"
+                                                defaultValue={completeAccount ? dataUser.firstName : ''}
+                                                onChangeText={(newFirstName) => setDataUser({
+                                                    ...dataUser, firstName: newFirstName
+                                                })}
+                                                placeholderTextColor={"white"}
+                                            />
+                                            {!errorsValidation["firstName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+                                            {errorsValidation["firstName"] && <Text style={styles.error}>&nbsp;{errorsValidation["firstName"]}</Text>}
                                         </View>
                                     </View>}
                                     {completeAccount &&
-                                    <View style={styles.inputText}>
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
                                         <Text style={styles.label}>Apellido: </Text>
-                                        <View>
+                                        <View style={styles.inputContainer}>
                                             <TextInput
                                                 style={styles.input}
                                                 placeholder="ej Garcia"
@@ -178,9 +178,9 @@ const MyAccount = (props) => {
                                             {errorsValidation["lastName"] && <Text style={styles.error}>&nbsp;{errorsValidation["lastName"]}</Text>}
                                         </View>
                                     </View>}
-                                    <View style={styles.inputText}>
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
                                         {completeAccount && <Text style={styles.label}>Teléfono: </Text>}
-                                        <View>
+                                        <View style={styles.inputContainer}>
                                             <TextInput
                                                 style={styles.input}
                                                 placeholder={!completeAccount ? "Teléfono" : "ej 114587427"}
@@ -195,9 +195,9 @@ const MyAccount = (props) => {
                                             {errorsValidation["phone"] && <Text style={styles.error}>&nbsp;{errorsValidation["phone"]}</Text>}
                                         </View>
                                     </View>
-                                    <View style={styles.inputText}>
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
                                         {completeAccount && <Text style={styles.label}>Ciudad: </Text>}
-                                        <View>
+                                        <View style={styles.inputContainer}>
                                             <TextInput
                                                 style={styles.input}
                                                 placeholder={!completeAccount ? "Ciudad" : "ej Maipu, Mendoza"}
@@ -211,9 +211,9 @@ const MyAccount = (props) => {
                                             {errorsValidation["city"] && <Text style={styles.error}>&nbsp;{errorsValidation["city"]}</Text>}
                                         </View>
                                     </View>
-                                    <View style={styles.inputText}>
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
                                         {completeAccount && <Text style={styles.label}>Cod Postal: </Text>}
-                                        <View>
+                                        <View style={completeAccount ? styles.inputContainerZC : styles.inputContainer}>
                                             <TextInput
                                                 style={styles.input}
                                                 placeholder={!completeAccount ? "Código postal" : "ej 5501"}
@@ -228,10 +228,9 @@ const MyAccount = (props) => {
                                             {errorsValidation["zipCode"] && <Text style={styles.error}>&nbsp;{errorsValidation["zipCode"]}</Text>}
                                         </View>
                                     </View>
-                                    <View style={styles.inputText}>
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
                                         {completeAccount && <Text style={styles.label}>Dirección: </Text>}
-                                        <View>
-                                            <View>
+                                            <View style={styles.inputContainer}>
                                                 <TextInput
                                                     style={styles.input}
                                                     placeholder={!completeAccount ? "Dirección" : "ej Salta 1234"}
@@ -244,11 +243,10 @@ const MyAccount = (props) => {
                                                 {!errorsValidation["address"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
                                                 {errorsValidation["address"] && <Text style={styles.error}>&nbsp;{errorsValidation["address"]}</Text>}
                                             </View>
-                                            </View>
                                     </View>
-                                    <View style={styles.inputText}>
+                                    <View style={completeAccount ? styles.inputText : styles.inputTextIncomplete}>
                                         {completeAccount && <Text style={styles.label}>Opcional: </Text>}
-                                        <View>
+                                        <View style={styles.inputContainer}>
                                             <TextInput
                                                 style={styles.input}
                                                 placeholder={!completeAccount ? "Opcional" : "ej casa o depto/piso"}
@@ -269,9 +267,9 @@ const MyAccount = (props) => {
                                         <Text style={styles.textButton}>{completeAccount ? "Editar" : "Enviar!"}</Text>
                                     </TouchableOpacity>
                                 </View>
-                                : <UserPurchase id={props.id}/>}
+                                : <UserPurchase id={props.id} setLoadingPurchase={setLoadingPurchase} loadingPurchase={loadingPurchase}/>}
                         </View>
-                        <Image source={{uri: 'https://i.postimg.cc/0yLGwPx4/d-removebg-preview.png' }} style={{width: '60%' , height: 200 , alignSelf: 'center', marginVertical:50}}/>
+                        {(view && loadingPurchase) && <Image source={{uri: 'https://i.postimg.cc/0yLGwPx4/d-removebg-preview.png' }} style={{width: '76%' , height: 200 , alignSelf: 'center', marginVertical:50}}/>}
                     </View>
                 </ImageBackground>
         </ScrollView>
@@ -312,7 +310,50 @@ const styles = StyleSheet.create({
 
     inputToEdit: {
         width: '100%',
-        alignItems: "center"
+        alignItems: "center",
+        // backgroundColor: "red",
+        // marginLeft: "2%"
+    },
+
+    inputText:{
+        flexDirection: 'row',
+        width: '90%', 
+        alignItems: "center",
+        justifyContent: "space-between", 
+        alignSelf: "flex-start",
+        marginLeft: "5%",
+        // backgroundColor:"red"
+    },
+
+    inputTextIncomplete: {
+        flexDirection: 'row',
+        width: '100%', 
+        alignItems: "center",
+        justifyContent: "space-between", 
+        marginLeft: "30%",
+    },
+
+    inputContainer: {
+        width: "70%",
+        // backgroundColor: "red",
+        marginRight: "5%"
+    },
+
+    inputContainerZC:{
+        width: "65%",
+        marginRight:"10%"
+    },
+
+    input: {
+        // backgroundColor:"red",
+        height: 30,
+        width: "100%",
+        marginTop: 25,
+        color: "white",
+        borderBottomColor: "white",
+        borderBottomWidth: 1,
+        fontSize: 20,
+        paddingHorizontal:15
     },
 
     menu:{
@@ -320,21 +361,19 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     
+    textMenuV: {
+        marginLeft: 15,
+        color: "white",
+        fontSize: 20,
+        textDecorationLine: "underline",
+        textDecorationStyle: "solid",
+        textDecorationColor: "white",
+    },
+
     textMenu: {
         marginLeft: 15,
         color: "white",
         fontSize: 20
-    },
-
-    input: {
-        height: 30,
-        width: 240,
-        marginTop: 25,
-        color: "white",
-        borderBottomColor: "white",
-        borderBottomWidth: 1,
-        fontSize: 20,
-        paddingHorizontal:15
     },
     
     textButton: {
@@ -377,10 +416,5 @@ const styles = StyleSheet.create({
         color: '#1B1B1B',
         fontFamily: 'Spartan_500Medium'
     },
-    inputText:{
-        flexDirection: 'row',
-        width: '60%', 
-        alignItems: "center", 
-        alignSelf: "center"
-    }
+
 })

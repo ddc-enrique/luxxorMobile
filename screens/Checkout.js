@@ -56,7 +56,7 @@ const Checkout = (props) => {
             componentToRender= <Payment setScreen={setScreen} setPayment={setPayment}  /* toast={toast} *//>
             break
         case 3:
-            componentToRender= <ConfirmedSale payment={payment} shipping={shipping}/>
+            componentToRender= <ConfirmedSale payment={payment} shipping={shipping} navigation={props.navigation}/>
             break 
     }
     return(

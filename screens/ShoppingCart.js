@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  Image
 } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import Header from "../components/Header"
@@ -25,6 +26,7 @@ const ShoppingCart = (props) => {
   const [products,setProducts]=useState([])
   const[products2,setProducts2]=useState([])
   const[total,setTotal]=useState(0)
+  const[loading, setLoading] = useState(true)
   const arrayProd=[]
   let aux
 
@@ -43,6 +45,7 @@ const ShoppingCart = (props) => {
       })
       .catch(e=>console.log(e))
     }) 
+    setLoading(false)
     // console.log(f)
   }, [])
 
@@ -72,6 +75,13 @@ const ShoppingCart = (props) => {
         backgroundColor: "rgba(49,25,109,1)",
       });
     }
+  }
+
+  if(loading){
+    return( 
+      <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={{flex: 1 , justifyContent: 'center', alignItems: 'center'}}>
+        <Image source={{uri: 'https://i.postimg.cc/TwZG2QWc/loading.gif'}} style={{width: 200 , height: 200}} />
+    </ImageBackground>)
   }
 
   return (

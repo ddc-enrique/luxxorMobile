@@ -87,7 +87,7 @@ const SignIn = (props) => {
       <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.container}>
         <ScrollView>
           <Header {...props} />
-          <Text style={styles.title}>INICIAR SESION</Text>
+          <Text style={styles.title}>INICIAR SESIÓN</Text>
           <View style={styles.inputsContain}>
             <TextInput
               style={styles.input}
@@ -104,6 +104,7 @@ const SignIn = (props) => {
               value={newUser.password}
               onChangeText={(e) => changeValueInput(e, "password")}
               placeholderTextColor={"white"}
+              secureTextEntry
             />
             {!errorsValidation["password"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
             {errorsValidation["password"] && <Text style={styles.error}>&nbsp;{errorsValidation["password"]}</Text>}
@@ -112,11 +113,11 @@ const SignIn = (props) => {
             <TouchableOpacity
               onPress={sendForm}
               style={styles.button}
-              activeOpacity={0.7}
             >
-              <Text style={styles.text}>Iniciar sesion</Text>
+              <Text style={styles.textButton}>Iniciar sesión</Text>
             </TouchableOpacity>
           </View>
+          <Image source={{uri: 'https://i.postimg.cc/VLZbw28G/Alienware-UFO-concept-tablet-removebg-preview.png'}} style={styles.image}/>
         </ScrollView>
       </ImageBackground>
     </KeyboardAwareScrollView>
