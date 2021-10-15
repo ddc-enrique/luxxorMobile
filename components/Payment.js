@@ -33,30 +33,25 @@ const Payment = (props) => {
                             <Text style={{color:"white",fontSize:15}}>Contado Efectivo</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.boxPayment} onPress={()=>props.setScreen(3)}>
-                        <View style={styles.subContainerTextImg}>
-                            <Image style={styles.imgMethod} source={{uri: "https://i.postimg.cc/8cNHW9Sv/credit-card-1.png"}}/>
-                            <Text style={{color:"white",fontSize:15}}>Paypal</Text>
-                        </View>
-                    </TouchableOpacity>
+                    
                     <TouchableOpacity style={styles.boxPayment} onPress={()=>setView(true)}>
                         
-                            {!view ?
-                            <View style={styles.subContainerTextImg} >
+                            
+                            <View  style={!view ? styles.subContainerTextImg : styles.none} >
                                 <View>
                                     <Image  style={styles.imgMethod} source={{uri: "https://i.postimg.cc/8cNHW9Sv/credit-card-1.png"}}/>
-                                    <Text style={{color:"white",fontSize:15}}>Tarjetas</Text>
+                                    <Text style={{color:"white",fontSize:15, textAlign:"center"}}>Tarjetas</Text>
                                 </View>
                             </View>
-                            :
-                            <TouchableOpacity style={styles.boxPayment} onPress={()=>setView(false)}>
-                                <View style={styles.subContainerTextImg} >
+                            <TouchableOpacity  onPress={()=>setView(false)}>
+                                <View style={view ? styles.subContainerTextImg : styles.none} >
                                     <StripeProvider publishableKey="pk_test_51Jj1qDLyz3SCpT0O3dmugpTo4iA2C78CtOPdxQlVspZixLw1sOHMezxnQrmRJCQKUtocOMDMizxW3YraU9Rli0KL00RpThZaav">
-                                        <PaymentWithStripe setScreen={props.setScreen} setView={setView}/>
+                                        <PaymentWithStripe setScreen={props.setScreen} setView={setView} setPayment={props.setPayment}/>
+                                        
                                     </StripeProvider>
                                 </View>    
                             </TouchableOpacity>
-                            }
+                            
                         
                     </TouchableOpacity>
                 </View>
@@ -98,6 +93,10 @@ const styles = StyleSheet.create({
     },
     subContainerTextImg:{
         alignItems:"center"
+    },
+
+    none: {
+        display: "none"
     }
 
 })

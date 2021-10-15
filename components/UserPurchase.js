@@ -49,8 +49,8 @@ const UserPurchase = (props) => {
                                 <Text style={styles.title}>Cantidad</Text>
                             </View>
                             <View style={styles.shopCart}>
-                                {item.shopCart.map(shop=> {
-                                   return <View style={styles.container}>
+                                {item.shopCart.map((shop, index)=> {
+                                   return <View style={styles.container} key={item._id + index}>
                                         <ScrollView contentContainerStyle={styles.productContainer}>
                                             <ImageBackground style={styles.photoProduct} source={{uri:`http://luxxor.herokuapp.com/productsPhoto/${shop.productId.photos[0]}`}}>
                                             </ImageBackground>

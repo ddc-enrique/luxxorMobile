@@ -23,7 +23,7 @@ const ConfirmedSale = ({ id, total, shopCart, token, shipping, payment, sendBill
     useEffect(()=>{
         const sendNewBill = async () => {
             try {
-                let response = await sendBill(id, total, shopCart, true, payment, token)
+                let response = await sendBill(id, total, shopCart, shipping, payment, token)
                 if(!response.success) setConfirmedMessage("Algo salio mal, ponganse en contacto luxxor.tech@gmail.com")
                resetCart()
             } catch (error) {
@@ -40,9 +40,10 @@ const ConfirmedSale = ({ id, total, shopCart, token, shipping, payment, sendBill
     if(loading) return <Text>Loading...</Text>
     return(
         <View style={styles.container}>
-            <ImageBackground style={styles.bgContainer} source={{uri: 'https://i.postimg.cc/ZRS7fqNB/fondo-Consola.png'}} >
-                    <Text style={{color:"white",fontSize:15}}>{confirmedMessage}</Text>
-            </ImageBackground>
+            <View style={styles.box}>
+                <Text style={{color:"white",fontSize:20, fontFamily: 'Spartan_700Bold'}}>{confirmedMessage}</Text>
+                <Image style={styles.bgContainer} source={{uri: 'https://i.postimg.cc/ZRS7fqNB/fondo-Consola.png'}} />         
+            </View>
         </View>
     )
 
@@ -67,13 +68,28 @@ export default connect(mapStateToProps, mapDispatchToProps)(ConfirmedSale)
 const styles = StyleSheet.create({
     container:{
         width:"100%",
+        minHeight:750,
         justifyContent:"center",
-        alignItems:"center"
-
+        alignItems:"center",
+        padding:2
+    },
+    box:{
+        padding:12,
+        width:"100%",
+        shadowColor: "#000",
+		shadowOffset: {
+		width: 1,
+		height: 5,
+		},
+		shadowOpacity: 1,
+		shadowRadius: 1.41,
+		elevation: 1.5,
+		borderBottomLeftRadius:  3,
+        borderBottomRightRadius:  3,
     },
     bgContainer:{
         width:"100%",
-        height:250,
+        height:188,
     },
     boxPayment:{
         width:200,

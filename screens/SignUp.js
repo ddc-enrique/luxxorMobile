@@ -22,13 +22,9 @@ const SignUp = (props) => {
     eMail: "",
     profilePic: "",
   })
-  const [errorName, setErrorName] = useState(null)
-  const [errorLastName, setErrorLastName] = useState(null)
-  const [errorEmail, setErrorEmail] = useState(null)
-  const [errorPass, setErrorPass] = useState(null)
   const [errorPassChecked, setErrorPassCkecked] = useState(null)
   const [confirmPass, setConfirmPass] = useState(null)
-  const [errorProfilePic, setErrorProfilePic] = useState(null)
+  const [errorsValidation, setErrorsValidation] = useState({})
 
   const changeValueInput = (e, field) => {
     setNewUser({
@@ -38,7 +34,7 @@ const SignUp = (props) => {
   }
 
   const sendForm = async () => {
-    try {
+    
       if (
         Object.values(newUser).some((value) => value === "") ||
         confirmPass === ""
@@ -49,45 +45,40 @@ const SignUp = (props) => {
           backgroundColor: "#f80000",
         });
       } else {
-        const resp = await props.signUp(newUser)
-        if (resp) {
-          setErrorName(
-            resp.find((err) => err.path[0] === "firstName")
-              ? resp.find((err) => err.path[0] === "firstName").message
-              : null
-          )
-          setErrorLastName(
-            resp.find((err) => err.path[0] === "lastName")
-              ? resp.find((err) => err.path[0] === "lastName").message
-              : null
-          )
-          setErrorEmail(
-            resp.find((err) => err.path[0] === "eMail")
-              ? resp.find((err) => err.path[0] === "eMail").message
-              : null
-          )
-          setErrorPass(
-            resp.find((err) => err.path[0] === "password")
-              ? resp.find((err) => err.path[0] === "password").message
-              : null
-          )
-          setErrorProfilePic(
-            resp.find((err) => err.path[0] === "profilePic")
-              ? resp.find((err) => err.path[0] === "profilePic").message
-              : null
-          )
-        } else {
-          showMessage({
-            message: 'Bienvenido ',
-            type: "success",
-            backgroundColor: "#00bb2d",
+         try{
+          const resp = await props.signUp(newUser)
+           if(!resp.success){
+             let err=resp.response
+             throw err
+           }
+           
+             showMessage({
+             message: 'Bienvenido ',
+             type: "success",
+             backgroundColor: "#00bb2d",
             });
-          props.navigation.navigate("HomeStack")
-        }
+           props.navigation.navigate("HomeStack")
+         }catch(error){
+            if (typeof error === 'string'){
+              showMessage({
+                  "message":error,
+                  "type":"danger"
+              })
+            } else if (Array.isArray(error)){
+                let errors = {};
+                error.forEach(err=> {
+                    errors[err.path[0]] = err.message
+                })
+                setErrorsValidation(errors)
+            } else {
+                showMessage({
+                    "message": "Error de Conexión",
+                    "type":"danger"
+                })
+            }
+         }
       }
-    } catch (error) {
-      console.log(error)
-    }
+    
   }
 
   const compareValues = () => {
@@ -100,83 +91,80 @@ const SignUp = (props) => {
 
   return (
     <KeyboardAwareScrollView
-            resetScrollToCoords={{ x: 0, y: 0 }}
-            contentContainerStyle={styles.viewContainerHome}
-            scrollEnabled={false}
-        >
-        <View style={styles.viewContainerHome}>
-              <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
-              <ScrollView>
-              <Header {...props} />
-              <Text style={styles.title}>REGISTRATE</Text>
-              <TextInput
-                style={styles.input}
-                placeholder=" Nombre"
-                value={newUser.firstName}
-                onChangeText={(e) => changeValueInput(e, "firstName")}
-                placeholderTextColor={"white"}
-              />
-              <Text style={styles.error}>{errorName}&nbsp;</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Apellido"
-                value={newUser.lastName}
-                onChangeText={(e) => changeValueInput(e, "lastName")}
-                placeholderTextColor={"white"}
-              />
-              <Text style={styles.error}>{errorLastName}&nbsp;</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Url de imagen"
-                value={newUser.profilePic}
-                onChangeText={(e) => changeValueInput(e, "profilePic")}
-                placeholderTextColor={"white"}
-              />
-              <Text style={styles.error}>{errorProfilePic}&nbsp;</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={newUser.eMail}
-                onChangeText={(e) => changeValueInput(e, "eMail")}
-                placeholderTextColor={"white"}
-              />
-              <Text style={styles.error}>{errorEmail}&nbsp;</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Contraseña"
-                value={newUser.password}
-                onChangeText={(e) => changeValueInput(e, "password")}
-                placeholderTextColor={"white"}
-                secureTextEntry
-              />
-              <Text style={styles.error}>{errorPass}&nbsp;</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Confirmar contraseña"
-                onChangeText={(e) => setConfirmPass(e)}
-                onBlur={compareValues}
-                placeholderTextColor={"white"}
-                secureTextEntry
-              />
-              <Text style={styles.error}>{errorPassChecked}&nbsp;</Text>
-              <View>
-                <TouchableOpacity
-                  onPress={sendForm}
-                  style={styles.button}
-                >
-                  <Text style={styles.textButton}>Registrarme</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={{marginVertical:10,alignItems:'center'}}>
-                  <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',}}>Tienes cuenta?</Text>
-                  <TouchableOpacity onPress={()=> props.navigation.navigate('Ingresar')}>
-                    <Text style={{fontSize:20,color:'white',fontFamily: 'Spartan_400Regular',marginVertical:7,fontWeight:'bold'}}>Click aqui</Text>
-                  </TouchableOpacity>
-              </View>
-              
-            </ScrollView>
-              </ImageBackground>
-        </View>
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={styles.viewContainerHome}
+      scrollEnabled={false}
+    >
+      <View style={styles.viewContainerHome}>
+        <ImageBackground source={{uri: 'https://i.postimg.cc/ryjKWhwG/luke-chesser-p-Jad-Qetz-Tk-I-unsplash.jpg'}} style={styles.viewContainerHome}>
+          <ScrollView>
+            <Header {...props} />
+            <Text style={styles.title}>REGISTRATE</Text>
+            <TextInput
+              style={styles.input}
+              placeholder=" Nombre"
+              value={newUser.firstName}
+              onChangeText={(e) => changeValueInput(e, "firstName")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["firstName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["firstName"] && <Text style={styles.error}>&nbsp;{errorsValidation["firstName"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Apellido"
+              value={newUser.lastName}
+              onChangeText={(e) => changeValueInput(e, "lastName")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["lastName"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["lastName"] && <Text style={styles.error}>&nbsp;{errorsValidation["lastName"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Url de imagen"
+              value={newUser.profilePic}
+              onChangeText={(e) => changeValueInput(e, "profilePic")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["profilePic"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["profilePic"] && <Text style={styles.error}>&nbsp;{errorsValidation["profilePic"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={newUser.eMail}
+              onChangeText={(e) => changeValueInput(e, "eMail")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["eMail"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["eMail"] && <Text style={styles.error}>&nbsp;{errorsValidation["eMail"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Contraseña"
+              value={newUser.password}
+              onChangeText={(e) => changeValueInput(e, "password")}
+              placeholderTextColor={"white"}
+            />
+            {!errorsValidation["password"] && <Text style={styles.errorPlaceholder}>&nbsp;</Text>}
+            {errorsValidation["password"] && <Text style={styles.error}>&nbsp;{errorsValidation["password"]}</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Confirmar contraseña"
+              onChangeText={(e) => setConfirmPass(e)}
+              onBlur={compareValues}
+              placeholderTextColor={"white"}
+            />
+            <Text style={{color:'red'}}>{errorPassChecked}&nbsp;</Text>
+            <View>
+              <TouchableOpacity
+                onPress={sendForm}
+                style={styles.button}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.text}>Registrarme</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </ImageBackground>
+      </View>
     </KeyboardAwareScrollView>
   )
 }
@@ -237,11 +225,26 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily:'Spartan_400Regular',
   },
-  error: {
-    fontSize: 18,
-    color: "black",
-    margin: 0,
-    fontFamily:'Spartan_500Medium',
-    alignSelf:"center"
+  errorPlaceholder:{
+    width: "100%",    
+    fontSize: 15,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 5,
+    marginBottom: 5
+    },
+  error:{
+    width:"75%",
+    fontFamily: 'Spartan_400Regular',
+    fontSize: 15,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 5,
+    color: "red",
+    backgroundColor: "white",
+    textAlign: "center",
+    marginBottom: 5
   },
 })
