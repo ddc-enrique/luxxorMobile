@@ -36,23 +36,22 @@ const Product = (props) => {
       .then((res)=>{
           setProducts(res)
           setProduct(res.find(product=> product._id===props.route.params.id))
-          setLoading(!loading) 
+          setLoading(false) 
       })
     .catch(error=>{
-        setLoading(!loading)
+        setLoading(false)
         console.log(error)
       })
     }else{
       setProduct(products.find(product=> product._id===props.route.params.id))
-      setLoading(!loading) 
+      setLoading(false) 
     }
-
   },[])
 
   useEffect(()=>{
       if (Object.keys(product).length > 0) {
         setProduct(products.find(product=> product._id===props.route.params.id))
-        setLoading(!loading) 
+        setLoading(false) 
       }
   }, [prodRecomen])
   if (Object.keys(product).length > 0) {
@@ -68,10 +67,10 @@ const Product = (props) => {
     })
   }
   
-  const clickRecomen = () =>{
+  const clickRecomen = (id) =>{
     setProdRecomen(!prodRecomen)
     props.navigation.navigate("Producto", {
-      id: item._id,
+      id: id
       });
   }
 
@@ -141,7 +140,7 @@ const Product = (props) => {
               También te puede interesar..
             </Text>
             {arrayRecom.map((item)=>
-              <TouchableOpacity key={item._id} onPress={clickRecomen}>
+              <TouchableOpacity key={item._id} onPress={() => clickRecomen(item._id)}>
                   <View style={{flexDirection: 'column', width:'100%', minHeight: 300,   backgroundColor: '#a7a6a657', marginVertical:15}}>
                       <ImageBackground source={{uri:`https://luxxor.herokuapp.com/productsPhoto/${item.photos[0]}`}} style={styles.photoRecomend}></ImageBackground>
                       <Text style={styles.info}>{item.name}</Text> 

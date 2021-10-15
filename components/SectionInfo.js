@@ -4,7 +4,7 @@ import Carousel from 'react-native-snap-carousel';
 
 const SectionInfo = () => {
     const images = [
-        {pic: 'https://i.postimg.cc/YSDGN5j5/Dise-o-sin-t-tulo-64.png', title: 'Elegí cómo pagar', text: 'Tarjetas ,transferencia bancaria o PayPal'} , 
+        {pic: 'https://i.postimg.cc/YSDGN5j5/Dise-o-sin-t-tulo-64.png', title: 'Elegí cómo pagar', text: 'Tarjetas, Efectivo o PayPal'} , 
         {pic: 'https://i.postimg.cc/RZD4g4QL/camion.png', title: 'ENVÍOS A TODO EL PAÍS', text: '¡Rápido, sin vueltas!'} ,
         {pic: 'https://i.postimg.cc/V6srXYYB/seguridad.png', title: 'COMPRA 100% SEGURA', text: 'Garantías Oficiales'},
 ]
@@ -68,5 +68,3 @@ const styles= StyleSheet.create({
         width: '80%'
     }
 })
-
-// backgroundColor:'#e3e3e3',
