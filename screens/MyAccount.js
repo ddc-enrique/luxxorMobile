@@ -21,11 +21,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 const MyAccount = (props) => {
     const { dni , id, getData, token, firstName, lastName, editDataUser } = props
+    const [completeAccount, setCompletAccount] = useState(dni>0)
     const [view, setView] = useState(true)
     console.log(dni)
-    let completeAccount = dni > 0
+
     let initialDataUser = completeAccount ? { firstName: "", lastName: "", city: "", zipCode: "", address: "", optional: "", phone: "" }
-        : { dni: null, city: "", zipCode: "", address: "", optional: "", phone: "" } 
+        : { dni: null, city: "", zipCode: "", address: "", optional: "", phone: "", firstName, lastName } 
     const [dataUser, setDataUser] = useState(initialDataUser)
     const [errorsValidation, setErrorsValidation] = useState({})
     const [loading,setLoading]=useState(true)
@@ -71,7 +72,7 @@ const MyAccount = (props) => {
                         "message":"Datos Actualizados con éxito ya puedes comprar",
                         "type": "success"
                     })
-                    completeAccount = true
+                    setCompletAccount(true)
                 } else {
                     showMessage({
                         "message":"Datos Actualizados con éxito",

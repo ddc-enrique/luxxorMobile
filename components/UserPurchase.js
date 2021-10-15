@@ -101,7 +101,7 @@ export default connect(null, mapDispatchToProps)(UserPurchase)
 const styles = StyleSheet.create({
 
     flatList: {
-        height: "80%",
+        height: 600,
         width: "100%",
     },
 
