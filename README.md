@@ -7,8 +7,8 @@
 **Sale of technology products**
 
 **Links**
-[Website Demo](https://luxxor.herokuapp.com/)
-[WebApp Repo](https://github.com/ddc-enrique/luxxor)
+- [Website Demo](https://luxxor.herokuapp.com/)
+- [WebApp Repo](https://github.com/ddc-enrique/luxxor)
 #
 
 ## Install
