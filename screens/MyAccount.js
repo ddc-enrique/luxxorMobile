@@ -83,6 +83,10 @@ const MyAccount = (props) => {
         } catch(error) {
             console.log(error)
             if (typeof error === 'string' || error === "DNI en uso"){
+                showMessage({
+                    "message": error,
+                    "type": "danger"
+                })
             } else if (Array.isArray(error)){
                 let errors = {};
                 error.forEach(err=> {
